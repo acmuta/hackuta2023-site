@@ -2,7 +2,7 @@ import doT from 'dot'
 import { ObjectId } from 'mongodb'
 import { headers } from 'next/headers'
 
-import { MarkDownRenderer } from '@/app/(subpages)/admin/post/MarkDownRenderer'
+import { MarkDownRenderer } from '@/app/(pages)/admin/post/MarkDownRenderer'
 import clientPromise from '@/lib/db'
 import Account from '@/lib/db/models/Account'
 import { Post } from '@/lib/db/models/Post'

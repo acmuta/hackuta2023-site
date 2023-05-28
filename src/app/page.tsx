@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
@@ -5,17 +6,13 @@ import React from 'react'
 
 import { ApplicationForm } from '@/components/ApplicationForm'
 import { Box } from '@/components/Box'
-import { LinkButton } from '@/components/Button'
 import { Header } from '@/components/Header'
-import { Heading } from '@/components/Heading'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
-import { FaqSection, getFaqs } from './(subpages)/faq/utils'
-import PostRenderer from './(subpages)/post/[slug]/PostRenderer'
-import { getEvents, ScheduleSection } from './(subpages)/schedule/utils'
+import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
 import SiteFooter from './SiteFooter'
@@ -52,75 +49,91 @@ export default async function Home() {
 // ]
 
 async function Landing() {
-	const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
 
 	return (
-		<Box as="main" direction="column" className={styles.main}>
-			<Header
-				items={[{ link: '#hi', name: '' }]}
-				endItems={[{ link: '/api/auth/signin', name: 'Sign in' }]}
-			/>
-			<Box
-				as="section"
-				className={classNames(styles.about, styles.fitParentWidth)}
-			>
-				<div
-					id="top"
-					className={classNames(
-						styles.gradientContainer,
-						'anchorOffset',
-						styles.fitParentWidth,
-					)}
-				>
-					<p className={classNames(styles.heroHeading)}>HackUTA 2023</p>
-					<p className={classNames(styles.text, styles.heading2)}>
-						Catchy slogan for the show.
-					</p>
-					<p className={classNames(styles.text, styles.heroText)}>
-						October 7-8, 2023
-					</p>
-					<Box as="div" gap="1.5rem" wrap="wrap">
-						<LinkButton href="/api/auth/signin" kind="primary">
-							Apply
-						</LinkButton>
-						<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
-							Sponsor
-						</LinkButton>
-					</Box>
-				</div>
-			</Box>
-			<Box direction="column" className={styles.sectionContainer}>
-				<FaqSection faqs={faqs} />
-				<ScheduleSection events={events} />
-				<Box
-					as="section"
-					direction="column"
-					className={classNames(styles.titleSection)}
-				>
-					<Heading id="organizers" level={2} className={'anchorOffset'}>
-						Organizers
-					</Heading>
-					<ComingSoon />
-					{/* {organizers.map(({ name, major, avatar, socials }: OrganizerProps) =>
-						<Organizer key={name} name={name} major={major} avatar={avatar} socials={socials} />,
-					)} */}
-				</Box>
-				<Box
-					as="section"
-					direction="column"
-					className={classNames(styles.titleSection)}
-				>
-					<Heading id="sponsors" level={2} className={'anchorOffset'}>
-						Sponsors
-					</Heading>
-					<ComingSoon />
-					{/* <SponsorHeader /> */}
-				</Box>
-			</Box>
-
-			<SiteFooter />
+		<Box
+			direction="column"
+			alignItems="center"
+			justifyContent="center"
+			gap="0.5rem"
+			style={{ height: '100%' }}
+		>
+			<div style={{ color: 'var(--color-white)', fontSize: '4rem' }}>
+				October 7-8, 2023
+			</div>
+			<div style={{ color: 'var(--color-white)', fontSize: '2rem' }}>
+				Details coming soon...
+			</div>
 		</Box>
 	)
+	// return (
+	// 	<Box as="main" direction="column" className={styles.main}>
+	// 		<Header
+	// 			items={[{ link: '#hi', name: '' }]}
+	// 			endItems={[{ link: '/api/auth/signin', name: 'Sign in' }]}
+	// 		/>
+	// 		<Box
+	// 			as="section"
+	// 			className={classNames(styles.about, styles.fitParentWidth)}
+	// 		>
+	// 			<div
+	// 				id="top"
+	// 				className={classNames(
+	// 					styles.gradientContainer,
+	// 					'anchorOffset',
+	// 					styles.fitParentWidth,
+	// 				)}
+	// 			>
+	// 				<p className={classNames(styles.heroHeading)}>HackUTA 2023</p>
+	// 				<p className={classNames(styles.text, styles.heading2)}>
+	// 					Catchy slogan for the show.
+	// 				</p>
+	// 				<p className={classNames(styles.text, styles.heroText)}>
+	// 					October 7-8, 2023
+	// 				</p>
+	// 				<Box as="div" gap="1.5rem" wrap="wrap">
+	// 					<LinkButton href="/api/auth/signin" kind="primary">
+	// 						Apply
+	// 					</LinkButton>
+	// 					<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
+	// 						Sponsor
+	// 					</LinkButton>
+	// 				</Box>
+	// 			</div>
+	// 		</Box>
+	// 		<Box direction="column" className={styles.sectionContainer}>
+	// 			<FaqSection faqs={faqs} />
+	// 			<ScheduleSection events={events} />
+	// 			<Box
+	// 				as="section"
+	// 				direction="column"
+	// 				className={classNames(styles.titleSection)}
+	// 			>
+	// 				<Heading id="organizers" level={2} className={'anchorOffset'}>
+	// 					Organizers
+	// 				</Heading>
+	// 				<ComingSoon />
+	// 				{/* {organizers.map(({ name, major, avatar, socials }: OrganizerProps) =>
+	// 					<Organizer key={name} name={name} major={major} avatar={avatar} socials={socials} />,
+	// 				)} */}
+	// 			</Box>
+	// 			<Box
+	// 				as="section"
+	// 				direction="column"
+	// 				className={classNames(styles.titleSection)}
+	// 			>
+	// 				<Heading id="sponsors" level={2} className={'anchorOffset'}>
+	// 					Sponsors
+	// 				</Heading>
+	// 				<ComingSoon />
+	// 				{/* <SponsorHeader /> */}
+	// 			</Box>
+	// 		</Box>
+
+	// 		<SiteFooter />
+	// 	</Box>
+	// )
 }
 
 // const SponsorHeader: React.FC = () => {

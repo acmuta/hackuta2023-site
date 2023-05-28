@@ -12,6 +12,7 @@
 	--color-green: #228848;
 	--color-red: #d50032;
 
+	--color-background: #1e1e1e;
 	--color-primary: var(--color-uta-blue);
 	--color-primary-alt: var(--color-dark-blue);
 	--color-primary-lighter: var(--color-light-blue);
@@ -46,7 +47,7 @@ html {
 }
 
 body {
-	height: auto;
+	height: 100%;
 	width: 100%;
 	min-height: 100vh;
 	padding: 0;
@@ -54,6 +55,7 @@ body {
 	font-family: var(--font-serif);
 	font-size: 100%;
 	scroll-behavior: smooth;
+	background-color: var(--color-background);
 }
 
 /**

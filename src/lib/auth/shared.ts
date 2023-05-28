@@ -22,6 +22,7 @@ export type AppPermissions =
 									demographicsInformation?: true | OnlyRead
 							  }
 				  }
+			auth?: OnlyWrite
 			checkIn?: true | OnlyWrite
 			faqs?: true | ReadWrite
 			marketing?: true | OnlyWrite
@@ -33,12 +34,12 @@ export type AppPermissions =
 
 export const RolePermissionMap = {
 	'@unauthenticated': {
-		faqs: { read: true },
-		schedule: { read: true },
-		posts: { read: true },
+		// faqs: { read: true },
+		// schedule: { read: true },
+		// posts: { read: true },
 	},
 	'@authenticated': {
-		applications: { submit: true },
+		// applications: { submit: true },
 	},
 	organizer: {
 		administration: true,
@@ -207,6 +208,14 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 						write: true,
 					},
 				},
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/api/auth'),
+		perms: {
+			auth: {
+				write: true,
 			},
 		},
 	},
