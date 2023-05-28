@@ -1,0 +1,28 @@
+{
+  "sortedMiddleware": [
+    "/"
+  ],
+  "middleware": {
+    "/": {
+      "env": [
+        "SITE_URL"
+      ],
+      "files": [
+        "server/edge-runtime-webpack.js",
+        "server/src/middleware.js"
+      ],
+      "name": "src/middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|images|android-chrome-192x192.png|apple-touch-icon.png|favicon-16x16.png|favicon.ico|mstile-150x150.png|site.webmanifest|android-chrome-512x512.png|browserconfig.xml|favicon-32x32.png|images|safari-pinned-tab.svg).*))(.json)?[\\/#\\?]?$",
+          "originalSource": "/:nextData(_next/data/[^/]{1,})?/((?!_next/static|_next/image|images|android-chrome-192x192.png|apple-touch-icon.png|favicon-16x16.png|favicon.ico|mstile-150x150.png|site.webmanifest|android-chrome-512x512.png|browserconfig.xml|favicon-32x32.png|images|safari-pinned-tab.svg).*)(.json)?"
+        }
+      ],
+      "wasm": [],
+      "assets": []
+    }
+  },
+  "functions": {},
+  "version": 2
+}
