@@ -17,22 +17,22 @@ jobs:
           cache: "npm"
       - run: npm ci
 
-      # - run: npm run build
-      #   env:
-      #     MONGODB_URI: ${{ secrets.PROD_MONGODB_URI }}
-      #     NEXTAUTH_SECRET: ${{ secrets.PROD_NEXTAUTH_SECRET }}
-      #     NEXTAUTH_URL: ${{ secrets.PROD_NEXTAUTH_URL }}
-      #     SITE_NAME: ${{ secrets.PROD_SITE_NAME }}
-      #     SITE_URL: ${{ secrets.PROD_SITE_URL }}
-      #     TRANSACTIONAL_FROM_EMAIL: ${{ secrets.PROD_TRANSACTIONAL_FROM_EMAIL }}
-      #     TRANSACTIONAL_FROM_NAME: ${{ secrets.PROD_TRANSACTIONAL_FROM_NAME }}
+      - run: npm run build
+        env:
+          MONGODB_URI: ${{ secrets.PROD_MONGODB_URI }}
+          NEXTAUTH_SECRET: ${{ secrets.PROD_NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.PROD_NEXTAUTH_URL }}
+          SITE_NAME: ${{ secrets.PROD_SITE_NAME }}
+          SITE_URL: ${{ secrets.PROD_SITE_URL }}
+          TRANSACTIONAL_FROM_EMAIL: ${{ secrets.PROD_TRANSACTIONAL_FROM_EMAIL }}
+          TRANSACTIONAL_FROM_NAME: ${{ secrets.PROD_TRANSACTIONAL_FROM_NAME }}
 
-      # - run: |
-      #     git switch --orphan build
-      #     echo -e "/node_modules\n/.next/cache\n.DS_Store\n*.pem\n.env*.local\n*.tsbuildinfo\nnext-env.d.ts" > .gitignore
-      #     git checkout main -- next.config.js package-lock.json package.json public
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      #     git add .
-      #     git commit -m "📦️ Build"
-      #     git push origin build --force
+      - run: |
+          git switch --orphan build
+          echo -e "/node_modules\n/.next/cache\n.DS_Store\n*.pem\n.env*.local\n*.tsbuildinfo\nnext-env.d.ts" > .gitignore
+          git checkout main -- next.config.js package-lock.json package.json public
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "📦️ Build"
+          git push origin build --force
