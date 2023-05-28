@@ -1,0 +1,56 @@
+.eventContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 2.5rem;
+	align-items: center;
+	z-index: var(--z-index-event);
+}
+
+.eventCardContainer {
+	padding: 1.25rem;
+}
+
+.eventDivider {
+	width: 0.125rem;
+	height: 2rem;
+	background: var(--color-gray-2);
+}
+
+.eventStartTime,
+.eventLength {
+	color: var(--color-gray-3);
+}
+
+.eventTitle {
+	color: var(--color-uta-blue);
+	font-size: 1.25rem;
+}
+
+.eventShortDesc {
+	color: var(--color-uta-text);
+}
+
+.summaryContainer {
+	gap: 1.25rem;
+}
+
+.eventTime {
+	gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+	.eventCardContainer {
+		padding: 0.3rem 0.1rem;
+	}
+
+	.eventTime {
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+	.summaryContainer {
+		flex-direction: column-reverse;
+		align-items: start;
+		gap: 0.5rem;
+	}
+}

@@ -1,0 +1,58 @@
+.cardLink {
+	color: unset;
+	text-decoration: none;
+}
+
+.card {
+	padding: 1rem;
+	background-color: var(--card-bg);
+	box-shadow: 0.5rem 0.5rem var(--card-shadow);
+	max-width: 24rem;
+	max-height: 28rem;
+}
+
+.cardLink:focus-visible {
+	outline: 10px solid var(--color-outline);
+}
+
+.cardLink>.card:active,
+.cardLink>.card:hover {
+	box-shadow: 0.5rem 0.5rem var(--card-shadow-hover);
+}
+
+.blue {
+	--card-bg: var(--color-primary-lighter);
+	--card-shadow: var(--color-primary);
+	--card-shadow-hover: var(--color-primary-alt);
+}
+
+.green {
+	--card-bg: #c4ffc4;
+	--card-shadow: #228848;
+	--card-shadow-hover: #007600;
+}
+
+.red {
+	--card-bg: #ffc4c4;
+	--card-shadow: var(--color-red);
+	--card-shadow-hover: #8e2c48;
+}
+
+.yellow {
+	--card-bg: #ffffb1;
+	--card-shadow: #ffbb76;
+	--card-shadow-hover: #ff9427;
+}
+
+.white {
+	border: 1px solid black;
+	--card-bg: white;
+	--card-shadow: var(--color-gray-2);
+	--card-shadow-hover: var(--color-gray-3);
+}
+
+@media screen and (max-width: 768px) {
+	.card {
+		padding: 0.5rem;
+	}
+}

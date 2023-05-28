@@ -1,0 +1,122 @@
+.main {
+	background: var(--color-white);
+	color: var(--color-uta-text);
+	min-height: 100vh;
+}
+
+.heroText {
+	font-size: 1.5rem;
+	color: var(--color-white);
+}
+
+.heading2 {
+	color: var(--color-white);
+	font-family: var(--font-serif);
+	font-size: 2rem;
+	font-weight: var(--font-weight-ultra-black);
+	width: 50rem;
+	max-width: 100%;
+}
+
+.heroHeading {
+	color: var(--color-white);
+	font-family: var(--font-serif);
+	font-size: 3rem;
+	font-weight: var(--font-weight-ultra-black);
+	width: 50rem;
+	max-width: 100%;
+	overflow-wrap: anywhere;
+}
+
+.fitParentWidth {
+	width: 100%;
+}
+
+.text {
+	width: 100%;
+}
+
+.gradientContainer {
+	/* background: linear-gradient(90deg,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 0.6) 50%,
+		rgba(0, 0, 0, 0) 100%); */
+	background: linear-gradient(90deg, #1f1f1f 0, hsla(0, 0%, 100%, 0));
+	max-width: max-content;
+	padding: 2.5rem;
+	align-items: center;
+}
+
+.about {
+	padding: 0 !important;
+	background-position: center;
+	background-image: linear-gradient(135deg,
+			rgba(0, 100, 177, 0.75),
+			rgba(11, 50, 80, 0.75)),
+		url("/images/hall.jpg");
+}
+
+.sectionContainer {
+	gap: 5rem;
+	margin: 2rem;
+}
+
+.socials {
+	display: flex;
+	flex-direction: row;
+	gap: 0.25rem;
+}
+
+.sponsorLogoBox>a {
+	padding: 3.125rem;
+}
+
+.donation-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	margin-left: 0.5rem;
+}
+
+.sectionIndent {
+	padding: 0 2rem;
+}
+
+.cardContainer {
+	flex: 1;
+	gap: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+	.main {
+		--header-height: 3.5rem;
+	}
+
+	.applicationForm {
+		padding: 1rem 2rem;
+	}
+
+	.dashboardContent {
+		padding: 1rem 2rem;
+	}
+
+	.sectionContainer {
+		gap: 1.5rem;
+		margin: 0 1rem;
+	}
+
+	.donation-container {
+		padding: 1rem;
+		align-items: center;
+		text-align: center;
+	}
+
+	.sectionIndent {
+		padding: 0 1rem;
+	}
+
+	.cardContainer {
+		gap: 1.5rem;
+	}
+}

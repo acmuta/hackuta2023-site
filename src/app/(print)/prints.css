@@ -1,0 +1,7 @@
+.alternatingTableBg tbody tr:nth-child(even):not(:first-child) {
+	background-color: var(--color-gray-1);
+}
+
+.alternatingTableBg tbody tr:nth-child(odd):not(:first-child) {
+	background-color: var(--color-white);
+}

@@ -1,0 +1,14 @@
+.renderer ul {
+	list-style: inside;
+}
+
+.renderer ol {
+	list-style: decimal;
+}
+
+.renderer table,
+.renderer td,
+.renderer th,
+.renderer tr {
+	border: 1px solid var(--color-black);
+}

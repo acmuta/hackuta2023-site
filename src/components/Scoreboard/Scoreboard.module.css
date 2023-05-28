@@ -1,0 +1,45 @@
+.wrapper {
+    overflow-y: scroll;
+    height: 60vh;
+    width: 70vw;
+    max-width: 48rem;
+    margin: 0 auto;
+    border: solid 2px;
+}
+
+.scoreboard {
+    margin: 0 auto;
+	width: 100%;
+    text-align: center;
+    font-weight: medium;
+    font-size: 1.2rem;
+    border: solid 1px var(--color-black);
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.scoreboard th {
+    border: solid 1px var(--color-black);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-weight: bolder;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    position: sticky;
+    top: 0px;
+}
+
+.scoreboard td {
+    border: solid 1px var(--color-black);
+    color: var(--color-black);
+    padding: 0.5rem;
+    margin-left: 5rem;
+}
+
+.scoreboard tbody tr:nth-child(even):not(:first-child) {
+    background-color: var(--color-white);
+}
+
+.scoreboard tbody tr:nth-child(odd):not(:first-child) {
+    background-color: var(--color-gray-1);
+}

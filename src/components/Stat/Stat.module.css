@@ -1,0 +1,14 @@
+.value {
+	color: var(--color-uta-blue);
+	font-size: 6rem;
+	font-weight: bold;
+	line-height: 1;
+}
+
+.value p {
+	display: inline;
+}
+
+.caption {
+	font-size: 1.25rem;
+}

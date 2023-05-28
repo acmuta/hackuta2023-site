@@ -1,0 +1,28 @@
+.footer {
+	background: #0b3250;
+	padding: 3rem;
+	flex-wrap: wrap;
+	gap: 3rem
+}
+
+.footerNav>.footerNavHeading {
+	color: var(--color-white);
+	font-size: 2rem;
+	font-weight: 500;
+}
+
+.footerNav ul a {
+	color: var(--color-white);
+	text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+	.footer {
+		padding: 1rem;
+		gap: 1rem;
+	}
+
+	.footerNav>.footerNavHeading {
+		font-size: 1.25rem;
+	}
+}

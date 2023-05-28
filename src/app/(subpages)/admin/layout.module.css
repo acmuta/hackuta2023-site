@@ -1,0 +1,17 @@
+.adminLayoutRoot {
+	height: 100%;
+	border-top: 2px solid var(--color-primary-alt);
+}
+
+.adminLayoutRoot aside {
+	border-right: 2px solid var(--color-primary-alt);
+	padding: 1.5rem;
+}
+
+.adminLayoutRoot aside a {
+	white-space: pre;
+}
+
+.adminLayoutRoot main {
+	padding: 1.5rem;
+}

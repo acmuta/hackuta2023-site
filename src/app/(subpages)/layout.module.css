@@ -1,0 +1,7 @@
+.subpageLayoutRoot {
+	height: 100vh;
+}
+
+.subpageMain {
+	flex: 1;
+}

@@ -1,0 +1,4 @@
+.label>div {
+	color: var(--color-gray-3);
+	font-size: 0.9rem;
+}

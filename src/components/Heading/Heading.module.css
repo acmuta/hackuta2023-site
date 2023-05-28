@@ -1,0 +1,36 @@
+.heading {
+	font-size: 2rem;
+	font-weight: var(--font-weight-bold);
+	text-transform: uppercase;
+	word-wrap: break-word;
+}
+
+h2.heading {
+	font-size: 3rem;
+	font-weight: var(--font-weight-bold);
+	text-transform: uppercase;
+	word-wrap: break-word;
+}
+
+h1.heading {
+	font-weight: var(--font-weight-ultra-black);
+}
+
+.heading:is(h1)::after {
+	background: linear-gradient(90deg,#ffa44a,#f76b1c 52.4%,#e75315);
+	content: '';
+	display: block;
+	width: 100px;
+	height: .25rem;
+	margin: .25rem 0 0 0;
+}
+
+@media screen and (max-width: 768px) {
+	.heading {
+		font-size: 1.5rem;
+	}
+
+	h2.heading {
+		font-size: 2rem;
+	}
+}

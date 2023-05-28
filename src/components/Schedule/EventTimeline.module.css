@@ -1,0 +1,19 @@
+.timeline {
+	position: relative;
+}
+
+.timeline::before {
+	content: '';
+	width: 2px;
+	background: #eee;
+	background: linear-gradient(0deg,
+		rgba(0,0,0,0) 0%,
+		#eee 5%,
+		#eee 50%,
+		#eee 95%,
+		rgba(0,0,0,0) 100%);
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	margin-left: .6rem;
+}
