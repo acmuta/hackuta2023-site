@@ -23,7 +23,7 @@
 .blue {
 	--card-bg: var(--color-primary-lighter);
 	--card-shadow: var(--color-primary);
-	--card-shadow-hover: var(--color-primary-alt);
+	--card-shadow-hover: var(--color-primary-darker);
 }
 
 .green {

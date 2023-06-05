@@ -1,37 +1,10 @@
 import './globals.css'
 
 import classNames from 'classnames'
-import localFont from 'next/font/local'
 
 import { siteName } from '@/lib/utils/server'
 
-// fonts
-const frutiger = localFont({
-	src: [
-		{
-			path: 'fonts/Frutiger_Light.ttf',
-			weight: '300',
-			style: 'normal',
-		},
-		{
-			path: 'fonts/Frutiger.ttf',
-			weight: '400',
-			style: 'normal',
-		},
-		{
-			path: 'fonts/Frutiger_Bold.ttf',
-			weight: '700',
-			style: 'normal',
-		},
-		{
-			path: 'fonts/Frutiger_UltraBlack.otf',
-			weight: '950',
-			style: 'normal',
-		},
-	],
-	variable: '--font-frutiger',
-	fallback: ['sans-serif'],
-})
+import styles from './layout.module.css'
 
 export const metadata = {
 	title: siteName,
@@ -42,7 +15,18 @@ export const metadata = {
 	},
 	icons: [
 		// https://realfavicongenerator.net
-		{ rel: 'apple-touch-icon', sizes: '180x180', url: '/apple-touch-icon.png' },
+		{
+			rel: 'icon',
+			type: 'image/svg+xml',
+			sizes: '512x512',
+			url: '/favicon.svg',
+		},
+		{
+			rel: 'icon',
+			type: 'image/png',
+			sizes: '48x48',
+			url: '/favicon.png',
+		},
 		{
 			rel: 'icon',
 			type: 'image/png',
@@ -55,7 +39,6 @@ export const metadata = {
 			sizes: '16x16',
 			url: '/favicon-16x16.png',
 		},
-		{ rel: 'mask-icon', url: '/safari-pinned-tab.svg' },
 	],
 	manifest: '/site.webmanifest',
 	other: {
@@ -70,8 +53,15 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className={classNames(frutiger.variable)}>
-			<body>{children}</body>
+		<html lang="en">
+			<body>
+				<div className="layout-background-overlay"></div>
+				<div className={classNames(styles.star, styles.topLeft)}></div>
+				<div className={classNames(styles.star, styles.topRight)}></div>
+				<div className={classNames(styles.star, styles.bottomLeft)}></div>
+				<div className={classNames(styles.star, styles.bottomRight)}></div>
+				{children}
+			</body>
 		</html>
 	)
 }

@@ -15,7 +15,7 @@
 }
 
 .header a:hover {
-  color: var(--color-primary-alt);
+  color: var(--color-primary-darker);
   cursor: pointer;
 }
 

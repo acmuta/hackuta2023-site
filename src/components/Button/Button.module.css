@@ -5,7 +5,7 @@
 	font-family: inherit;
 	font-weight: bold;
 	padding: 0.75rem 1.25rem;
-	border: 2px solid var(--color-primary);
+	border: 3px solid var(--color-primary);
 	border-radius: 3.5rem;
 	text-decoration: none;
 	user-select: none;
@@ -13,26 +13,26 @@
 
 .button.primary {
 	background: var(--color-primary);
-	color: var(--color-white);
+	color: var(--color-primary-body);
 }
 
 .button.secondary {
-	background: var(--color-white);
+	background: var(--color-primary-body);
 	color: var(--color-primary);
 }
 
 .button:active,
 .button:hover {
-	border-color: var(--color-primary-alt);
+	border-color: var(--color-primary-darker);
 	cursor: pointer;
 }
 
 .button.primary:active,
 .button.primary:hover {
-	background-color: var(--color-primary-alt);
+	background-color: var(--color-primary-darker);
 }
 
 .button.secondary:active,
 .button.secondary:hover {
-	color: var(--color-primary-alt);
+	color: var(--color-primary-darker);
 }

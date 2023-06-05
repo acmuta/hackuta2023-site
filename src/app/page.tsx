@@ -2,16 +2,19 @@
 import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
+import Image from 'next/image'
 import React from 'react'
 
 import { ApplicationForm } from '@/components/ApplicationForm'
 import { Box } from '@/components/Box'
+import { LinkButton } from '@/components/Button'
 import { Header } from '@/components/Header'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
+import LogoImage from '../../public/images/logo.svg'
 import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
@@ -56,15 +59,22 @@ async function Landing() {
 			direction="column"
 			alignItems="center"
 			justifyContent="center"
-			gap="0.5rem"
+			gap="1rem"
 			style={{ height: '100%' }}
 		>
-			<div style={{ color: 'var(--color-white)', fontSize: '4rem' }}>
+			<Image src={LogoImage} alt="HackUTA logo" />
+			<div style={{ fontSize: '4rem', textAlign: 'center' }}>
 				October 7-8, 2023
+				<div style={{ fontSize: '2rem' }}>Details coming soon...</div>
 			</div>
-			<div style={{ color: 'var(--color-white)', fontSize: '2rem' }}>
-				Details coming soon...
-			</div>
+			<Box direction="row" gap="1rem">
+				{/* <LinkButton href="/api/auth/signin">
+					Apply
+				</LinkButton> */}
+				<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
+					Sponsor
+				</LinkButton>
+			</Box>
 		</Box>
 	)
 	// return (

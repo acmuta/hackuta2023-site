@@ -1,0 +1,27 @@
+.star {
+	position: fixed;
+	width: 122px;
+	height: 122px;
+	background: url('/images/stars.png');
+    z-index: -1;
+}
+
+.star.topLeft {
+	top: 0;
+	left: 0;
+}
+
+.star.topRight {
+	top: 0;
+	right: 0;
+	rotate: 90deg;
+}
+.star.bottomLeft {
+	bottom: 0;
+	left: 0;
+	rotate: 90deg;
+}
+.star.bottomRight {
+	bottom: 0;
+	right: 0;
+}
