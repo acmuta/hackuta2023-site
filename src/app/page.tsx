@@ -15,6 +15,7 @@ import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
+import { FaqSection, getFaqs } from './(pages)/faq/utils'
 import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
@@ -53,6 +54,7 @@ export default async function Home() {
 
 async function Landing() {
 	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	const faqs = await getFaqs()
 
 	return (
 		<Box
@@ -74,6 +76,9 @@ async function Landing() {
 				<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 					Sponsor
 				</LinkButton>
+			</Box>
+			<Box justifyContent="center">
+				<FaqSection faqs={faqs} />
 			</Box>
 		</Box>
 	)

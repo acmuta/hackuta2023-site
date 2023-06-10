@@ -1,9 +1,11 @@
 .pageSection {
-	padding: 1rem;
+	padding: 5rem;
+	width: 50rem;
 }
 
 @media screen and (max-width: 768px) {
 	.pageSection {
 		padding: 0.5rem;
+		width: 20rem;
 	}
 }
