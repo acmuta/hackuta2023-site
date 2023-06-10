@@ -120,6 +120,11 @@ export function getEnhancedSession(
 		const value = req.headers['x-middleware-session']
 		sessionHeader = Array.isArray(value) ? value[0] : value
 	}
+
+	sessionHeader = sessionHeader
+		? decodeURIComponent(sessionHeader)
+		: sessionHeader
+
 	return sessionHeader
 		? JSON.parse(sessionHeader)
 		: { user: null, perms: RolePermissionMap['@unauthenticated'] }

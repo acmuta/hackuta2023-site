@@ -42,7 +42,10 @@ export async function middleware(request: NextRequest) {
 
 	// Initiate new headers for request
 	const newRequestHeaders = new Headers(request.headers)
-	newRequestHeaders.set('x-middleware-session', JSON.stringify(session))
+	newRequestHeaders.set(
+		'x-middleware-session',
+		encodeURIComponent(JSON.stringify(session)),
+	)
 	const middlewareInit = {
 		request: {
 			headers: newRequestHeaders,
