@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { siteName } from '@/lib/utils/server'
 
 import styles from './layout.module.css'
+import SiteFooter from './SiteFooter'
 
 export const metadata = {
 	title: siteName,
@@ -61,6 +62,7 @@ export default function RootLayout({
 				<div className={classNames(styles.star, styles.bottomLeft)}></div>
 				<div className={classNames(styles.star, styles.bottomRight)}></div>
 				{children}
+				<SiteFooter />
 			</body>
 		</html>
 	)
