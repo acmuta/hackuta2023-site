@@ -7,32 +7,22 @@ import { queryDbForItems } from '../utils'
 export function FaqSection({
 	faqs,
 }: {
-	faqs: FaqModel[] | undefined
+	faqs: readonly FaqModel[] | undefined
 }) {
 	const content = !faqs ? (
 		<>Failed loading FAQs. Please try again later.</>
-	) :
-	//order by _id
-	faqs.sort((a, b) => a._id.localeCompare(b._id)).map(({ q, a }) => (
-		<Accordion
-			key={`${q}-${a}`}
-			summary={q}
-			// DANGER: Absolutely no unsanitized user input allowed!!! We deem admins trustworthy.
-			dangerouslySetInnerHTMLOnChildren={{ __html: a }}
-		/>
-	))
-	// (
-	// 	<>
-	// 		{faqs.map(({ q, a }) => (
-	// 			<Accordion
-	// 				key={`${q}-${a}`}
-	// 				summary={q}
-	// 				// DANGER: Absolutely no unsanitized user input allowed!!! We deem admins trustworthy.
-	// 				dangerouslySetInnerHTMLOnChildren={{ __html: a }}
-	// 			/>
-	// 		))}
-	// 	</>
-	// )
+	) :	(
+		<>
+			{faqs.map(({ q, a }) => (
+				<Accordion
+					key={`${q}-${a}`}
+					summary={q}
+					// DANGER: Absolutely no unsanitized user input allowed!!! We deem admins trustworthy.
+					dangerouslySetInnerHTMLOnChildren={{ __html: a }}
+				/>
+			))}
+		</>
+	)
 
 	return <PageSection heading="FAQ">{content}</PageSection>
 }
