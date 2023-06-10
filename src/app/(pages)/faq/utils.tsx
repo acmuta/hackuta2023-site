@@ -11,16 +11,20 @@ export function FaqSection({
 }) {
 	const content = !faqs ? (
 		<>Failed loading FAQs. Please try again later.</>
-	) :	(
+	) : (
 		<>
-			{faqs.map(({ q, a }) => (
-				<Accordion
-					key={`${q}-${a}`}
-					summary={q}
-					// DANGER: Absolutely no unsanitized user input allowed!!! We deem admins trustworthy.
-					dangerouslySetInnerHTMLOnChildren={{ __html: a }}
-				/>
-			))}
+			{
+				// order by _id
+				[...faqs]
+					.sort((a, b) => a._id - b._id)
+					.map((faq) => (
+						<Accordion
+							key={`${faq.q}-${faq.a}`}
+							summary={faq.q}
+							dangerouslySetInnerHTMLOnChildren={{ __html: faq.a }}
+						/>
+					))
+			}
 		</>
 	)
 

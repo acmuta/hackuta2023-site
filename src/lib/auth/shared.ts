@@ -34,7 +34,7 @@ export type AppPermissions =
 
 export const RolePermissionMap = {
 	'@unauthenticated': {
-		// auth: { write: true },
+		auth: { write: true },
 		// faqs: { read: true },
 		// schedule: { read: true },
 		// posts: { read: true },

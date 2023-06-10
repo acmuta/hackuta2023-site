@@ -11,7 +11,7 @@ export async function queryDbForItems<TModel extends Document>(
 ): Promise<TModel[] | undefined> {
 	try {
 		const client = await clientPromise
-		const items = await getAllDocuments<TModel>(client, collectionName)
+		const items = await getAllDocuments<TModel>(client, collectionName, true)
 
 		return onReturn(items)
 	} catch (e) {
