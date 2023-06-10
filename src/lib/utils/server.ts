@@ -1,8 +1,8 @@
 import '@/node-only'
 
 import {
-	MongoClient,
 	Document as MongoDocument,
+	MongoClient,
 	ObjectId,
 	WithId,
 } from 'mongodb'
