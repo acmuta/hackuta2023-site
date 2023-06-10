@@ -15,11 +15,11 @@ import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
+import { FaqSection, getFaqs } from './(pages)/faq/utils'
 import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
 import SiteFooter from './SiteFooter'
-
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -52,7 +52,8 @@ export default async function Home() {
 // ]
 
 async function Landing() {
-	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	// const [events, faqs] = await Promise.all([getFaqs()])
+	const [faqs] = await Promise.all([getFaqs()])
 
 	return (
 		<Box
@@ -75,6 +76,9 @@ async function Landing() {
 					Sponsor
 				</LinkButton>
 			</Box>
+			<Box direction="row" gap="1rem">
+				<FaqSection faqs={faqs} />
+				</Box>
 		</Box>
 	)
 	// return (
