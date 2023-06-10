@@ -1,18 +1,18 @@
 .footer {
-	background: #0b3250;
+	background: #9cc4b9;
 	padding: 3rem;
 	flex-wrap: wrap;
-	gap: 3rem
+	gap: 3rem;
 }
 
-.footerNav>.footerNavHeading {
-	color: var(--color-white);
+.footerNav > .footerNavHeading {
+	color: #2d4057;
 	font-size: 2rem;
 	font-weight: 500;
 }
 
 .footerNav ul a {
-	color: var(--color-white);
+	color: #2d4057;
 	text-decoration: none;
 }
 
@@ -22,7 +22,7 @@
 		gap: 1rem;
 	}
 
-	.footerNav>.footerNavHeading {
+	.footerNav > .footerNavHeading {
 		font-size: 1.25rem;
 	}
 }
