@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 import { ApplicationForm } from '@/components/ApplicationForm'
@@ -63,6 +64,19 @@ async function Landing() {
 			gap="1rem"
 			style={{ height: '100%' }}
 		>
+			<div>
+				<Link
+					className={styles.mlhBadge}
+					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=yellow"
+				>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img
+						src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-yellow.svg"
+						alt="Major League Hacking 2024 Hackathon Season"
+					/>
+				</Link>
+			</div>
+
 			<Image src={LogoImage} alt="HackUTA logo" />
 			<div style={{ fontSize: '4rem', textAlign: 'center' }}>
 				October 7-8, 2023

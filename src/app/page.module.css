@@ -49,10 +49,12 @@
 .about {
 	padding: 0 !important;
 	background-position: center;
-	background-image: linear-gradient(135deg,
+	background-image: linear-gradient(
+			135deg,
 			rgba(0, 100, 177, 0.75),
-			rgba(11, 50, 80, 0.75)),
-		url("/images/hall.jpg");
+			rgba(11, 50, 80, 0.75)
+		),
+		url('/images/hall.jpg');
 }
 
 .sectionContainer {
@@ -66,7 +68,7 @@
 	gap: 0.25rem;
 }
 
-.sponsorLogoBox>a {
+.sponsorLogoBox > a {
 	padding: 3.125rem;
 }
 
@@ -85,6 +87,20 @@
 .cardContainer {
 	flex: 1;
 	gap: 2rem;
+}
+
+.mlhBadge {
+	display: block;
+	max-width: 100px;
+	min-width: 60px;
+	position: fixed;
+	right: 50px;
+	top: 0;
+	width: 10%;
+	z-index: 10000;
+}
+.mlhBadge img {
+	width: 100%;
 }
 
 @media screen and (max-width: 768px) {
