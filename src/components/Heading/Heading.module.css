@@ -1,4 +1,5 @@
 .heading {
+	font-family: var(--font-heading);
 	font-size: 2rem;
 	font-weight: var(--font-weight-bold);
 	text-transform: uppercase;
@@ -17,12 +18,12 @@ h1.heading {
 }
 
 .heading:is(h1)::after {
-	background: linear-gradient(90deg,#ffa44a,#f76b1c 52.4%,#e75315);
+	background: linear-gradient(90deg, #ffa44a, #f76b1c 52.4%, #e75315);
 	content: '';
 	display: block;
 	width: 100px;
-	height: .25rem;
-	margin: .25rem 0 0 0;
+	height: 0.25rem;
+	margin: 0.25rem 0 0 0;
 }
 
 @media screen and (max-width: 768px) {

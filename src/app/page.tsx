@@ -52,8 +52,8 @@ export default async function Home() {
 // ]
 
 async function Landing() {
-	// const [events, faqs] = await Promise.all([getFaqs()])
-	const [faqs] = await Promise.all([getFaqs()])
+	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	const faqs = await getFaqs()
 
 	return (
 		<Box
@@ -76,9 +76,9 @@ async function Landing() {
 					Sponsor
 				</LinkButton>
 			</Box>
-			<Box direction="row" gap="1rem">
+			<Box justifyContent="center">
 				<FaqSection faqs={faqs} />
-				</Box>
+			</Box>
 		</Box>
 	)
 	// return (
