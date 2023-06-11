@@ -20,7 +20,6 @@ import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
 import SiteFooter from './SiteFooter'
-
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
