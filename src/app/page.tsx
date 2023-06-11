@@ -16,10 +16,10 @@ import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
-import { FaqSection, getFaqs } from './(pages)/faq/utils'
-import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
+import { FaqSection, getFaqs } from './faq/utils'
 import styles from './page.module.css'
+import PostRenderer from './post/[slug]/PostRenderer'
 import SiteFooter from './SiteFooter'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
@@ -60,9 +60,8 @@ async function Landing() {
 		<Box
 			direction="column"
 			alignItems="center"
-			justifyContent="center"
+			justifyContent="start"
 			gap="1rem"
-			style={{ height: '100%' }}
 		>
 			<div>
 				<Link

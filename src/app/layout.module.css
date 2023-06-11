@@ -1,9 +1,9 @@
 .star {
-	position: fixed;
+	position: absolute;
 	width: 122px;
 	height: 122px;
 	background: url('/images/stars.png');
-    z-index: -1;
+	z-index: -1;
 }
 
 .star.topLeft {
@@ -24,4 +24,9 @@
 .star.bottomRight {
 	bottom: 0;
 	right: 0;
+}
+
+.main {
+	flex: 1;
+	padding: 1rem;
 }

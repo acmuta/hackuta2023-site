@@ -104,10 +104,6 @@
 }
 
 @media screen and (max-width: 768px) {
-	.main {
-		--header-height: 3.5rem;
-	}
-
 	.applicationForm {
 		padding: 1rem 2rem;
 	}

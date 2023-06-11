@@ -1,6 +1,7 @@
 'use client'
+
 import classNames from 'classnames'
-import { Menu,NavArrowRight } from 'iconoir-react'
+import { Menu, NavArrowRight } from 'iconoir-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -31,7 +32,10 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 	return (
 		<>
 			<header className={styles.header}>
-				<nav>
+				<Box as="nav" direction="row" justifyContent="space-between">
+					<Box alignItems="center" justifyContent="start">
+						<Menu className={styles.icon} onClick={toggleMenu} />
+					</Box>
 					<Box
 						as="ul"
 						direction="row"
@@ -40,7 +44,6 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 						gap="1.75rem"
 						className={styles.horizontal}
 					>
-						<Menu className={styles.icon} onClick={toggleMenu} />
 						{...items.map(({ link, name }) => (
 							<li key={link}>
 								{link.startsWith('#') ? (
@@ -50,15 +53,18 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 								)}
 							</li>
 						))}
+					</Box>
+					<Box
+						as="ul"
+						direction="row"
+						alignItems="center"
+						justifyContent="end"
+						gap="1.75rem"
+						className={styles.horizontal}
+					>
 						{...endItems
-							? endItems.map(({ link, name }, i) => (
-									<li
-										key={link}
-										className={classNames(
-											styles.isRight,
-											i === 0 ? styles.shiftRight : undefined,
-										)}
-									>
+							? endItems.map(({ link, name }) => (
+									<li key={link} className={classNames(styles.isRight)}>
 										{link.startsWith('#') ? (
 											<a href={link}>{name}</a>
 										) : (
@@ -68,32 +74,33 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 							  ))
 							: []}
 					</Box>
-					{menuOpen ? (
-						<Box
-							as="ul"
-							direction="column"
-							alignItems="baseline"
-							justifyContent="center"
-							gap="1.75rem"
-							className={styles.vertical}
-						>
-							{...items.map(({ link, name }) => (
-								<li key={link}>
-									{link.startsWith('#') ? (
-										<a href={link} onClick={toggleMenu}>
-											{name}
-										</a>
-									) : (
-										<Link href={link} onClick={toggleMenu}>
-											{name}
-										</Link>
-									)}
-									<NavArrowRight className={styles.arrow} />
-								</li>
-							))}
-						</Box>
-					) : undefined}
-				</nav>
+				</Box>
+				<Box
+					as="ul"
+					direction="column"
+					alignItems="baseline"
+					justifyContent="center"
+					gap="1.75rem"
+					className={classNames(
+						styles.vertical,
+						menuOpen ? styles.open : undefined,
+					)}
+				>
+					{...items.map(({ link, name }) => (
+						<li key={link}>
+							{link.startsWith('#') ? (
+								<a href={link} onClick={toggleMenu}>
+									{name}
+								</a>
+							) : (
+								<Link href={link} onClick={toggleMenu}>
+									{name}
+								</Link>
+							)}
+							<NavArrowRight className={styles.arrow} />
+						</li>
+					))}
+				</Box>
 			</header>
 			<div className={styles.headerOffset} />
 		</>

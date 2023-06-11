@@ -22,6 +22,7 @@ export const Footer = ({ children, className, ...props }: FooterProps) => {
 		<Box
 			as="footer"
 			direction="row"
+			justifyContent="center"
 			className={classNames(styles.footer, className)}
 			wrap="wrap"
 			{...props}

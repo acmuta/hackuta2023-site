@@ -2,10 +2,12 @@ import './globals.css'
 
 import classNames from 'classnames'
 
+import { Box } from '@/components/Box'
 import { siteName } from '@/lib/utils/server'
 
 import styles from './layout.module.css'
 import SiteFooter from './SiteFooter'
+import SiteHeader from './SiteHeader'
 
 export const metadata = {
 	title: siteName,
@@ -55,15 +57,16 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
-				<div className="layout-background-overlay"></div>
+			<Box as="body" direction="column">
 				<div className={classNames(styles.star, styles.topLeft)}></div>
 				<div className={classNames(styles.star, styles.topRight)}></div>
 				<div className={classNames(styles.star, styles.bottomLeft)}></div>
 				<div className={classNames(styles.star, styles.bottomRight)}></div>
-				{children}
+				<SiteHeader />
+				<main className={styles.main}>{children}</main>
 				<SiteFooter />
-			</body>
+				<div className="layout-background-overlay"></div>
+			</Box>
 		</html>
 	)
 }

@@ -1,13 +1,17 @@
 .header {
-  display: block;
+  --header-color-background: var(--color-primary);
+  --header-color-primary: var(--color-background);
+
+  display: flex;
+  flex-direction: column;
   position: fixed;
   width: 100%;
-  background: var(--color-white);
+  background: var(--header-color-background);
   z-index: var(--z-index-header);
 }
 
 .header a {
-  color: var(--color-primary);
+  color: var(--header-color-primary);
   font-size: 1rem;
   font-weight: var(--font-weight-bold);
   text-decoration: none;
@@ -15,20 +19,22 @@
 }
 
 .header a:hover {
-  color: var(--color-primary-darker);
   cursor: pointer;
+  filter: brightness(0.75);
+}
+
+.header nav {
+  width: 100%;
+}
+
+.header nav > * {
+  flex: 33%;
 }
 
 .icon {
   display: none;
-  color: var(--color-primary);
-}
-
-.header nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+  color: var(--header-color-primary);
+  margin-left: 1rem;
 }
 
 .header ul {
@@ -36,15 +42,12 @@
 }
 
 .header ul.horizontal {
-  padding: 1.5rem 3rem;
-}
-
-.header ul.horizontal li.shiftRight {
-  margin-left: auto;
+  padding: 1rem;
 }
 
 .header ul.vertical {
-  padding: 2.25rem 1.5rem;
+  display: none;
+  padding: 2.25rem 1.25rem;
   gap: 1.125rem;
   background-color: var(--color-primary);
 }
@@ -56,18 +59,18 @@
 }
 
 .header ul.vertical li:not(:last-child) {
-  border-bottom: 1px solid var(--color-white);
+  border-bottom: 1px solid var(--header-color-primary);
 }
 
 .header ul.vertical a {
-  color: var(--color-white);
-  font-size: 1.5rem;
+  color: var(--header-color-primary);
+  font-size: 1.25rem;
   font-weight: var(--font-weight-regular);
   width: 100%;
 }
 
 .header ul.vertical li .arrow {
-  color: var(--color-white);
+  color: var(--header-color-primary);
   margin-left: auto;
 }
 
@@ -78,17 +81,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  /* Styles for mobile devices */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .header ul.horizontal {
-    padding: 1rem;
-  }
-
   .header ul.horizontal li:not(.isRight) {
     display: none;
   }
@@ -99,6 +91,10 @@
     flex: none;
     order: 1;
     flex-grow: 0;
+  }
+
+  .header ul.vertical.open {
+    display: flex;
   }
 
   .icon {

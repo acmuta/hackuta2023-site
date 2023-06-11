@@ -1,10 +1,9 @@
 import { ReactNode } from 'react'
 
+import PageSection from '@/app/PageSection'
+import { queryDbForItems } from '@/app/utils'
 import Schedule from '@/components/Schedule'
 import { EventModel } from '@/lib/db/models/Event'
-
-import PageSection from '../PageSection'
-import { queryDbForItems } from '../utils'
 
 export function ScheduleSection({
 	events,
