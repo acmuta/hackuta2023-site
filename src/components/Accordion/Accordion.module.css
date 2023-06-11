@@ -3,32 +3,33 @@
 	width: 100%;
 }
 
-.accordion>summary {
+.accordion > summary {
+	font-family: var(--font-heading);
 	display: flex;
 	font-size: 1rem;
-	padding: .5rem 1rem;
+	padding: 0.5rem 1rem;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.accordion>summary::-webkit-details-marker {
+.accordion > summary::-webkit-details-marker {
 	display: none;
 }
 
-.accordion>summary:hover {
+.accordion > summary:hover {
 	box-shadow: 3px 0 0 var(--color-uta-orange) inset;
 	color: var(--color-uta-orange);
 	cursor: pointer;
 }
 
-.accordion>.child {
+.accordion > .child {
 	padding: 0 1.5rem;
 }
 
-.accordion>summary>svg {
+.accordion > summary > svg {
 	transition: transform 0.2s ease-out;
 }
 
-.accordion[open]>summary>svg {
+.accordion[open] > summary > svg {
 	transform: rotate(90deg);
 }
