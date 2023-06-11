@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 
+import { Box } from '@/components/Box'
+import { Button } from '@/components/Button'
+import { Dropdown, TextInput } from '@/components/Form'
+import ErrorMessage from '@/components/Form/ErrorMessage'
+import { Heading } from '@/components/Heading'
 import {
 	Application,
 	ApplicationSchema,
@@ -18,14 +23,9 @@ import {
 	TShirtSizeSchema,
 } from '@/lib/db/models/User'
 import { range, stringifyError } from '@/lib/utils/client'
-import { fetchPost,toOption, zodEnumToOptions } from '@/lib/utils/shared'
+import { fetchPost, toOption, zodEnumToOptions } from '@/lib/utils/shared'
 
-import { Box } from '../Box'
-import { Button } from '../Button'
-import { Dropdown, TextInput } from '../Form'
-import ErrorMessage from '../Form/ErrorMessage'
-import { Heading } from '../Heading'
-import styles from './styles.module.css'
+import styles from './ApplicationForm.module.css'
 
 export function ApplicationForm() {
 	const [formErrors, setFormMessages] = useState<string[]>([])
@@ -36,23 +36,34 @@ export function ApplicationForm() {
 		)
 		const jsonData: Record<string, string | string[] | number> =
 			Object.create(null)
-		formData.forEach((v, k) => {
-			if (v === '') {
-				return
-			}
-			const zodFieldType = ApplicationSchema.shape[k as keyof Application]
-			const typeName =
-				zodFieldType._def.typeName === 'ZodOptional'
-					? zodFieldType._def.innerType._def.typeName
-					: zodFieldType._def.typeName
-			if (typeName === 'ZodArray') {
-				;((jsonData[k] ??= []) as string[]).push(v.toString())
-			} else if (typeName === 'ZodNumber') {
-				jsonData[k] = parseFloat(v.toString())
-			} else {
-				jsonData[k] = v.toString()
-			}
-		})
+		await Promise.all(
+			[...formData].map(async ([k, v]) => {
+				if (v === '') {
+					return
+				}
+				console.log(k, v, 'fuck')
+				const zodFieldType = ApplicationSchema.shape[k as keyof Application]
+				const typeName =
+					zodFieldType._def.typeName === 'ZodOptional'
+						? zodFieldType._def.innerType._def.typeName
+						: zodFieldType._def.typeName
+				if (typeName === 'ZodArray') {
+					;((jsonData[k] ??= []) as string[]).push(v.toString())
+				} else if (typeName === 'ZodNumber') {
+					jsonData[k] = parseFloat(v.toString())
+				} else {
+					if (k === 'resume') {
+						if (!(v instanceof File)) {
+							console.error('resume', v)
+							throw 'resume is not File'
+						}
+						jsonData[k] = await getBase64(v as File)
+					} else {
+						jsonData[k] = v.toString()
+					}
+				}
+			}),
+		)
 		const validateResult = ApplicationSchema.safeParse(jsonData)
 		if (validateResult.success) {
 			setFormMessages([])
@@ -222,6 +233,7 @@ export function ApplicationForm() {
 				isCreatable
 				isMulti
 			/>
+			<input type="file" name="resume" id="resume" />
 
 			{formErrors.length ? <ErrorMessage errors={formErrors} /> : undefined}
 			<span>
@@ -229,4 +241,13 @@ export function ApplicationForm() {
 			</span>
 		</Box>
 	)
+}
+
+function getBase64(file: Blob): Promise<string> {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader()
+		reader.readAsDataURL(file)
+		reader.onload = () => resolve(reader.result as string)
+		reader.onerror = (e) => reject(e)
+	})
 }
