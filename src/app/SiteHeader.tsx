@@ -4,7 +4,7 @@ import { Header } from '@/components/Header'
 import { hasPermission } from '@/lib/auth/shared'
 import { useEnhancedSession } from '@/lib/utils/client'
 
-export default function SubpageHeader() {
+export default function SiteHeader() {
 	const { user, perms } = useEnhancedSession()
 
 	return (

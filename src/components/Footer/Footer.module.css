@@ -1,18 +1,22 @@
 .footer {
-	background: #9cc4b9;
+	--footer-color-background: var(--color-primary);
+	--footer-color-primary: var(--color-background);
+
+	background: var(--footer-color-background);
 	padding: 3rem;
 	flex-wrap: wrap;
 	gap: 3rem;
 }
 
 .footerNav > .footerNavHeading {
-	color: #2d4057;
+	color: var(--footer-color-primary);
 	font-size: 2rem;
 	font-weight: 500;
+	text-align: center;
 }
 
 .footerNav ul a {
-	color: #2d4057;
+	color: var(--footer-color-primary);
 	text-decoration: none;
 }
 

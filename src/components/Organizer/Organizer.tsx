@@ -12,7 +12,7 @@ import { ReactNode } from 'react'
 //import Image from 'next/image'
 import { DivProps } from 'react-html-props'
 
-import { Box } from '../../Box'
+import { Box } from '../Box'
 import styles from './Organizer.module.css'
 
 export type OrganizerProps = DivProps & {
