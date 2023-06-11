@@ -27,11 +27,13 @@
 	--font-weight-ultra-black: 950;
 
 	--header-height: 3.5rem;
+	--footer-height: 12rem;
 
 	/** z indices */
 	--z-index-timeline: 1;
 	--z-index-event: 2;
 	--z-index-header: 10;
+	--z-index-mlh-badge: 10000;
 }
 
 html {
