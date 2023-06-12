@@ -3,28 +3,15 @@
 	min-height: 100vh;
 }
 
-.heroText {
-	font-size: 1.5rem;
-	color: var(--color-white);
+.heroHeading1 {
+	font-family: var(--font-heading);
+	font-size: 4rem;
+	text-align: center;
 }
 
-.heading2 {
-	color: var(--color-white);
-	font-family: var(--font-serif);
+.heroHeading2 {
+	font-family: var(--font-body);
 	font-size: 2rem;
-	font-weight: var(--font-weight-ultra-black);
-	width: 50rem;
-	max-width: 100%;
-}
-
-.heroHeading {
-	color: var(--color-white);
-	font-family: var(--font-serif);
-	font-size: 3rem;
-	font-weight: var(--font-weight-ultra-black);
-	width: 50rem;
-	max-width: 100%;
-	overflow-wrap: anywhere;
 }
 
 .fitParentWidth {
@@ -89,21 +76,15 @@
 	gap: 2rem;
 }
 
-.mlhBadge {
-	display: block;
-	max-width: 100px;
-	min-width: 60px;
-	position: fixed;
-	right: 50px;
-	top: 0;
-	width: 10%;
-	z-index: 10000;
-}
-.mlhBadge img {
-	width: 100%;
-}
-
 @media screen and (max-width: 768px) {
+	.heroHeading1 {
+		font-size: 2rem;
+	}
+
+	.heroHeading2 {
+		font-size: 1.5rem;
+	}
+
 	.applicationForm {
 		padding: 1rem 2rem;
 	}

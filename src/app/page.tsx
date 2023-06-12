@@ -3,24 +3,21 @@ import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 
-import { ApplicationForm } from '@/components/ApplicationForm'
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { Header } from '@/components/Header'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
+import { ApplicationForm } from './ApplicationForm'
 import Card from './Card'
 import { FaqSection, getFaqs } from './faq/utils'
 import styles from './page.module.css'
 import PostRenderer from './post/[slug]/PostRenderer'
-import SiteFooter from './SiteFooter'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -32,7 +29,7 @@ export default async function Home() {
 		/* @ts-expect-error Async React Server Component */
 		return <Dashboard user={user} />
 	} else if (user) {
-		return <Apply user={user} />
+		return <ApplicationForm />
 	} else {
 		/* @ts-expect-error Async React Server Component */
 		return <Landing />
@@ -63,28 +60,13 @@ async function Landing() {
 			justifyContent="start"
 			gap="1rem"
 		>
-			<div>
-				<Link
-					className={styles.mlhBadge}
-					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=yellow"
-				>
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img
-						src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-yellow.svg"
-						alt="Major League Hacking 2024 Hackathon Season"
-					/>
-				</Link>
-			</div>
-
 			<Image src={LogoImage} alt="HackUTA logo" />
-			<div style={{ fontSize: '4rem', textAlign: 'center' }}>
+			<div className={styles.heroHeading1}>
 				October 7-8, 2023
-				<div style={{ fontSize: '2rem' }}>Details coming soon...</div>
+				<div className={styles.heroHeading2}>Details coming soon...</div>
 			</div>
 			<Box direction="row" gap="1rem">
-				{/* <LinkButton href="/api/auth/signin">
-					Apply
-				</LinkButton> */}
+				<LinkButton href="/api/auth/signin">Apply</LinkButton>
 				<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 					Sponsor
 				</LinkButton>
@@ -96,41 +78,7 @@ async function Landing() {
 	)
 	// return (
 	// 	<Box as="main" direction="column" className={styles.main}>
-	// 		<Header
-	// 			items={[{ link: '#hi', name: '' }]}
-	// 			endItems={[{ link: '/api/auth/signin', name: 'Sign in' }]}
-	// 		/>
-	// 		<Box
-	// 			as="section"
-	// 			className={classNames(styles.about, styles.fitParentWidth)}
-	// 		>
-	// 			<div
-	// 				id="top"
-	// 				className={classNames(
-	// 					styles.gradientContainer,
-	// 					'anchorOffset',
-	// 					styles.fitParentWidth,
-	// 				)}
-	// 			>
-	// 				<p className={classNames(styles.heroHeading)}>HackUTA 2023</p>
-	// 				<p className={classNames(styles.text, styles.heading2)}>
-	// 					Catchy slogan for the show.
-	// 				</p>
-	// 				<p className={classNames(styles.text, styles.heroText)}>
-	// 					October 7-8, 2023
-	// 				</p>
-	// 				<Box as="div" gap="1.5rem" wrap="wrap">
-	// 					<LinkButton href="/api/auth/signin" kind="primary">
-	// 						Apply
-	// 					</LinkButton>
-	// 					<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
-	// 						Sponsor
-	// 					</LinkButton>
-	// 				</Box>
-	// 			</div>
-	// 		</Box>
 	// 		<Box direction="column" className={styles.sectionContainer}>
-	// 			<FaqSection faqs={faqs} />
 	// 			<ScheduleSection events={events} />
 	// 			<Box
 	// 				as="section"
@@ -186,34 +134,6 @@ async function Landing() {
 // 		</Box>
 // 	)
 // }
-
-const ComingSoon: React.FC = () => (
-	<Box style={{ paddingLeft: '0.5rem' }}>Coming Soon...</Box>
-)
-
-function Apply({ user }: { user: JsonUser }) {
-	return (
-		<Box as="main" direction="column" className={styles.main}>
-			<Header
-				items={[
-					{ link: '/', name: 'Apply' },
-					{ link: '/faq', name: 'FAQ' },
-					{ link: '/schedule', name: 'Schedule' },
-					// { link: '/organizers', name: 'Organizers' },
-					// { link: '/sponsors', name: 'Sponsors' },
-				]}
-				endItems={[
-					...(user?.roles?.includes('admin')
-						? [{ link: '/admin', name: 'Admin' }]
-						: []),
-					{ link: '/api/auth/signout', name: 'Sign out' },
-				]}
-			/>
-			<ApplicationForm />
-			<SiteFooter />
-		</Box>
-	)
-}
 
 async function Dashboard({ user }: { user: JsonUser }) {
 	const client = await clientPromise
@@ -272,41 +192,23 @@ async function Dashboard({ user }: { user: JsonUser }) {
 	}
 
 	return (
-		<Box as="main" direction="column" className={styles.main}>
-			<Header
-				items={[
-					{ link: '/', name: 'Dashboard' },
-					{ link: '/faq', name: 'FAQ' },
-					{ link: '/schedule', name: 'Schedule' },
-					// { link: '/organizers', name: 'Organizers' },
-					// { link: '/sponsors', name: 'Sponsors' },
-				]}
-				endItems={[
-					...(user?.roles?.includes('admin')
-						? [{ link: '/admin', name: 'Admin' }]
-						: []),
-					{ link: '/api/auth/signout', name: 'Sign out' },
-				]}
-			/>
+		<Box
+			direction="column"
+			className={classNames('pagePadding')}
+			style={{ flex: 1 }}
+			gap="1rem"
+		>
+			<h2>
+				Hello, {user.application?.firstName} {user.application?.lastName}
+			</h2>
 			<Box
-				direction="column"
-				className={classNames('pagePadding')}
-				style={{ flex: 1 }}
-				gap="1rem"
+				direction="row"
+				alignItems="start"
+				wrap="wrap"
+				className={classNames(styles.cardContainer)}
 			>
-				<h2>
-					Hello, {user.application?.firstName} {user.application?.lastName}
-				</h2>
-				<Box
-					direction="row"
-					alignItems="start"
-					wrap="wrap"
-					className={classNames(styles.cardContainer)}
-				>
-					{...children}
-				</Box>
+				{...children}
 			</Box>
-			<SiteFooter />
 		</Box>
 	)
 }

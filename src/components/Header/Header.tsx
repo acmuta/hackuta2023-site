@@ -60,11 +60,11 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 						alignItems="center"
 						justifyContent="end"
 						gap="1.75rem"
-						className={styles.horizontal}
+						className={classNames(styles.horizontal, styles.horizontalEnd)}
 					>
 						{...endItems
 							? endItems.map(({ link, name }) => (
-									<li key={link} className={classNames(styles.isRight)}>
+									<li key={link}>
 										{link.startsWith('#') ? (
 											<a href={link}>{name}</a>
 										) : (
@@ -101,6 +101,16 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 						</li>
 					))}
 				</Box>
+				<Link
+					className={styles.mlhBadge}
+					href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=yellow"
+				>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img
+						src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-yellow.svg"
+						alt="Major League Hacking 2024 Hackathon Season"
+					/>
+				</Link>
 			</header>
 			<div className={styles.headerOffset} />
 		</>

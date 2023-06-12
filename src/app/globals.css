@@ -5,7 +5,7 @@
 	--color-white: #fff;
 	--color-gray-1: #d0d3d4;
 	--color-gray-2: #a2aaad;
-	--color-gray-3: #5b6770;
+	--color-gray-3: #50585e;
 	--color-green: #228848;
 	--color-red: #d50032;
 
@@ -27,11 +27,13 @@
 	--font-weight-ultra-black: 950;
 
 	--header-height: 3.5rem;
+	--footer-height: 12rem;
 
 	/** z indices */
 	--z-index-timeline: 1;
 	--z-index-event: 2;
 	--z-index-header: 10;
+	--z-index-mlh-badge: 10000;
 }
 
 html {

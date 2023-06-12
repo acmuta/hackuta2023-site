@@ -1,7 +1,14 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
+import { Box } from '@/components/Box'
+import { Button } from '@/components/Button'
+import { Dropdown, TextInput } from '@/components/Form'
+import ErrorMessage from '@/components/Form/ErrorMessage'
+import { FileInput } from '@/components/Form/FileInput'
+import { Heading } from '@/components/Heading'
 import {
 	Application,
 	ApplicationSchema,
@@ -16,16 +23,12 @@ import {
 	LevelOfStudySchema,
 	TernarySchema,
 	TShirtSizeSchema,
+	YesNoSchema,
 } from '@/lib/db/models/User'
 import { range, stringifyError } from '@/lib/utils/client'
-import { fetchPost,toOption, zodEnumToOptions } from '@/lib/utils/shared'
+import { fetchPost, toOption, zodEnumToOptions } from '@/lib/utils/shared'
 
-import { Box } from '../Box'
-import { Button } from '../Button'
-import { Dropdown, TextInput } from '../Form'
-import ErrorMessage from '../Form/ErrorMessage'
-import { Heading } from '../Heading'
-import styles from './styles.module.css'
+import styles from './ApplicationForm.module.css'
 
 export function ApplicationForm() {
 	const [formErrors, setFormMessages] = useState<string[]>([])
@@ -36,23 +39,36 @@ export function ApplicationForm() {
 		)
 		const jsonData: Record<string, string | string[] | number> =
 			Object.create(null)
-		formData.forEach((v, k) => {
-			if (v === '') {
-				return
-			}
-			const zodFieldType = ApplicationSchema.shape[k as keyof Application]
-			const typeName =
-				zodFieldType._def.typeName === 'ZodOptional'
-					? zodFieldType._def.innerType._def.typeName
-					: zodFieldType._def.typeName
-			if (typeName === 'ZodArray') {
-				;((jsonData[k] ??= []) as string[]).push(v.toString())
-			} else if (typeName === 'ZodNumber') {
-				jsonData[k] = parseFloat(v.toString())
-			} else {
-				jsonData[k] = v.toString()
-			}
-		})
+		await Promise.all(
+			[...formData].map(async ([k, v]) => {
+				if (v === '') {
+					return
+				}
+				const zodFieldType = ApplicationSchema.shape[k as keyof Application]
+				const typeName =
+					zodFieldType._def.typeName === 'ZodOptional'
+						? zodFieldType._def.innerType._def.typeName
+						: zodFieldType._def.typeName
+				if (typeName === 'ZodArray') {
+					;((jsonData[k] ??= []) as string[]).push(v.toString())
+				} else if (typeName === 'ZodNumber') {
+					jsonData[k] = parseFloat(v.toString())
+				} else {
+					if (k === 'resume') {
+						if (!(v instanceof File)) {
+							console.error('resume', v)
+							throw 'resume is not File'
+						}
+						if (v.size > 1 * 1024 * 1024) {
+							throw 'resume must be smaller than 1 MB'
+						}
+						jsonData[k] = await getBase64(v as File)
+					} else {
+						jsonData[k] = v.toString()
+					}
+				}
+			}),
+		)
 		const validateResult = ApplicationSchema.safeParse(jsonData)
 		if (validateResult.success) {
 			setFormMessages([])
@@ -77,7 +93,7 @@ export function ApplicationForm() {
 			id="applicationForm"
 			as="form"
 			direction="column"
-			gap="1rem"
+			gap="1.25rem"
 			className={styles.applicationForm}
 		>
 			<Heading level={2}>Application</Heading>
@@ -152,7 +168,7 @@ export function ApplicationForm() {
 				isMulti
 			/>
 
-			<Heading level={3}>Optional Demographic Information</Heading>
+			<Heading level={3}>Optional Information</Heading>
 			<Dropdown
 				id="underrepresentedGroup"
 				text="Do you identify as part of an underrepresented group in the technology industry?"
@@ -222,6 +238,61 @@ export function ApplicationForm() {
 				isCreatable
 				isMulti
 			/>
+			<FileInput
+				id="resume"
+				text="Resume"
+				description="Optional. Only PDFs less than 1 MB are allowed."
+				accept="application/pdf"
+			/>
+
+			<Heading level={3}>MLH Checkboxes</Heading>
+			<p>
+				We are currently in the process of partnering with MLH. The following 3
+				checkboxes are for this partnership. If we do not end up partnering with
+				MLH, your information will not be shared.
+			</p>
+			<Dropdown
+				id="agreedMlhCoC"
+				text={
+					<>
+						I have read and agree to the{' '}
+						<Link href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">
+							MLH Code of Conduct
+						</Link>
+						.
+					</>
+				}
+				errors={errors['agreedMlhCoC']}
+				selectProps={{ form: 'applicationForm' }}
+				options={[{ label: 'Yes', value: 'Yes' }]}
+			/>
+			<Dropdown
+				id="agreedMlhSharing"
+				text={
+					<>
+						I authorize you to share my application/registration information
+						with Major League Hacking for event administration, ranking, and MLH
+						administration in-line with the{' '}
+						<Link href="https://mlh.io/privacy">MLH Privacy Policy</Link>. I
+						further agree to the terms of both the{' '}
+						<Link href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">
+							MLH Contest Terms and Conditions
+						</Link>{' '}
+						and the{' '}
+						<Link href="https://mlh.io/privacy">MLH Privacy Policy</Link>.
+					</>
+				}
+				errors={errors['agreedMlhSharing']}
+				selectProps={{ form: 'applicationForm' }}
+				options={[{ label: 'Yes', value: 'Yes' }]}
+			/>
+			<Dropdown
+				id="agreedMlhMarketing"
+				text="I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements."
+				errors={errors['agreedMlhMarketing']}
+				selectProps={{ form: 'applicationForm' }}
+				options={zodEnumToOptions(YesNoSchema)}
+			/>
 
 			{formErrors.length ? <ErrorMessage errors={formErrors} /> : undefined}
 			<span>
@@ -229,4 +300,13 @@ export function ApplicationForm() {
 			</span>
 		</Box>
 	)
+}
+
+function getBase64(file: Blob): Promise<string> {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader()
+		reader.readAsDataURL(file)
+		reader.onload = () => resolve(reader.result as string)
+		reader.onerror = (e) => reject(e)
+	})
 }

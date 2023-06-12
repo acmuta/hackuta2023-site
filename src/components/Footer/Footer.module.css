@@ -8,6 +8,11 @@
 	gap: 3rem;
 }
 
+.footer a:hover {
+  cursor: pointer;
+  filter: brightness(0.75);
+}
+
 .footerNav > .footerNavHeading {
 	color: var(--footer-color-primary);
 	font-size: 2rem;

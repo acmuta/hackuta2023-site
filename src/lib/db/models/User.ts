@@ -138,6 +138,8 @@ export const KnownMajorSchema = z.enum([
 	'Prefer not to answer',
 ])
 
+export const YesNoSchema = z.enum(['Yes', 'No'])
+
 /**
  * https://guide.mlh.io/general-information/managing-registrations/registration-timelines#some-important-registration-fields
  */
@@ -154,7 +156,7 @@ export const ApplicationSchema = z.object({
 		z.string().nonempty(),
 	).array(),
 
-	// Demographic information.
+	// Optional information.
 	underrepresentedGroup: TernarySchema.optional(),
 	gender: KnownGenderSchema.or(z.string()).optional(),
 	pronouns: KnownPronounsSchema.or(z.string().nonempty()).array().optional(),
@@ -164,6 +166,12 @@ export const ApplicationSchema = z.object({
 	sexuality: KnownSexualitySchema.or(z.string()).optional(),
 	highestLevelOfEducation: LevelOfStudySchema.optional(),
 	fieldOfStudy: KnownMajorSchema.or(z.string().nonempty()).array().optional(),
+	resume: z.string().describe('base64-encoded resume document').optional(),
+
+	// MLH checkboxes.
+	agreedMlhCoC: z.literal('Yes'),
+	agreedMlhSharing: z.literal('Yes'),
+	agreedMlhMarketing: YesNoSchema,
 })
 
 export type Application = z.infer<typeof ApplicationSchema>
