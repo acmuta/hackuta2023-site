@@ -1,10 +1,11 @@
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { LabelProps as HtmlLabelProps } from 'react-html-props'
 
 import styles from './Label.module.css'
 
 export type DescriberProps = {
-	text?: string
+	text?: ReactNode
 	description?: string
 }
 

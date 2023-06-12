@@ -135,6 +135,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 			const client = await clientPromise
 			const user = await getServerUser(client, req, res)
 			const perms = await getUserPerms(user)
+			if (user?.application) {
+				user.application.resume = user.application.resume ? 'exists' : ''
+			}
 			return res.status(200).json({
 				user,
 				perms,
