@@ -15,8 +15,8 @@ export default function SiteFooter() {
 					<Link key="discord" href={'https://discord.gg/4e64SfjmWS'}>
 						<Discord width={'32px'} aria-label="HackUTA 2023 Discord" />
 					</Link>,
-					<Link key="instagram" href={'https://instagram.com/hackuta'}>
-						<Instagram width={'32px'} aria-label="Instagram @hackuta" />
+					<Link key="instagram" href={'https://instagram.com/acmuta'}>
+						<Instagram width={'32px'} aria-label="Instagram @acmuta" />
 					</Link>,
 					// <Link key="twitter" href={'https://twitter.com/utadatathon'}>
 					// 	<Twitter width={'32px'} aria-label="Twitter @utadatathon" />
