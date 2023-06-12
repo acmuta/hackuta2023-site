@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
@@ -87,6 +87,16 @@ export function ApplicationForm() {
 			setErrors(fieldErrors)
 		}
 	}
+
+	useEffect(() => {
+		window.addEventListener(
+			'beforeunload',
+			(e) => {
+				e.preventDefault()
+			},
+			{ capture: true },
+		)
+	}, [])
 
 	return (
 		<Box
