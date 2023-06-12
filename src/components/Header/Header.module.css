@@ -18,6 +18,7 @@
   text-transform: uppercase;
 }
 
+.header a:active,
 .header a:hover {
   cursor: pointer;
   filter: brightness(0.75);
@@ -103,6 +104,11 @@
 
   .icon {
     display: inline-block;
+  }
+
+  .icon:active,
+  .icon:hover {
+    filter: brightness(0.75);
   }
 }
 
