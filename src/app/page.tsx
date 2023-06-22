@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
-import React from 'react'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import { Organizer, OrganizerProps } from '@/components/Organizer'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
@@ -36,18 +36,28 @@ export default async function Home() {
 	}
 }
 
-// const organizers: OrganizerProps[] = [
-// 	{
-// 		avatar: 'https://avatars.githubusercontent.com/u/4723983?v=4',
-// 		name: 'Samantha Nguyen',
-// 		major: 'Computer Science',
-// 		socials: {
-// 			github: 'neoncitylights',
-// 			instagram: 'starry_flies',
-// 			linkedIn: 'samanthaa-nguyen',
-// 		},
-// 	},
-// ]
+const organizers: OrganizerProps[] = [
+	{
+		avatar: 'https://avatars.githubusercontent.com/u/4723983?v=4',
+		name: 'Samantha Nguyen',
+		major: 'Computer Science',
+		socials: {
+			github: 'neoncitylights',
+			instagram: 'starry_flies',
+			linkedIn: 'samanthaa-nguyen',
+		},
+	},
+	{
+		avatar: 'https://avatars.githubusercontent.com/pxs4528',
+		name: 'Parth Sharma',
+		major: 'Computer Science',
+		socials: {
+			github: 'pxs4528',
+			instagram: 'parth.sharma2410',
+			linkedIn: 'parthsharma0310',
+		},
+	},
+]
 
 async function Landing() {
 	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
@@ -73,6 +83,11 @@ async function Landing() {
 			</Box>
 			<Box justifyContent="center">
 				<FaqSection faqs={faqs} />
+			</Box>
+			<div className={styles.heroHeading2}>Organizers</div>
+			<Box>
+				<Organizer {...organizers[0]} />
+				<Organizer {...organizers[1]} />
 			</Box>
 		</Box>
 	)
