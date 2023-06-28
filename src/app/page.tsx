@@ -14,7 +14,7 @@ import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
-import { organizers } from './admin/organizers/OrganizerData'
+import { CorpoOrganizers, Executives, Logsorganizers, MarketOrganizers, Outreach, Techorganizers, XPorganizers } from './admin/organizers/OrganizerData'
 import { ApplicationForm } from './ApplicationForm'
 import Card from './Card'
 import { FaqSection, getFaqs } from './faq/utils'
@@ -73,8 +73,24 @@ async function Landing() {
 						<Heading id="organizers" level={2} className={'anchorOffset'}>
 							Organizers
 						</Heading>
-						<Box gap="2rem">
-							{organizers.map(
+						<div className={styles.Orgo}>
+						<div className={styles.heroHeading2}>Executive Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{Executives.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer 
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						<div className={styles.heroHeading2}>Tech Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{Techorganizers.map(
 								({ name, major, avatar, socials }: OrganizerProps) => (
 									<Organizer
 										key={name}
@@ -86,6 +102,77 @@ async function Landing() {
 								),
 							)}
 						</Box>
+						<div className={styles.heroHeading2}>Experience Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{XPorganizers.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						<div className={styles.heroHeading2}>Logistics Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{Logsorganizers.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						<div className={styles.heroHeading2}>Corporate Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{CorpoOrganizers.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						<div className={styles.heroHeading2}>Marketing Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{MarketOrganizers.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						<div className={styles.heroHeading2}>Outreach Team</div>
+						<Box justifyContent='center' gap="2rem">
+							{Outreach.map(
+								({ name, major, avatar, socials }: OrganizerProps) => (
+									<Organizer
+										key={name}
+										name={name}
+										major={major}
+										avatar={avatar}
+										socials={socials}
+									/>
+								),
+							)}
+						</Box>
+						</div>
 					</Box>
 					<Box
 						as="section"
