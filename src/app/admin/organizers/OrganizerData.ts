@@ -11,7 +11,7 @@ export interface OrganizerData {
 
 export const organizers: OrganizerData[] = [
 	{
-		avatar: 'https://avatars.githubusercontent.com/u/4723983?v=4',
+		avatar: '/images/Organizers/samantha.png',
 		name: 'Samantha Nguyen',
 		major: 'Computer Science',
 		socials: {
@@ -31,13 +31,23 @@ export const organizers: OrganizerData[] = [
 		},
 	},
 	{
-		avatar: 'https://avatars.githubusercontent.com/lryanle',
+		avatar: '/images/Organizers/ryan.png',
 		name: 'Ryan Lahlou',
 		major: 'Computer Science',
 		socials: {
-			github: 'pxs4528',
-			instagram: 'parth.sharma2410',
-			linkedIn: 'parthsharma0310',
+			github: 'lryanle',
+			instagram: 'lryanle',
+			linkedIn: 'lryanle',
+		},
+	},
+	{
+		avatar: '/images/Organizers/jane.png',
+		name: 'Jane Wang',
+		major: 'Computer Science, Mathematics',
+		socials: {
+			github: 'JaneIRL',
+			instagram: 'janeirl.dev',
+			linkedIn: 'jane-z-w',
 		},
 	},
 ]
