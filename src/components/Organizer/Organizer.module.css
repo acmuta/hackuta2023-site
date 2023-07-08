@@ -1,13 +1,15 @@
-.avatarCunt {
-	border-radius: 50%;
-	background-color: var(--color-body);
-	height: 6.25rem;
-	width: 6.25rem;
+.organizer {
+	max-width: 10rem;
 }
 
 .avatarCunt {
+	background-color: var(--color-body);
 	border-radius: 50%;
-	max-width: 6.25rem;
-	max-height: 6.25rem;
-	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+
+.avatar {
+	border-radius: 50%;
+	height: 6.25rem;
+	width: 6.25rem;
 }

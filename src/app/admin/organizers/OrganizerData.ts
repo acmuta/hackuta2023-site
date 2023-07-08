@@ -11,9 +11,9 @@ export interface OrganizerData {
 
 export const Techorganizers: OrganizerData[] = [
 	{
-		avatar: '/images/Organizers/jane.jpg',
+		avatar: '/images/Organizers/jane.png',
 		name: 'Jane Wang',
-		major: 'Computer Science',
+		major: 'Mathematics',
 		socials: {
 			github: 'JaneIRL',
 			instagram: 'janeirl.dev',
@@ -357,3 +357,13 @@ export const CorpoOrganizers: OrganizerData[] = [
 		},
 	},
 ]
+
+export const AllTeams: Record<string, OrganizerData[]> = {
+	'Executive Team': Executives,
+	'Tech Team': Techorganizers,
+	'Experience Team': XPorganizers,
+	'Logistics Team': Logsorganizers,
+	'Corporate Team': CorpoOrganizers,
+	'Marketing Team': MarketOrganizers,
+	'Outreach Team': Outreach,
+}

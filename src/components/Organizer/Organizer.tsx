@@ -35,7 +35,7 @@ export const Organizer = ({
 	socials,
 }: OrganizerProps) => {
 	return (
-		<Box alignItems="center" direction="column" gap=".625rem">
+		<Box alignItems="center" direction="column" gap=".625rem" class>
 			<div className={styles.avatarCunt}>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
