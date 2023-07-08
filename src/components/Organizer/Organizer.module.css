@@ -1,3 +1,13 @@
-.avatar {
-	border-radius: .5rem;
+.avatarCunt {
+	border-radius: 50%;
+	background-color: var(--color-body);
+	height: 6.25rem;
+	width: 6.25rem;
+}
+
+.avatarCunt {
+	border-radius: 50%;
+	max-width: 6.25rem;
+	max-height: 6.25rem;
+	aspect-ratio: 1 / 1;
 }
