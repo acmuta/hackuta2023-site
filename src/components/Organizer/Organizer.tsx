@@ -35,16 +35,18 @@ export const Organizer = ({
 	socials,
 }: OrganizerProps) => {
 	return (
-		<Box direction="column" gap=".625rem">
-			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img
-				src={avatar}
-				alt={`Avatar of ${name}`}
-				height={100}
-				width={100}
-				className={styles.avatar}
-			/>
-			<Box direction="column" gap=".125rem">
+		<Box alignItems="center" direction="column" gap=".625rem" class>
+			<div className={styles.avatarCunt}>
+				{/* eslint-disable-next-line @next/next/no-img-element */}
+				<img
+					src={avatar}
+					alt={`${name}`}
+					// height={100}
+					// width={100}
+					className={styles.avatar}
+				/>
+			</div>
+			<Box alignItems="center" direction="column" gap=".125rem">
 				{name}
 				<span>{major}</span>
 				{isDirector && (
@@ -60,7 +62,7 @@ export const Organizer = ({
 						width: 20,
 					}}
 				>
-					<Box direction="row" gap=".25rem">
+					<Box direction="row" alignItems="center" gap=".25rem">
 						{socials.github && <GitHubLink username={socials.github} />}
 						{socials.instagram && (
 							<InstagramLink username={socials.instagram} />

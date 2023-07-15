@@ -3,16 +3,18 @@ import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
-import React from 'react'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import { Heading } from '@/components/Heading'
+import { Organizer, OrganizerProps } from '@/components/Organizer'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
+import { AllTeams } from './admin/organizers/OrganizerData'
 import { ApplicationForm } from './ApplicationForm'
 import Card from './Card'
 import { FaqSection, getFaqs } from './faq/utils'
@@ -35,19 +37,6 @@ export default async function Home() {
 		return <Landing />
 	}
 }
-
-// const organizers: OrganizerProps[] = [
-// 	{
-// 		avatar: 'https://avatars.githubusercontent.com/u/4723983?v=4',
-// 		name: 'Samantha Nguyen',
-// 		major: 'Computer Science',
-// 		socials: {
-// 			github: 'neoncitylights',
-// 			instagram: 'starry_flies',
-// 			linkedIn: 'samanthaa-nguyen',
-// 		},
-// 	},
-// ]
 
 async function Landing() {
 	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
@@ -74,41 +63,51 @@ async function Landing() {
 			<Box justifyContent="center">
 				<FaqSection faqs={faqs} />
 			</Box>
+			<Box as="main" direction="column" className={styles.main}>
+				<Box direction="column" className={styles.sectionContainer}>
+					<Box
+						as="section"
+						direction="column"
+						className={classNames(styles.titleSection)}
+					>
+						<Heading id="organizers" level={2} className={'anchorOffset'}>
+							Organizers
+						</Heading>
+						<div className={styles.Orgo}>
+							{Object.entries(AllTeams).map(([team, organizers]) => (
+								<>
+									<h3 className={styles.heroHeading2}>{team}</h3>
+									<Box justifyContent="center" wrap="wrap" gap="2rem">
+										{organizers.map(
+											({ name, major, avatar, socials }: OrganizerProps) => (
+												<Organizer
+													key={name}
+													name={name}
+													major={major}
+													avatar={avatar}
+													socials={socials}
+												/>
+											),
+										)}
+									</Box>
+								</>
+							))}
+						</div>
+					</Box>
+					<Box
+						as="section"
+						direction="column"
+						className={classNames(styles.titleSection)}
+					>
+						{/* <Heading id="sponsors" level={2} className={'anchorOffset'}>
+							Sponsors
+						</Heading> */}
+						{/* <SponsorHeader /> */}
+					</Box>
+				</Box>
+			</Box>
 		</Box>
 	)
-	// return (
-	// 	<Box as="main" direction="column" className={styles.main}>
-	// 		<Box direction="column" className={styles.sectionContainer}>
-	// 			<ScheduleSection events={events} />
-	// 			<Box
-	// 				as="section"
-	// 				direction="column"
-	// 				className={classNames(styles.titleSection)}
-	// 			>
-	// 				<Heading id="organizers" level={2} className={'anchorOffset'}>
-	// 					Organizers
-	// 				</Heading>
-	// 				<ComingSoon />
-	// 				{/* {organizers.map(({ name, major, avatar, socials }: OrganizerProps) =>
-	// 					<Organizer key={name} name={name} major={major} avatar={avatar} socials={socials} />,
-	// 				)} */}
-	// 			</Box>
-	// 			<Box
-	// 				as="section"
-	// 				direction="column"
-	// 				className={classNames(styles.titleSection)}
-	// 			>
-	// 				<Heading id="sponsors" level={2} className={'anchorOffset'}>
-	// 					Sponsors
-	// 				</Heading>
-	// 				<ComingSoon />
-	// 				{/* <SponsorHeader /> */}
-	// 			</Box>
-	// 		</Box>
-
-	// 		<SiteFooter />
-	// 	</Box>
-	// )
 }
 
 // const SponsorHeader: React.FC = () => {
