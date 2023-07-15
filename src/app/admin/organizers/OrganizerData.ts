@@ -11,7 +11,7 @@ export interface OrganizerData {
 
 export const Techorganizers: OrganizerData[] = [
 	{
-		avatar: '/images/Organizers/jane.png',
+		avatar: '/images/Organizers/jane.jpg',
 		name: 'Jane Wang',
 		major: 'Mathematics',
 		socials: {
