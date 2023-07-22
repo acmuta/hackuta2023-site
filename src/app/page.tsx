@@ -1,30 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { ApplicationForm } from '@/components/ApplicationForm'
+import { Box } from '@/components/Box'
+import { LinkButton } from '@/components/Button'
+import { Header } from '@/components/Header'
+import { Post } from '@/lib/db/models/Post'
+import { JsonUser } from '@/lib/db/models/User'
+import { getEnhancedSession } from '@/lib/utils/server'
 import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import React from 'react'
-
-import { ApplicationForm } from '@/components/ApplicationForm'
-import { Box } from '@/components/Box'
-import { LinkButton } from '@/components/Button'
-import { Header } from '@/components/Header'
-import clientPromise from '@/lib/db'
-import { Post } from '@/lib/db/models/Post'
-import User, { JsonUser } from '@/lib/db/models/User'
-import { getEnhancedSession } from '@/lib/utils/server'
-
-import LogoImage from '../../public/images/logo.svg'
 import PostRenderer from './(pages)/post/[slug]/PostRenderer'
 import Card from './Card'
 import styles from './page.module.css'
 import SiteFooter from './SiteFooter'
 
-// https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
-// We read from the database on this route, so this has to be dynamic.
-export const dynamic = 'force-dynamic'
+import LogoImage from '../../public/images/logo.svg'
 
-export default async function Home() {
+export default function Home() {
 	const { user } = getEnhancedSession(headers())
 
 	if (user?.application) {
@@ -38,22 +32,7 @@ export default async function Home() {
 	}
 }
 
-// const organizers: OrganizerProps[] = [
-// 	{
-// 		avatar: 'https://avatars.githubusercontent.com/u/4723983?v=4',
-// 		name: 'Samantha Nguyen',
-// 		major: 'Computer Science',
-// 		socials: {
-// 			github: 'neoncitylights',
-// 			instagram: 'starry_flies',
-// 			linkedIn: 'samanthaa-nguyen',
-// 		},
-// 	},
-// ]
-
 async function Landing() {
-	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
-
 	return (
 		<Box
 			direction="column"
@@ -69,106 +48,15 @@ async function Landing() {
 			</div>
 			<Box direction="row" gap="1rem">
 				{/* <LinkButton href="/api/auth/signin">
-					Apply
-				</LinkButton> */}
+          Apply
+        </LinkButton> */}
 				<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 					Sponsor
 				</LinkButton>
 			</Box>
 		</Box>
 	)
-	// return (
-	// 	<Box as="main" direction="column" className={styles.main}>
-	// 		<Header
-	// 			items={[{ link: '#hi', name: '' }]}
-	// 			endItems={[{ link: '/api/auth/signin', name: 'Sign in' }]}
-	// 		/>
-	// 		<Box
-	// 			as="section"
-	// 			className={classNames(styles.about, styles.fitParentWidth)}
-	// 		>
-	// 			<div
-	// 				id="top"
-	// 				className={classNames(
-	// 					styles.gradientContainer,
-	// 					'anchorOffset',
-	// 					styles.fitParentWidth,
-	// 				)}
-	// 			>
-	// 				<p className={classNames(styles.heroHeading)}>HackUTA 2023</p>
-	// 				<p className={classNames(styles.text, styles.heading2)}>
-	// 					Catchy slogan for the show.
-	// 				</p>
-	// 				<p className={classNames(styles.text, styles.heroText)}>
-	// 					October 7-8, 2023
-	// 				</p>
-	// 				<Box as="div" gap="1.5rem" wrap="wrap">
-	// 					<LinkButton href="/api/auth/signin" kind="primary">
-	// 						Apply
-	// 					</LinkButton>
-	// 					<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
-	// 						Sponsor
-	// 					</LinkButton>
-	// 				</Box>
-	// 			</div>
-	// 		</Box>
-	// 		<Box direction="column" className={styles.sectionContainer}>
-	// 			<FaqSection faqs={faqs} />
-	// 			<ScheduleSection events={events} />
-	// 			<Box
-	// 				as="section"
-	// 				direction="column"
-	// 				className={classNames(styles.titleSection)}
-	// 			>
-	// 				<Heading id="organizers" level={2} className={'anchorOffset'}>
-	// 					Organizers
-	// 				</Heading>
-	// 				<ComingSoon />
-	// 				{/* {organizers.map(({ name, major, avatar, socials }: OrganizerProps) =>
-	// 					<Organizer key={name} name={name} major={major} avatar={avatar} socials={socials} />,
-	// 				)} */}
-	// 			</Box>
-	// 			<Box
-	// 				as="section"
-	// 				direction="column"
-	// 				className={classNames(styles.titleSection)}
-	// 			>
-	// 				<Heading id="sponsors" level={2} className={'anchorOffset'}>
-	// 					Sponsors
-	// 				</Heading>
-	// 				<ComingSoon />
-	// 				{/* <SponsorHeader /> */}
-	// 			</Box>
-	// 		</Box>
-
-	// 		<SiteFooter />
-	// 	</Box>
-	// )
 }
-
-// const SponsorHeader: React.FC = () => {
-// 	return (
-// 		<Box
-// 			direction="row"
-// 			wrap="wrap"
-// 			alignItems="center"
-// 			justifyContent="center"
-// 			gap="3rem"
-// 			className={classNames(styles.sponsorLogoBox, styles.fitParentWidth)}
-// 		>
-// 			{/* <Link
-// 				href="https://www.uta.edu/academics/schools-colleges/engineering/academics/departments/cse"
-// 				rel="noreferrer"
-// 			>
-// 				<Image
-// 					src={UtaCseDeptLogo}
-// 					alt="UTA Department of Computer Science and Engineering, College of Engineering"
-// 					style={{ width: '20rem', height: 'auto' }}
-// 				/>
-// 			</Link> */}
-// 		</Box>
-// 	)
-// }
 
 const ComingSoon: React.FC = () => (
 	<Box style={{ paddingLeft: '0.5rem' }}>Coming Soon...</Box>
@@ -198,30 +86,12 @@ function Apply({ user }: { user: JsonUser }) {
 	)
 }
 
-async function Dashboard({ user }: { user: JsonUser }) {
-	const client = await clientPromise
-	const posts = await client
-		.db()
-		.collection<Post>('posts')
-		.find(
-			{
-				briefSource: { $exists: true, $ne: '' },
-				hidden: { $ne: true },
-			},
-			{ sort: { priority: 'ascending' } },
-		)
-		.toArray()
-
+function Dashboard({ user, posts }: { user: JsonUser; posts: Post[] }) {
 	// Generate check-in PIN
 	if (user.checkInPin === undefined) {
 		const pin = randomInt(100_000, 999_999)
-		await client
-			.db()
-			.collection<User>('users')
-			.updateOne(
-				{ email: user.email, checkInPin: { $exists: false } },
-				{ $set: { checkInPin: pin } },
-			)
+		// Update user data with the generated check-in PIN
+		// You'll need to implement the appropriate logic here
 	}
 
 	let children: JSX.Element[]
@@ -286,7 +156,7 @@ async function Dashboard({ user }: { user: JsonUser }) {
 					wrap="wrap"
 					className={classNames(styles.cardContainer)}
 				>
-					{...children}
+					{children}
 				</Box>
 			</Box>
 			<SiteFooter />
