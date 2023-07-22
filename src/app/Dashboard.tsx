@@ -1,22 +1,25 @@
+'use client'
+
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import { Post } from '@/lib/db/models/Post'
-import User from '@/lib/db/models/User'
+import { JsonUser } from '@/lib/db/models/User'
 
 import { Box } from '@/components/Box'
 import { Header } from '@/components/Header'
 
 import classNames from 'classnames'
 
-import PostRenderer from './(pages)/post/[slug]/PostRenderer'
+import { EnhancedSession } from '@/lib/auth/shared'
 import Card from './Card'
 import styles from './page.module.css'
+import PostRenderer from './post/[slug]/PostRenderer'
 import SiteFooter from './SiteFooter'
 
 function Dashboard() {
 	const [posts, setPosts] = useState<Post[]>([])
-	const [user, setUser] = useState<User | null>(null)
+	const [user, setUser] = useState<JsonUser | null>(null)
 
 	useEffect(() => {
 		// Fetch posts on component mount and every 30 seconds afterwards
@@ -40,8 +43,10 @@ function Dashboard() {
 		// Fetch user on component mount
 		const fetchUser = async () => {
 			try {
-				const response = await axios.get('/api/user') // Replace with your actual user API endpoint
-				setUser(response.data)
+				const response: EnhancedSession = await axios.get(
+					'/api/auth/enhanced-session',
+				)
+				setUser(response.user)
 			} catch (error) {
 				console.error(error)
 			}

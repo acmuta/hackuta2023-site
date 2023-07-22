@@ -193,9 +193,6 @@ function Dashboard({ user, posts }: { user: JsonUser; posts: Post[] }) {
 				wrap="wrap"
 				className={classNames(styles.cardContainer)}
 			>
-				<h2>
-					Hello, {user.application?.firstName} {user.application?.lastName}
-				</h2>
 				<Box
 					direction="row"
 					alignItems="start"
