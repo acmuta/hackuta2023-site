@@ -1,22 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ApplicationForm } from '@/components/ApplicationForm'
-import { Box } from '@/components/Box'
-import { LinkButton } from '@/components/Button'
 import { Header } from '@/components/Header'
-import { Post } from '@/lib/db/models/Post'
-import { JsonUser } from '@/lib/db/models/User'
-import { getEnhancedSession } from '@/lib/utils/server'
 import classNames from 'classnames'
 import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import Image from 'next/image'
-import React from 'react'
-import PostRenderer from './(pages)/post/[slug]/PostRenderer'
-import Card from './Card'
-import styles from './page.module.css'
-import SiteFooter from './SiteFooter'
+
+import { Box } from '@/components/Box'
+import { LinkButton } from '@/components/Button'
+import { Heading } from '@/components/Heading'
+import { Organizer, OrganizerProps } from '@/components/Organizer'
+import { Post } from '@/lib/db/models/Post'
+import { JsonUser } from '@/lib/db/models/User'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import LogoImage from '../../public/images/logo.svg'
+import { AllTeams } from './admin/organizers/OrganizerData'
+import { ApplicationForm } from './ApplicationForm'
+import Card from './Card'
+import { FaqSection, getFaqs } from './faq/utils'
+import styles from './page.module.css'
+import PostRenderer from './post/[slug]/PostRenderer'
+import SiteFooter from './SiteFooter'
+// https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
+// We read from the database on this route, so this has to be dynamic.
+export const dynamic = 'force-dynamic'
 
 export default function Home() {
 	const { user } = getEnhancedSession(headers())
@@ -25,7 +32,7 @@ export default function Home() {
 		/* @ts-expect-error Async React Server Component */
 		return <Dashboard user={user} />
 	} else if (user) {
-		return <Apply user={user} />
+		return <ApplicationForm />
 	} else {
 		/* @ts-expect-error Async React Server Component */
 		return <Landing />
@@ -33,26 +40,72 @@ export default function Home() {
 }
 
 async function Landing() {
+	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	const faqs = await getFaqs()
+
 	return (
 		<Box
 			direction="column"
 			alignItems="center"
-			justifyContent="center"
+			justifyContent="start"
 			gap="1rem"
-			style={{ height: '100%' }}
 		>
 			<Image src={LogoImage} alt="HackUTA logo" />
-			<div style={{ fontSize: '4rem', textAlign: 'center' }}>
+			<div className={styles.heroHeading1}>
 				October 7-8, 2023
-				<div style={{ fontSize: '2rem' }}>Details coming soon...</div>
+				<div className={styles.heroHeading2}>Details coming soon...</div>
 			</div>
 			<Box direction="row" gap="1rem">
-				{/* <LinkButton href="/api/auth/signin">
-          Apply
-        </LinkButton> */}
+				<LinkButton href="/api/auth/signin">Apply</LinkButton>
 				<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 					Sponsor
 				</LinkButton>
+			</Box>
+			<Box justifyContent="center">
+				<FaqSection faqs={faqs} />
+			</Box>
+			<Box as="main" direction="column" className={styles.main}>
+				<Box direction="column" className={styles.sectionContainer}>
+					<Box
+						as="section"
+						direction="column"
+						className={classNames(styles.titleSection)}
+					>
+						<Heading id="organizers" level={2} className={'anchorOffset'}>
+							Organizers
+						</Heading>
+						<div className={styles.Orgo}>
+							{Object.entries(AllTeams).map(([team, organizers]) => (
+								<>
+									<h3 className={styles.heroHeading2}>{team}</h3>
+									<Box justifyContent="center" wrap="wrap" gap="2rem">
+										{organizers.map(
+											({ name, major, avatar, socials }: OrganizerProps) => (
+												<Organizer
+													key={name}
+													name={name}
+													major={major}
+													avatar={avatar}
+													socials={socials}
+												/>
+											),
+										)}
+									</Box>
+								</>
+							))}
+						</div>
+					</Box>
+					<Box
+						as="section"
+						direction="column"
+						className={classNames(styles.titleSection)}
+					>
+						{/* <Heading id="sponsors" level={2} className={'anchorOffset'}>
+							Sponsors
+						</Heading> */}
+						{/* <SponsorHeader /> */}
+					</Box>
+				</Box>
 			</Box>
 		</Box>
 	)
@@ -125,27 +178,20 @@ function Dashboard({ user, posts }: { user: JsonUser; posts: Post[] }) {
 	}
 
 	return (
-		<Box as="main" direction="column" className={styles.main}>
-			<Header
-				items={[
-					{ link: '/', name: 'Dashboard' },
-					{ link: '/faq', name: 'FAQ' },
-					{ link: '/schedule', name: 'Schedule' },
-					// { link: '/organizers', name: 'Organizers' },
-					// { link: '/sponsors', name: 'Sponsors' },
-				]}
-				endItems={[
-					...(user?.roles?.includes('admin')
-						? [{ link: '/admin', name: 'Admin' }]
-						: []),
-					{ link: '/api/auth/signout', name: 'Sign out' },
-				]}
-			/>
+		<Box
+			direction="column"
+			className={classNames('pagePadding')}
+			style={{ flex: 1 }}
+			gap="1rem"
+		>
+			<h2>
+				Hello, {user.application?.firstName} {user.application?.lastName}
+			</h2>
 			<Box
-				direction="column"
-				className={classNames('pagePadding')}
-				style={{ flex: 1 }}
-				gap="1rem"
+				direction="row"
+				alignItems="start"
+				wrap="wrap"
+				className={classNames(styles.cardContainer)}
 			>
 				<h2>
 					Hello, {user.application?.firstName} {user.application?.lastName}
@@ -159,7 +205,6 @@ function Dashboard({ user, posts }: { user: JsonUser; posts: Post[] }) {
 					{children}
 				</Box>
 			</Box>
-			<SiteFooter />
 		</Box>
 	)
 }

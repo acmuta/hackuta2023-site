@@ -1,10 +1,11 @@
+import { ObjectId } from 'mongodb'
 import type { NextApiRequest } from 'next'
 
 import jsend, { NextJSendResponse } from '@/lib/api/jsend'
 import clientPromise from '@/lib/db'
 import User, { ApplicationSchema } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { getServerUser } from '@/pages/api/auth/[...nextauth]'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 export default async function handler(
 	req: NextApiRequest,
@@ -12,7 +13,7 @@ export default async function handler(
 ) {
 	try {
 		const client = await clientPromise
-		const user = await getServerUser(client, req, res)
+		const { user } = getEnhancedSession(req, res)
 		if (!user) {
 			throw new Error('Unauthenticated')
 		}
@@ -24,15 +25,22 @@ export default async function handler(
 		const body = req.body
 		const application = ApplicationSchema.parse(body)
 
+		if ((application.resume?.length ?? 0) > 1024 * 1024 * 1.34) {
+			throw new Error('Resume must be smaller than 1 MB')
+		}
+
 		await client
 			.db()
 			.collection<User>('users')
-			.updateOne(user, {
-				$set: {
-					application,
-					applied: new Date(),
+			.updateOne(
+				{ _id: new ObjectId(user._id) },
+				{
+					$set: {
+						application,
+						applied: new Date(),
+					},
 				},
-			})
+			)
 
 		res.status(200).json(jsend.success(true))
 	} catch (e) {

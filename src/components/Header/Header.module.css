@@ -1,34 +1,41 @@
 .header {
-  display: block;
+  --header-color-background: var(--color-primary);
+  --header-color-primary: var(--color-background);
+
+  display: flex;
+  flex-direction: column;
   position: fixed;
   width: 100%;
-  background: var(--color-white);
+  background: var(--header-color-background);
   z-index: var(--z-index-header);
 }
 
 .header a {
-  color: var(--color-primary);
+  color: var(--header-color-primary);
   font-size: 1rem;
   font-weight: var(--font-weight-bold);
   text-decoration: none;
   text-transform: uppercase;
 }
 
+.header a:active,
 .header a:hover {
-  color: var(--color-primary-darker);
   cursor: pointer;
+  filter: brightness(0.75);
+}
+
+.header nav {
+  width: 100%;
+}
+
+.header nav > * {
+  flex: 33%;
 }
 
 .icon {
   display: none;
-  color: var(--color-primary);
-}
-
-.header nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+  color: var(--header-color-primary);
+  margin-left: 1rem;
 }
 
 .header ul {
@@ -36,15 +43,16 @@
 }
 
 .header ul.horizontal {
-  padding: 1.5rem 3rem;
+  padding: 1rem;
 }
 
-.header ul.horizontal li.shiftRight {
-  margin-left: auto;
+.header ul.horizontalEnd {
+  padding-right: calc(max(min(10%, 6.25rem), 3.75rem) + 3.125rem * 2);
 }
 
 .header ul.vertical {
-  padding: 2.25rem 1.5rem;
+  display: none;
+  padding: 2.25rem 1.25rem;
   gap: 1.125rem;
   background-color: var(--color-primary);
 }
@@ -56,18 +64,18 @@
 }
 
 .header ul.vertical li:not(:last-child) {
-  border-bottom: 1px solid var(--color-white);
+  border-bottom: 1px solid var(--header-color-primary);
 }
 
 .header ul.vertical a {
-  color: var(--color-white);
-  font-size: 1.5rem;
+  color: var(--header-color-primary);
+  font-size: 1.25rem;
   font-weight: var(--font-weight-regular);
   width: 100%;
 }
 
 .header ul.vertical li .arrow {
-  color: var(--color-white);
+  color: var(--header-color-primary);
   margin-left: auto;
 }
 
@@ -78,22 +86,11 @@
 }
 
 @media screen and (max-width: 768px) {
-  /* Styles for mobile devices */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .header ul.horizontal {
-    padding: 1rem;
-  }
-
-  .header ul.horizontal li:not(.isRight) {
+  .header ul.horizontal:not(.horizontalEnd) {
     display: none;
   }
 
-  .header ul.horizontal li.isRight {
+  .header ul.horizontal li {
     display: inline-block;
     color: #003865;
     flex: none;
@@ -101,7 +98,31 @@
     flex-grow: 0;
   }
 
+  .header ul.vertical.open {
+    display: flex;
+  }
+
   .icon {
     display: inline-block;
   }
+
+  .icon:active,
+  .icon:hover {
+    filter: brightness(0.75);
+  }
+}
+
+.mlhBadge {
+  display: block;
+  max-width: 6.25rem;
+  min-width: 3.75rem;
+  position: fixed;
+  right: 3.125rem;
+  top: 0;
+  width: 10%;
+  z-index: var(--z-index-mlh-badge);
+}
+
+.mlhBadge img {
+  width: 100%;
 }

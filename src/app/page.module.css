@@ -3,28 +3,15 @@
 	min-height: 100vh;
 }
 
-.heroText {
-	font-size: 1.5rem;
-	color: var(--color-white);
+.heroHeading1 {
+	font-family: var(--font-heading);
+	font-size: 4rem;
+	text-align: center;
 }
 
-.heading2 {
-	color: var(--color-white);
-	font-family: var(--font-serif);
+.heroHeading2 {
+	font-family: var(--font-body);
 	font-size: 2rem;
-	font-weight: var(--font-weight-ultra-black);
-	width: 50rem;
-	max-width: 100%;
-}
-
-.heroHeading {
-	color: var(--color-white);
-	font-family: var(--font-serif);
-	font-size: 3rem;
-	font-weight: var(--font-weight-ultra-black);
-	width: 50rem;
-	max-width: 100%;
-	overflow-wrap: anywhere;
 }
 
 .fitParentWidth {
@@ -49,10 +36,12 @@
 .about {
 	padding: 0 !important;
 	background-position: center;
-	background-image: linear-gradient(135deg,
+	background-image: linear-gradient(
+			135deg,
 			rgba(0, 100, 177, 0.75),
-			rgba(11, 50, 80, 0.75)),
-		url("/images/hall.jpg");
+			rgba(11, 50, 80, 0.75)
+		),
+		url('/images/hall.jpg');
 }
 
 .sectionContainer {
@@ -66,7 +55,7 @@
 	gap: 0.25rem;
 }
 
-.sponsorLogoBox>a {
+.sponsorLogoBox > a {
 	padding: 3.125rem;
 }
 
@@ -86,10 +75,19 @@
 	flex: 1;
 	gap: 2rem;
 }
-
+.Orgo {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 @media screen and (max-width: 768px) {
-	.main {
-		--header-height: 3.5rem;
+	.heroHeading1 {
+		font-size: 2rem;
+	}
+
+	.heroHeading2 {
+		font-size: 1.5rem;
 	}
 
 	.applicationForm {
