@@ -61,6 +61,16 @@ export const Techorganizers: OrganizerData[] = [
 		},
 	},
 	{
+		avatar: '/images/Organizers/don.png',
+		name: 'Don Dang',
+		major: 'Computer Science',
+		socials: {
+			github: 'dondangp',
+			instagram: 'dangpdon',
+			linkedIn: 'don-dang-006858202',
+		},
+	},
+	{
 		avatar: '',
 		name: 'Aryan Mediratta',
 		major: 'Computer Science',
@@ -199,16 +209,6 @@ export const Logsorganizers: OrganizerData[] = [
 			github: 'Deji1127',
 			instagram: '',
 			linkedIn: 'ahmed-ibrahim-se',
-		},
-	},
-	{
-		avatar: '/images/Organizers/don.png',
-		name: 'Don Dang',
-		major: 'Computer Science',
-		socials: {
-			github: 'dondangp',
-			instagram: 'dangpdon',
-			linkedIn: 'don-dang-006858202',
 		},
 	},
 	{
