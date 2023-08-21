@@ -188,16 +188,6 @@ export const Outreach: OrganizerData[] = [
 			linkedIn: 'anivsurana',
 		},
 	},
-	{
-		avatar: '/images/Organizers/dua.png',
-		name: 'Dua Malik',
-		major: 'Computer Science',
-		socials: {
-			github: 'dua-malik',
-			instagram: 'duajmalik',
-			linkedIn: 'duajmalik',
-		},
-	},
 ]
 
 export const Logsorganizers: OrganizerData[] = [
@@ -297,16 +287,6 @@ export const MarketOrganizers: OrganizerData[] = [
 		avatar: '/images/Organizers/sami.png',
 		name: 'Sami Ali',
 		major: 'Marketing',
-		socials: {
-			github: '',
-			instagram: '',
-			linkedIn: '',
-		},
-	},
-	{
-		avatar: '/images/Organizers/kaylee.png',
-		name: 'Kaylee Scanlin',
-		major: '',
 		socials: {
 			github: '',
 			instagram: '',
