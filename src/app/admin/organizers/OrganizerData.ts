@@ -40,16 +40,16 @@ export const Techorganizers: OrganizerData[] = [
 			linkedIn: '',
 		},
 	},
-	{
-		avatar: '/images/Organizers/tony.png',
-		name: 'Tony Tang',
-		major: 'Computer Science',
-		socials: {
-			github: 'toni-tang',
-			instagram: 'tonytvng',
-			linkedIn: 'tony-tang-',
-		},
-	},
+	// {
+	// 	avatar: '/images/Organizers/tony.png',
+	// 	name: 'Tony Tang',
+	// 	major: 'Computer Science',
+	// 	socials: {
+	// 		github: 'toni-tang',
+	// 		instagram: 'tonytvng',
+	// 		linkedIn: 'tony-tang-',
+	// 	},
+	// },
 	{
 		avatar: '/images/Organizers/sneh.png',
 		name: 'Sneh Acharya',
