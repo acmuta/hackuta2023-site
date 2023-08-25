@@ -1,0 +1,14 @@
+/* users.module.css */
+.usersTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .usersTable th,
+  .usersTable td {
+    border: 1px solid #ddd;
+    padding: 1rem; /* Adjust the padding value as needed */
+    text-align: left;
+  }
+  
