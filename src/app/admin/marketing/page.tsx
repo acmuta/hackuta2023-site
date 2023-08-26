@@ -11,10 +11,14 @@ export default async function Marketing() {
 			.db()
 			.collection<User>('users')
 			.distinct('email')
+		const existingTags = await client
+			.db()
+			.collection<User>('users')
+			.distinct('receivedEmailTags')
 		return (
 			<Box direction="column" gap="1rem" style={{ width: '75%' }}>
 				<h1>Marketing Emails</h1>
-				<Form allEmails={allEmails} />
+				<Form allEmails={allEmails} existingTags={existingTags} />
 			</Box>
 		)
 	} catch (e) {

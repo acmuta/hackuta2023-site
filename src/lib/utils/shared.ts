@@ -1,3 +1,4 @@
+import doT from 'dot'
 import type { ObjectId } from 'mongodb'
 import { z } from 'zod'
 
@@ -49,6 +50,11 @@ export async function fetchPost<TJSend>(
 
 export function delay(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+export const doTSettings: doT.TemplateSettings = {
+	...doT.templateSettings,
+	strip: false,
 }
 
 /**

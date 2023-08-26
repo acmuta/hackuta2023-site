@@ -7,6 +7,7 @@ import styles from './styles.module.css'
 
 type CommonProps = {
 	boxProps?: BoxProps<DivProps>
+	suggestions?: string[]
 } & ErrorMessageProps &
 	LabelProps
 
@@ -30,6 +31,7 @@ export const TextInput = ({
 	description,
 	style,
 	boxProps,
+	suggestions,
 	...props
 }: TextInputProps) => {
 	const Component = isMultiline ? 'textarea' : 'input'
@@ -44,6 +46,7 @@ export const TextInput = ({
 				placeholder={placeholder}
 				className={styles.input}
 				style={style}
+				list={suggestions?.length ? `${id}-list` : undefined}
 				// TODO: a more elegant way to pass props
 				{...{
 					defaultValue: props.defaultValue,
@@ -60,6 +63,13 @@ export const TextInput = ({
 				}}
 			/>
 			<ErrorMessage errors={errors} />
+			{suggestions?.length ? (
+				<datalist id={`${id}-list`}>
+					{suggestions.map((s) => (
+						<option key={s} value={s}></option>
+					))}
+				</datalist>
+			) : undefined}
 		</Box>
 	)
 }
