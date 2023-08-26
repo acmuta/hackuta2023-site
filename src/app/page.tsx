@@ -6,7 +6,6 @@ import Image from 'next/image'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { Header } from '@/components/Header'
 import { Heading } from '@/components/Heading'
 import { Organizer, OrganizerProps } from '@/components/Organizer'
 import clientPromise from '@/lib/db'
@@ -151,7 +150,7 @@ async function Dashboard({ user }: { user: JsonUser }) {
 
 	// Generate check-in PIN
 	if (user.checkInPin === undefined) {
-		const pin = randomInt(100_000, 999_999)
+		const pin = randomInt(1000, 9999)
 		await client
 			.db()
 			.collection<User>('users')
@@ -185,7 +184,8 @@ async function Dashboard({ user }: { user: JsonUser }) {
 		children = [
 			<p key="kid">
 				We&apos;ve received your application. Check back later to see if you get
-				accepted, and feel free to contact the organizers if you need any
+				accepted, and feel free to contact the organizers at{' '}
+				<a href="mailto:hello@hackuta.org">hello@hackuta.org</a> if you need any
 				assistance!
 			</p>,
 		]
@@ -209,6 +209,11 @@ async function Dashboard({ user }: { user: JsonUser }) {
 			>
 				{...children}
 			</Box>
+			<div
+				dangerouslySetInnerHTML={{
+					__html: `<!-- hey you found my ugly hack! --><script>setInterval(() => window.location.reload(), 60_000)</script>`,
+				}}
+			></div>
 		</Box>
 	)
 }

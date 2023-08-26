@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
@@ -87,16 +87,6 @@ export function ApplicationForm() {
 			setErrors(fieldErrors)
 		}
 	}
-
-	useEffect(() => {
-		window.addEventListener(
-			'beforeunload',
-			(e) => {
-				e.preventDefault()
-			},
-			{ capture: true },
-		)
-	}, [])
 
 	return (
 		<Box
@@ -256,11 +246,6 @@ export function ApplicationForm() {
 			/>
 
 			<Heading level={3}>MLH Checkboxes</Heading>
-			<p>
-				We are currently in the process of partnering with MLH. The following 3
-				checkboxes are for this partnership. If we do not end up partnering with
-				MLH, your information will not be shared.
-			</p>
 			<Dropdown
 				id="agreedMlhCoC"
 				text={
