@@ -20,18 +20,6 @@ export const metadata = {
 		// https://realfavicongenerator.net
 		{
 			rel: 'icon',
-			type: 'image/svg+xml',
-			sizes: '512x512',
-			url: '/favicon.svg',
-		},
-		{
-			rel: 'icon',
-			type: 'image/png',
-			sizes: '48x48',
-			url: '/favicon.png',
-		},
-		{
-			rel: 'icon',
 			type: 'image/png',
 			sizes: '32x32',
 			url: '/favicon-32x32.png',
