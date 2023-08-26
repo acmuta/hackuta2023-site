@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import { Header } from '@/components/Header'
 import { Heading } from '@/components/Heading'
 import { Organizer, OrganizerProps } from '@/components/Organizer'
 import clientPromise from '@/lib/db'

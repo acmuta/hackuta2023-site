@@ -6,9 +6,9 @@ import { MarkDownRenderer } from '@/app/admin/post/MarkDownRenderer'
 import clientPromise from '@/lib/db'
 import Account from '@/lib/db/models/Account'
 import { Post } from '@/lib/db/models/Post'
-import { getEnhancedSession } from '@/lib/utils/server'
+import { doTSettings, getEnhancedSession } from '@/lib/utils/server'
 
-import { doTSettings, RenderContext } from './constants'
+import { RenderContext } from './constants'
 
 interface PostRendererProps {
 	post: Post

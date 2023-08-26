@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+
 import { Box } from '@/components/Box'
 import { TextInput } from '@/components/Form'
 
@@ -12,6 +14,7 @@ export interface MarkDownEditorProps {
 	description?: string
 	source?: string
 	onSourceChange?: (newSource: string) => void
+	onPreviewChange?: (newHtml: string) => void
 	height?: string
 }
 
@@ -21,6 +24,7 @@ export function MarkDownEditor({
 	height,
 	label,
 	onSourceChange,
+	onPreviewChange,
 	source,
 }: MarkDownEditorProps) {
 	return (
@@ -42,7 +46,11 @@ export function MarkDownEditor({
 				style={{ flex: 1, fontFamily: 'monospace' }}
 				boxProps={{ style: { flex: 1 } }}
 			/>
-			<Preview label={label} source={source} />
+			<Preview
+				label={label}
+				source={source}
+				onPreviewChange={onPreviewChange}
+			/>
 		</Box>
 	)
 }
@@ -50,13 +58,20 @@ export function MarkDownEditor({
 interface PreviewProps {
 	label: string
 	source: string | undefined
+	onPreviewChange?: (newHtml: string) => void
 }
 
-function Preview({ label, source }: PreviewProps) {
+function Preview({ label, source, onPreviewChange }: PreviewProps) {
+	const ref = useRef<HTMLElement>(null)
+	useEffect(() => {
+		setInterval(() => {
+			onPreviewChange?.(ref.current?.innerHTML ?? '')
+		}, 1000)
+	}, [onPreviewChange])
 	return (
 		<Box direction="column" className={styles.preview}>
 			<span>{label} Preview</span>
-			<article>
+			<article ref={ref}>
 				{source ? <MarkDownRenderer>{source}</MarkDownRenderer> : undefined}
 			</article>
 		</Box>

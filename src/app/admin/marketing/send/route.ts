@@ -7,7 +7,7 @@ import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
 import sendEmail from '@/lib/email'
 import logger from '@/lib/logger'
-import { delay } from '@/lib/utils/shared'
+import { delay, doTSettings } from '@/lib/utils/shared'
 
 import { CooldownMs, PostBodySchema } from '../constants'
 
@@ -50,8 +50,8 @@ export async function POST(request: Request) {
 			`[/admin/marketing/send] sending emails to ${users.length} addresses: ${body.subject} ${body.tag}`,
 		)
 
-		const htmlRenderer = doT.template(body.html)
-		const textRenderer = doT.template(body.text)
+		const htmlRenderer = doT.template(body.html, doTSettings)
+		const textRenderer = doT.template(body.text, doTSettings)
 
 		for (const user of users) {
 			const renderContext = {
