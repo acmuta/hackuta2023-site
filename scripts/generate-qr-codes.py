@@ -17,7 +17,7 @@ def generate_qr_code_with_text(data, filename, msd, hex_num):
     data_text = msd + hex_num
     draw = ImageDraw.Draw(img)
     draw.fontmode='1'
-    font_path = "D:\Git_projects\hackuta2023-site-1\scripts\CONSOLAB.TTF"
+    font_path = os.path.join(os.path.dirname(__file__), "CONSOLAB.TTF")
     font = ImageFont.truetype(font_path, 16)  # You can use a different font if needed
     text = f'{data_text}'
     text_width, text_height = draw.textsize(text, font=font)
