@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ElementProps, HeaderProps } from 'react-html-props';
-export type MarqueeHeaderProps = HeaderProps
+import { DivProps, ElementProps } from 'react-html-props';
 
+export type MarqueeHeaderProps = DivProps
 export const MarqueeHeader = ({ ...props }: MarqueeHeaderProps) => {
 	return (
 		<div className='bg-hackuta-black' {...props}>
