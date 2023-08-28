@@ -6,7 +6,7 @@ export const MarqueeHeader = ({ ...props }: MarqueeHeaderProps) => {
 	return (
 		<div className='bg-hackuta-black' {...props}>
 			<div className='flex flex-row justify-center gap-8 px-24 py-4 my-2 bg-hackuta-black text-hackuta-beige font-heading border-t-hackuta-beige border-b-hackuta-beige border-t-8 border-b-8'>
-				<span>Arlington's One and Only Hackathon</span>
+				<span>Arlington&apos;s One and Only Hackathon</span>
 				<span>The Greatest Show Around</span>
 			</div>
 			<Link

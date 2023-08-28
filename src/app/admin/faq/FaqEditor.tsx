@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/Button"
 import { TextInput } from "@/components/Form"
 import type { FaqModel } from "@/lib/db/models/Faq"
-import { stringifyError,ToJsonValue } from '@/lib/utils/client'
+import { stringifyError, ToJsonValue } from '@/lib/utils/client'
 
 import { MarkDownEditor } from "../post/MarkDownEditor"
 import type { FaqRoute } from './[id]/route'
@@ -28,7 +28,6 @@ export default function FaqEditor({
 			<table className={'border'}>
 				<thead>
 					<tr>
-						<th scope='col'>Order</th>
 						<th scope='col' className={'border'}>Question</th>
 						<th scope='col'>Answer</th>
 						<th scope='col'>Actions</th>
@@ -36,8 +35,7 @@ export default function FaqEditor({
 				</thead>
 				<tbody>
 					{faqs?.map(({ _id: id, q, a }) => (
-						<tr>
-							<td className={'border'}>DRAG</td>
+						<tr key={id}>
 							<td className={'border'}>{q}</td>
 							<td className={'border'}><code>{a}</code></td>
 							<td className={'border flex flex-row gap-2'}>
@@ -96,8 +94,22 @@ export default function FaqEditor({
 					source={a} onSourceChange={setA}
 					height='10rem'
 				/>
-				<div>
+				{/* <Dropdown
+					id='next'
+					text='Next Pointer'
+					options={[{ label: '', value: '' }]}
+					selectProps={{
+						value: next,
+						onChange: (v) => setNext(v as any),
+					}}
+				/> */}
+				<div className={'flex flex-row gap-2'}>
 					<Button type="submit">{editingId ? 'Save' : 'Create New'}</Button>
+					{editingId ? <Button kind='secondary' onClick={() => {
+						setEditingId(undefined)
+						setA('')
+						setQ('')
+					}}>Cancel</Button> : undefined}
 				</div>
 			</form>
 		</article>

@@ -23,6 +23,7 @@ const SchemaMap: Record<SchemaName, ZodTypeAny> = {
 	faq: FaqSchema,
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function JsonEditor({ text, postUrl, schema }: Props) {
 	const [textVal, setTextVal] = useState(text)
 	const [error, setError] = useState<string>()

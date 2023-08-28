@@ -30,6 +30,7 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 			</header>
 			<div className={twJoin('flex items-center justify-center px-8 py-4', 'border-2 border-hackuta-black border-dashed border-b-0')}>
 				<Link href={companyUrl}>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img src={imageUrl} alt={companyName} className='my-2 object-contain h-[100px]' />
 				</Link>
 			</div>
