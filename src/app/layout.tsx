@@ -8,7 +8,6 @@ import { MarqueeHeader } from '@/app/MarqueeHeader'
 import { Box } from '@/components/Box'
 import { siteName } from '@/lib/utils/server'
 
-import styles from './layout.module.css'
 import SiteFooter from './SiteFooter'
 
 /** fonts **/
@@ -69,7 +68,7 @@ export default function RootLayout({
 		<html lang="en" className={twMerge(bungee.variable, atkinson.variable, saoTorpes.variable, shrimp.variable)}>
 			<Box as="body" direction="column" className='p-2'>
 				<MarqueeHeader />
-				<main className={styles.main}>{children}</main>
+				<main className='flex-[1]'>{children}</main>
 				<SiteFooter />
 			</Box>
 		</html>
