@@ -1,8 +1,8 @@
 import { ArrowRight } from 'iconoir-react'
 import { ReactNode } from 'react'
 import { DetailsProps, SummaryProps } from 'react-html-props'
-
 import { twMerge } from 'tailwind-merge'
+
 import styles from './Accordion.module.css'
 
 export type ButtonStyle = 'primary' | 'secondary'

@@ -1,14 +1,15 @@
 import './globals.css'
 
-import { Box } from '@/components/Box'
-import { siteName } from '@/lib/utils/server'
-
-import { MarqueeHeader } from '@/app/MarqueeHeader'
 import { Atkinson_Hyperlegible, Bungee } from 'next/font/google'
 import localFont from 'next/font/local'
 import { twMerge } from 'tailwind-merge'
-import SiteFooter from './SiteFooter'
+
+import { MarqueeHeader } from '@/app/MarqueeHeader'
+import { Box } from '@/components/Box'
+import { siteName } from '@/lib/utils/server'
+
 import styles from './layout.module.css'
+import SiteFooter from './SiteFooter'
 
 /** fonts **/
 export const bungee = Bungee({

@@ -1,9 +1,10 @@
+import { WithId } from 'mongodb'
+
 import { Accordion } from '@/components/Accordion'
 import { FaqModel } from '@/lib/db/models/Faq'
 
-import { WithId } from 'mongodb'
-import { WavyPattern } from '../WavyPattern'
 import { queryDbForItems } from '../utils'
+import { WavyPattern } from '../WavyPattern'
 
 export function FaqSection({
 	faqs,

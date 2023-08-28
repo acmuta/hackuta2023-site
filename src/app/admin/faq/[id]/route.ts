@@ -1,10 +1,10 @@
+import { ObjectId } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 
 import clientPromise from '@/lib/db'
 import type { FaqModel } from '@/lib/db/models/Faq'
 import logger from '@/lib/logger'
-import { ObjectId } from 'mongodb'
-import { z } from 'zod'
 
 interface RouteProps {
 	params: { id: string }

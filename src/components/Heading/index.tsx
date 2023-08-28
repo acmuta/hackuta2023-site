@@ -1,6 +1,6 @@
 import { HeadingProps as HtmlHeadingProps } from 'react-html-props'
-
 import { twMerge } from 'tailwind-merge'
+
 import styles from './Heading.module.css'
 
 export type HeadingProps = HtmlHeadingProps & {

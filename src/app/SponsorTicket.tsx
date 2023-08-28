@@ -1,5 +1,6 @@
 import { VerifiedBadge } from 'iconoir-react'
-import { DivProps, SVGProps, SpanProps } from 'react-html-props'
+import Link from 'next/link'
+import { DivProps, SpanProps, SVGProps } from 'react-html-props'
 import { twJoin, twMerge } from 'tailwind-merge'
 
 export type SafeNumber = number | `${number}`
@@ -11,7 +12,7 @@ export type SponsorTicketProps = DivProps & {
 	kind: 'Sponsor'|'Partner'
 }
 
-export const SponsorTicket = ({className, companyName, companyUrl, imageUrl, kind, ...props}: SponsorTicketProps) => {
+export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props}: SponsorTicketProps) => {
 	const Separator = ({className, ...props}: SpanProps) =>
 		<span aria-hidden className={twMerge('h-full bg-black w-[1px]', className)} {...props}></span>
 	const starSize = 16;
@@ -28,7 +29,9 @@ export const SponsorTicket = ({className, companyName, companyUrl, imageUrl, kin
 				<span className='tracking-widest'>#0123456</span>
 			</header>
 			<div className={twJoin('flex items-center justify-center px-8 py-4', 'border-2 border-hackuta-black border-dashed border-b-0')}>
-				<img src={imageUrl} alt={companyName} className='my-2 object-contain h-[100px]' />
+				<Link href={companyUrl}>
+					<img src={imageUrl} alt={companyName} className='my-2 object-contain h-[100px]' />
+				</Link>
 			</div>
 			<footer className={twMerge("flex flex-row justify-between items-center gap-8 px-6 py-4  font-shrimp uppercase text-white", botRadius, kind === 'Sponsor' ? 'bg-hackuta-black' : 'bg-[#cf4227]')}>
 				<div className="flex flex-row gap-1 opacity-25">
