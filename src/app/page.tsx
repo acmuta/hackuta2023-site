@@ -42,7 +42,7 @@ export default async function Home() {
 type SeparatorProps = SVGProps
 const Separator = ({ ...props }: SeparatorProps) => {
 	return (
-		<svg width="1572" height="10" viewBox="0 0 1572 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden {...props}>
+		<svg viewBox="0 0 1572 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden {...props}>
 			<line y1="6" x2="1572" y2="6" stroke="#8C1B16" stroke-width="10" stroke-dasharray="24 24" />
 		</svg>
 	)
@@ -102,7 +102,7 @@ async function Landing() {
 						<CTAArrow className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'} />
 					</div>
 				</div>
-				<Separator />
+				<Separator className='h-[10px] w-full' />
 				<section className="flex flex-col self-start gap-8">
 					<h2 className='flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl'>
 						Schedule
