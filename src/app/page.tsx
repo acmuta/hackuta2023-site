@@ -96,7 +96,7 @@ async function Landing() {
 							Sponsor
 						</LinkButton>
 					</Box>
-					<HackTicket className='animate-[jump-shaking_0.5s-ease-in-out_1]' />
+					<HackTicket className='animate-[jump-shaking_0.5s_ease-in-out_1]' />
 					<div className="absolute left-[20%] top-[20%] rotate-[-15deg] z-10">
 						<div className='flex py-2 px-6 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta'>Don&apos;t miss out!</div>
 						<CTAArrow className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'} />
