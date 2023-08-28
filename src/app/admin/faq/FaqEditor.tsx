@@ -1,26 +1,34 @@
 'use client'
 
-import { WithId } from 'mongodb'
 import { useState } from "react"
 
 import { Button } from "@/components/Button"
-import { TextInput } from "@/components/Form"
-import type { FaqModel } from "@/lib/db/models/Faq"
-import { stringifyError, ToJsonValue } from '@/lib/utils/client'
+import { Dropdown, Option, TextInput } from "@/components/Form"
+import { stringifyError } from '@/lib/utils/client'
 
 import { MarkDownEditor } from "../post/MarkDownEditor"
 import type { FaqRoute } from './[id]/route'
 
 export interface FaqEditorProps {
-	faqs: ToJsonValue<WithId<FaqModel>>[],
+	faqs: { _id: string, q: string, a: string, next: string | null }[],
 }
 
 export default function FaqEditor({
 	faqs,
 }: FaqEditorProps) {
+	const NullOption = Object.freeze({ label: 'NULL', value: 'null' })
+
 	const [editingId, setEditingId] = useState<string | undefined>()
 	const [a, setA] = useState('')
 	const [q, setQ] = useState('')
+	const [next, setNext] = useState<Option>(NullOption)
+
+	const cancelEdit = () => {
+		setEditingId(undefined)
+		setA('')
+		setQ('')
+		setNext(NullOption)
+	}
 
 	return (
 		<article className={'flex flex-col gap-4'}>
@@ -34,29 +42,23 @@ export default function FaqEditor({
 					</tr>
 				</thead>
 				<tbody>
-					{faqs?.map(({ _id: id, q, a }) => (
-						<tr key={id}>
+					{faqs?.map(({ _id: id, q, a, next }) => (
+						<tr key={id} className={editingId === id ? 'bg-hackuta-yellow' : ''}>
 							<td className={'border'}>{q}</td>
 							<td className={'border'}><code>{a}</code></td>
 							<td className={'border flex flex-row gap-2'}>
 								<Button kind="secondary" onClick={() => {
-									setEditingId(id.toString())
+									if (editingId === id) {
+										return
+									}
+									setEditingId(id)
 									setA(a)
 									setQ(q)
+									setNext({
+										label: next ? faqs.find((v) => v._id === next)!.q : 'NULL',
+										value: next ?? 'null',
+									})
 								}}>Edit</Button>
-								<Button kind="secondary" className='bg-hackuta-red' onClick={async () => {
-									const confirmed = confirm(`Confirm: delete FAQ "${q}"`)
-									if (confirmed) {
-										try {
-											await fetch(`/admin/faq/${id}`, {
-												method: 'DELETE',
-											})
-											window.location.reload()
-										} catch (e) {
-											alert(`Error: ${stringifyError(e)}`)
-										}
-									}
-								}}>Delete</Button>
 							</td>
 						</tr>
 					))}
@@ -74,7 +76,7 @@ export default function FaqEditor({
 						body: JSON.stringify({
 							q,
 							a,
-							next: null,
+							next: next.value === 'null' ? null : next.value,
 						} satisfies FaqRoute),
 					})
 					window.location.reload()
@@ -94,22 +96,39 @@ export default function FaqEditor({
 					source={a} onSourceChange={setA}
 					height='10rem'
 				/>
-				{/* <Dropdown
+				<Dropdown
 					id='next'
 					text='Next Pointer'
-					options={[{ label: '', value: '' }]}
+					description='Which FAQ entry should be the next one of this; NULL if this one should be the last one. (Yes, the FAQs are actually stored as a linked list in the database)'
+					options={[
+						...faqs
+							.filter((v) => v._id !== editingId)
+							.map((v) => ({ label: v.q, value: v._id })),
+						NullOption,
+					]}
 					selectProps={{
 						value: next,
 						onChange: (v) => setNext(v as any),
 					}}
-				/> */}
+				/>
 				<div className={'flex flex-row gap-2'}>
 					<Button type="submit">{editingId ? 'Save' : 'Create New'}</Button>
-					{editingId ? <Button kind='secondary' onClick={() => {
-						setEditingId(undefined)
-						setA('')
-						setQ('')
-					}}>Cancel</Button> : undefined}
+					{editingId ? <>
+						<Button kind='secondary' onClick={cancelEdit}>Cancel</Button>
+						<Button kind="secondary" className='bg-hackuta-red' onClick={async () => {
+							const confirmed = confirm(`Confirm: delete FAQ - ${q}`)
+							if (confirmed) {
+								try {
+									await fetch(`/admin/faq/${editingId}`, {
+										method: 'DELETE',
+									})
+									window.location.reload()
+								} catch (e) {
+									alert(`Error: ${stringifyError(e)}`)
+								}
+							}
+						}}>Delete</Button>
+					</> : undefined}
 				</div>
 			</form>
 		</article>

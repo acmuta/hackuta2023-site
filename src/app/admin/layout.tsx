@@ -24,7 +24,6 @@ export default async function AdminLayout({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Links = {
 	'/admin/users': 'Users',
-	'/admin/teams': 'Teams',
 	'/admin/schedule': 'Schedule',
 	'/admin/post': 'Posts',
 	'/admin/organizers': 'Organizers',
@@ -61,9 +60,6 @@ function Sidebar() {
 			</li>
 			<li>
 				<Link href="/admin/schedule">Schedule</Link>
-			</li>
-			<li>
-				<Link href="/admin/teams">Teams</Link>
 			</li>
 			<li>
 				<Link href="/admin/users">Users</Link>
