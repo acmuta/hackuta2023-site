@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: "lts/*"
           cache: "npm"
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - run: npm run lint
