@@ -1,9 +1,10 @@
+import { WithId } from 'mongodb'
+
 import { Accordion } from '@/components/Accordion'
 import { WavyPattern } from '@/components/WavyPattern'
 import clientPromise from '@/lib/db'
 import { FaqModel } from '@/lib/db/models/Faq'
 
-import { WithId } from 'mongodb'
 import { MarkDownRenderer } from '../admin/post/MarkDownRenderer'
 
 export function FaqSection({
