@@ -4,7 +4,7 @@ import { DivProps, SpanProps, SVGProps } from 'react-html-props'
 import { twJoin, twMerge } from 'tailwind-merge'
 
 export type SafeNumber = number | `${number}`
-
+export type SponsorTicketKind = SponsorTicketProps['kind']
 export type SponsorTicketProps = DivProps & {
 	companyName: string,
 	companyUrl: string,

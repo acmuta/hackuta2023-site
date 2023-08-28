@@ -9,7 +9,7 @@ import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
 import { ClippedBadge } from '@/components/ClippedBadge'
 import { HackTicket } from '@/components/HackTicket'
-import { SponsorTicket } from '@/components/SponsorTicket'
+import { SponsorTicket, SponsorTicketKind } from '@/components/SponsorTicket'
 import { WavyPattern } from '@/components/WavyPattern'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
@@ -73,6 +73,32 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 async function Landing() {
 	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
 	const faqs = await getFaqs()
+	const sponsors = [
+		{
+			companyName: "StateFarm",
+			companyUrl: "https://www.statefarm.com/",
+			imageUrl: "/images/Sponsors/statefarm.svg",
+			kind: "Sponsor",
+		},
+		{
+			companyName: "Mouser Electronics",
+			companyUrl: "https://www.mouser.com/",
+			imageUrl: "/images/Sponsors/mouser-electronics.svg",
+			kind: "Sponsor",
+		},
+		{
+			companyName: "Major League Hacking",
+			companyUrl: "https://mlh.io/",
+			imageUrl: "/images/Partners/mlh-logo-color-dark.svg",
+			kind: "Partner",
+		},
+		{
+			companyName: "Standout Stickers",
+			companyUrl: "https://www.standoutstickers.com/",
+			imageUrl: "/images/Partners/standout-stickers.jpg",
+			kind: "Partner",
+		},
+	]
 
 	return (<>
 		<Box
@@ -119,10 +145,14 @@ async function Landing() {
 					<WavyPattern className='w-32' strokeColor='rgb(14 48 76)' />
 				</h2>
 				<div className={twJoin("grid grid-cols-3 auto-rows-fr gap-4", "md:grid-cols-2")}>
-					<SponsorTicket companyName="StateFarm" companyUrl="https://www.statefarm.com/" imageUrl="/images/Sponsors/statefarm.svg" kind="Sponsor" />
-					<SponsorTicket companyName="Mouser Electronics" companyUrl="https://www.mouser.com/" imageUrl="/images/Sponsors/mouser-electronics.svg" kind="Sponsor" />
-					<SponsorTicket companyName="Major League Hacking" companyUrl="https://mlh.io/" imageUrl="/images/Partners/mlh-logo-color-dark.svg" kind="Partner" />
-					<SponsorTicket companyName="Standout Stickers" companyUrl="https://www.standoutstickers.com/" imageUrl="/images/Partners/standout-stickers.jpg" kind="Partner" />
+					{sponsors.map((company, index) => (
+						<SponsorTicket
+							key={`${company.companyName}-${index}`}
+							companyName={company.companyName}
+							companyUrl={company.companyUrl}
+							imageUrl={company.imageUrl}
+							kind={company.kind as SponsorTicketKind} />
+					))}
 				</div>
 			</div>
 		</Box>
