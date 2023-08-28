@@ -7,6 +7,9 @@ import { twJoin } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import { ClippedBadge } from '@/components/ClippedBadge'
+import { SponsorTicket } from '@/components/SponsorTicket'
+import { WavyPattern } from '@/components/WavyPattern'
 import clientPromise from '@/lib/db'
 import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
@@ -14,13 +17,10 @@ import { getEnhancedSession } from '@/lib/utils/server'
 
 import { ApplicationForm } from './ApplicationForm'
 import Card from './Card'
-import { ClippedBadge } from './ClippedBadge'
 import { FaqSection, getFaqs } from './faq/utils'
 import { HackTicket } from './HackTicket'
 import styles from './page.module.css'
 import PostRenderer from './post/[slug]/PostRenderer'
-import { SponsorTicket } from './SponsorTicket'
-import { WavyPattern } from './WavyPattern'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
