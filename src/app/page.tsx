@@ -15,10 +15,10 @@ import { Post } from '@/lib/db/models/Post'
 import User, { JsonUser } from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
+import { HackTicket } from '@/components/HackTicket'
 import { ApplicationForm } from './ApplicationForm'
 import Card from './Card'
 import { FaqSection, getFaqs } from './faq/utils'
-import { HackTicket } from './HackTicket'
 import styles from './page.module.css'
 import PostRenderer from './post/[slug]/PostRenderer'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
