@@ -1,9 +1,10 @@
 import { WithId } from 'mongodb'
 
 import { Accordion } from '@/components/Accordion'
+import clientPromise from '@/lib/db'
 import { FaqModel } from '@/lib/db/models/Faq'
+import logger from '@/lib/logger'
 
-import { queryDbForItems } from '../utils'
 import { WavyPattern } from '../WavyPattern'
 
 export function FaqSection({
@@ -47,5 +48,29 @@ export function FaqSection({
 }
 
 export async function getFaqs(): Promise<WithId<FaqModel>[] | undefined> {
-	return queryDbForItems<FaqModel>('faqs', '[@/app/faq/page.tsx#getFaqs]') as Promise<WithId<FaqModel>[]>
+	try {
+		const client = await clientPromise
+		const faqs = await client.db()
+			.collection<FaqModel>('faqs')
+			.find()
+			.toArray()
+		
+		// Convert the linked list into an array.
+
+		// I have discovered a truly marvelous O(N) solution for this,
+		// which the space between the comments is too small to contain.
+
+		// O(N^2) brute force:
+		const head = faqs.find((head) => !faqs.find((v) => v.next?.toString() === head._id.toString()))
+		const ans: typeof faqs = []
+		let node = head
+		while (node) {
+			ans.push(node)
+			node = faqs.find((v) => v._id.toString() === node!.next?.toString())
+		}
+		return ans
+	} catch (e) {
+		logger.error(e, 'getFaqs')
+		return undefined
+	}
 }

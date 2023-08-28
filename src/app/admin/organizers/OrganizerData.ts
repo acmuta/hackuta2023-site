@@ -147,28 +147,6 @@ export const Executives: OrganizerData[] = [
 		},
 	},
 ]
-export const Outreach: OrganizerData[] = [
-	{
-		avatar: '/images/Organizers/aviral.png',
-		name: 'Aviral Saxena',
-		major: 'Computer Science',
-		socials: {
-			github: 'AviralSaxena',
-			instagram: '_avi.c',
-			linkedIn: '',
-		},
-	},
-	{
-		avatar: '/images/Organizers/aniv.png',
-		name: 'Aniv Surana',
-		major: 'Computer Science',
-		socials: {
-			github: 'anivsurana',
-			instagram: 'aniv.surana',
-			linkedIn: 'anivsurana',
-		},
-	},
-]
 
 export const Logsorganizers: OrganizerData[] = [
 	{
@@ -296,14 +274,33 @@ export const CorpoOrganizers: OrganizerData[] = [
 			linkedIn: 'asminpothula',
 		},
 	},
+	{
+		avatar: '/images/Organizers/aviral.png',
+		name: 'Aviral Saxena',
+		major: 'Computer Science',
+		socials: {
+			github: 'AviralSaxena',
+			instagram: '_avi.c',
+			linkedIn: '',
+		},
+	},
+	{
+		avatar: '/images/Organizers/aniv.png',
+		name: 'Aniv Surana',
+		major: 'Computer Science',
+		socials: {
+			github: 'anivsurana',
+			instagram: 'aniv.surana',
+			linkedIn: 'anivsurana',
+		},
+	},
 ]
 
 export const AllTeams: Record<string, OrganizerData[]> = {
 	'Executive Team': Executives,
-	'Tech Team': Techorganizers,
+	'Corporate Team': CorpoOrganizers,
 	'Experience Team': XPorganizers,
 	'Logistics Team': Logsorganizers,
-	'Corporate Team': CorpoOrganizers,
 	'Marketing Team': MarketOrganizers,
-	'Outreach Team': Outreach,
+	'Tech Team': Techorganizers,
 }

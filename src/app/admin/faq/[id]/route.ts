@@ -21,16 +21,14 @@ export async function DELETE(request: NextRequest, { params }: RouteProps) {
 			throw new Error("Entry being deleted doesn't exist")
 		}
 
-		// Remove current entry from the list
+		// Remove current entry from the linked list
 		await faqs.updateOne(
 			{ next: { $eq: currentId } },
 			{ $set: { next: currentEntry.next } },
 		)
 
 		// Delete current entry
-		await faqs.deleteOne(
-			{ _id: new ObjectId(params.id) }
-		)
+		await faqs.deleteOne({ _id: new ObjectId(params.id) })
 
 		return NextResponse.json({})
 	} catch (e) {
@@ -54,12 +52,14 @@ export async function POST(request: NextRequest) {
 		const faqs = client.db().collection<FaqModel>('faqs')
 
 		const newNextId = body.next ? new ObjectId(body.next) : null
+		// Insert entry into database collection
 		const newEntry = await faqs.insertOne({
 			q: body.q,
 			a: body.a,
 			next: newNextId,
 		})
 
+		// Insert entry into linked list
 		await faqs.updateOne(
 			{ next: { $eq: newNextId } },
 			{ $set: { next: newEntry.insertedId } },
@@ -85,30 +85,30 @@ export async function PUT(request: NextRequest, { params }: RouteProps) {
 			throw new Error("Entry being modified doesn't exist")
 		}
 
-		// Remove current entry from the list
-		await faqs.updateOne(
-			{ next: { $eq: currentId } },
-			{ $set: { next: currentEntry.next } },
-		)
+		const newNextId = body.next ? new ObjectId(body.next) : null
+		// Check if next has changed
+		if (body.next !== (currentEntry.next?.toString() ?? null)) {
+			// Remove current entry from the linked list
+			await faqs.updateOne(
+				{ next: { $eq: currentId } },
+				{ $set: { next: currentEntry.next } },
+			)
+
+			// Insert current entry back into linked list
+			await faqs.updateOne(
+				{ next: { $eq: newNextId } },
+				{ $set: { next: currentId } },
+			)
+		}
 
 		// Update current entry
-		const newNextId = body.next ? new ObjectId(body.next) : null
-		await faqs.updateOne(
-			currentEntry,
-			{
-				$set: {
-					q: body.q,
-					a: body.a,
-					next: newNextId,
-				},
-			}
-		)
-
-		// Insert current entry back into flow
-		await faqs.updateOne(
-			{ next: { $eq: newNextId } },
-			{ $set: { next: currentId } },
-		)
+		await faqs.updateOne(currentEntry, {
+			$set: {
+				q: body.q,
+				a: body.a,
+				next: newNextId,
+			},
+		})
 
 		return NextResponse.json({})
 	} catch (e) {
