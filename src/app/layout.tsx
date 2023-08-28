@@ -4,8 +4,8 @@ import { Atkinson_Hyperlegible, Bungee } from 'next/font/google'
 import localFont from 'next/font/local'
 import { twMerge } from 'tailwind-merge'
 
-import { MarqueeHeader } from '@/app/MarqueeHeader'
 import { Box } from '@/components/Box'
+import { MarqueeHeader } from '@/components/MarqueeHeader'
 import { siteName } from '@/lib/utils/server'
 
 import SiteFooter from './SiteFooter'

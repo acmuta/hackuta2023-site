@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { Footer, FooterNav } from '@/components/Footer'
 
-import { MarqueeHeader } from './MarqueeHeader'
+import { MarqueeHeader } from '../components/MarqueeHeader'
 
 export default function SiteFooter() {
 	return (
