@@ -67,7 +67,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={twMerge(bungee.variable, atkinson.variable, saoTorpes.variable, shrimp.variable)}>
 			<Box as="body" direction="column" className='p-2'>
-				<MarqueeHeader />
+				<MarqueeHeader showBadge />
 				<main className='flex-[1]'>{children}</main>
 				<SiteFooter />
 			</Box>
