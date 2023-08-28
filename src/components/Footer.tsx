@@ -47,7 +47,6 @@ export const FooterNav = ({
 	return (
 		<section className={twJoin(
 			'flex flex-col gap-2',
-			'bg-hackuta-black',
 		)} {...props}>
 			<h3 className={'font-heading text-4xl'}>
 				{title}
