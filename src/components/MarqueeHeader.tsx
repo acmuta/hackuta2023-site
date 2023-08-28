@@ -9,25 +9,17 @@ export const MarqueeHeader = ({ ...props }: MarqueeHeaderProps) => {
 				<span>Arlington&apos;s One and Only Hackathon</span>
 				<span>The Greatest Show Around</span>
 			</div>
-			<Link
-				href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=gray"
-			>
-				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img
-					src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-gray.svg"
-					alt="Major League Hacking 2024 Hackathon Season"
-					className={'block w-[100px] absolute top-0 max-w-[100px] min-w-[60px] right-[min(5vw,50px)] z-50'}
-				/>
-			</Link>
+			<MLHTrustBadge color='gray' imageClassName={'block w-[100px] absolute top-0 max-w-[100px] min-w-[60px] right-[min(5vw,50px)] z-50'} />
 		</div>
 	)
 }
 
 export type MLHTrustBadgeColor = MLHTrustBadgeProps['color']
 export type MLHTrustBadgeProps = ElementProps & {
-	color: 'white' | 'black' | 'gray' | 'red' | 'blue' | 'yellow'
+	color: 'white' | 'black' | 'gray' | 'red' | 'blue' | 'yellow',
+	imageClassName?: string,
 }
-export const MLHTrustBadge = ({ color }: MLHTrustBadgeProps) => {
+export const MLHTrustBadge = ({ color, imageClassName }: MLHTrustBadgeProps) => {
 	return (
 		<Link
 			href={`https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=${color}`}
@@ -36,6 +28,7 @@ export const MLHTrustBadge = ({ color }: MLHTrustBadgeProps) => {
 			<img
 				src={`https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-${color}.svg`}
 				alt="Major League Hacking 2024 Hackathon Season"
+				className={imageClassName}
 			/>
 		</Link>
 	)
