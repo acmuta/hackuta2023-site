@@ -1,4 +1,6 @@
-@import url(https://fonts.bunny.net/css?family=sancreek:400|solway:300,400,700);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
 	--color-black: #000;
@@ -9,7 +11,7 @@
 	--color-green: #228848;
 	--color-red: #d50032;
 
-	--color-background: #ebdf98;
+	--color-background: #D2C2A9;
 	--color-body: #323e52;
 	--color-primary: #921F05;
 	--color-primary-darker: #611707;
@@ -17,9 +19,6 @@
 	--color-primary-body: var(--color-white);
 	--color-outline: #059266;
 	--color-error: var(--color-red);
-
-	--font-heading: 'Sancreek', display;
-	--font-body: 'Solway', serif;
 
 	--font-weight-light: 300;
 	--font-weight-regular: 400;
@@ -51,22 +50,12 @@ body {
 	position: relative;
 	min-height: 100vh;
 	width: 100%;
-	padding: 0;
 	margin: 0;
+	padding: 0;
 	background: var(--color-background);
-	color: var(--color-body);
 	font-family: var(--font-body);
 	font-size: 100%;
 	scroll-behavior: smooth;
-}
-
-body>.layout-background-overlay {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: local center/100% repeat-y url("/images/overlay.png");
-	mix-blend-mode: soft-light;
-	z-index: -1;
 }
 
 /**

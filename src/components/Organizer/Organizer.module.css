@@ -9,7 +9,7 @@
 }
 
 .avatar {
-	border-radius: 50%;
+	border-radius: 9999px;
 	height: 6.25rem;
 	width: 6.25rem;
 }

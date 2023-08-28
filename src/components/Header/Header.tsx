@@ -107,7 +107,7 @@ export const Header = ({ items, endItems }: HeaderProps) => {
 				>
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img
-						src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-yellow.svg"
+						src="https://s3.amazonaws.com/logged-assets/trust-badge/2024/mlh-trust-badge-2024-blue.svg"
 						alt="Major League Hacking 2024 Hackathon Season"
 					/>
 				</Link>

@@ -1,6 +1,6 @@
-import classNames from 'classnames'
 import { HeadingProps as HtmlHeadingProps } from 'react-html-props'
 
+import { twMerge } from 'tailwind-merge'
 import styles from './Heading.module.css'
 
 export type HeadingProps = HtmlHeadingProps & {
@@ -17,7 +17,7 @@ export const Heading = ({
 	const HeadingTag = Tag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
 	return (
-		<HeadingTag className={classNames(styles.heading, className)} {...props}>
+		<HeadingTag className={twMerge(styles.heading, className)} {...props}>
 			{children}
 		</HeadingTag>
 	)

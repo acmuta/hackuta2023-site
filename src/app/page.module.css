@@ -3,17 +3,6 @@
 	min-height: 100vh;
 }
 
-.heroHeading1 {
-	font-family: var(--font-heading);
-	font-size: 4rem;
-	text-align: center;
-}
-
-.heroHeading2 {
-	font-family: var(--font-body);
-	font-size: 2rem;
-}
-
 .fitParentWidth {
 	width: 100%;
 }
@@ -75,12 +64,7 @@
 	flex: 1;
 	gap: 2rem;
 }
-.Orgo {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
+
 @media screen and (max-width: 768px) {
 	.heroHeading1 {
 		font-size: 2rem;
