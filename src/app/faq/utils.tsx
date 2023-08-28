@@ -1,10 +1,10 @@
-import { WithId } from 'mongodb'
-
 import { Accordion } from '@/components/Accordion'
 import { WavyPattern } from '@/components/WavyPattern'
 import clientPromise from '@/lib/db'
 import { FaqModel } from '@/lib/db/models/Faq'
-import logger from '@/lib/logger'
+
+import { WithId } from 'mongodb'
+import { MarkDownRenderer } from '../admin/post/MarkDownRenderer'
 
 export function FaqSection({
 	faqs,
@@ -27,8 +27,9 @@ export function FaqSection({
 							contentClassName='font-body mb-4'
 							key={`${faq.q}-${faq.a}`}
 							summary={faq.q}
-							dangerouslySetInnerHTMLOnChildren={{ __html: faq.a }}
-						/>
+						>
+							<MarkDownRenderer>{faq.a}</MarkDownRenderer>
+						</Accordion>
 					))
 			}
 		</>
@@ -41,7 +42,7 @@ export function FaqSection({
 				Frequently Asked
 				<WavyPattern className='w-32' />
 			</h2>
-			<div className='flex flex-col gap-4 w-1/2'>{content}</div>
+			<div className='flex flex-col gap-4 w-full md:w-1/2'>{content}</div>
 		</div>
 	)
 }
