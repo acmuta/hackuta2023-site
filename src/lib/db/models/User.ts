@@ -167,6 +167,7 @@ export const ApplicationSchema = z.object({
 	highestLevelOfEducation: LevelOfStudySchema.optional(),
 	fieldOfStudy: KnownMajorSchema.or(z.string().nonempty()).array().optional(),
 	resume: z.string().describe('base64-encoded resume document').optional(),
+	catchall: z.string().optional(),
 
 	// MLH checkboxes.
 	agreedMlhCoC: z.literal('Yes'),

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { Button } from '@/components/Button'
 import { JSend } from '@/lib/api/jsend'
 import { Application, JsonUser } from '@/lib/db/models/User'
 
@@ -49,34 +50,47 @@ export default function ApplicantTable({
 
 	return (
 		<>
-			<table>
+			<table className="border border-collapse">
 				<tbody>
 					<tr>
-						<td>name</td>{' '}
-						<td>{application?.firstName + ' ' + application?.lastName}</td>
+						<td className="border">name</td>{' '}
+						<td className="border">
+							{application?.firstName + ' ' + application?.lastName}
+						</td>
 					</tr>
 					<tr>
-						<td>age</td> <td>{application?.age}</td>
+						<td className="border">age</td>{' '}
+						<td className="border">{application?.age}</td>
 					</tr>
 					<tr>
-						<td>phone number</td> <td>{application?.phoneNumber}</td>
+						<td className="border">phone number</td>{' '}
+						<td className="border">{application?.phoneNumber}</td>
 					</tr>
 					<tr>
-						<td>school</td> <td>{application?.school}</td>
+						<td className="border">school</td>{' '}
+						<td className="border">{application?.school}</td>
 					</tr>
 					<tr>
-						<td>level of study</td> <td>{application?.levelOfStudy}</td>
+						<td className="border">level of study</td>{' '}
+						<td className="border">{application?.levelOfStudy}</td>
 					</tr>
 					<tr>
-						<td>country of residence</td>{' '}
-						<td>{application?.countryOfResidence}</td>
+						<td className="border">country of residence</td>{' '}
+						<td className="border">{application?.countryOfResidence}</td>
 					</tr>
 					<tr>
-						<td>t-shirt size</td> <td>{application?.tShirtSize}</td>
+						<td className="border">t-shirt size</td>{' '}
+						<td className="border">{application?.tShirtSize}</td>
 					</tr>
 					<tr>
-						<td>dietary restriction</td>{' '}
-						<td>{application?.dietaryRestriction?.join(',')}</td>
+						<td className="border">dietary restriction</td>{' '}
+						<td className="border">
+							{application?.dietaryRestriction?.join(',')}
+						</td>
+					</tr>
+					<tr>
+						<td className="border">other information</td>{' '}
+						<td className="border">{application?.catchall}</td>
 					</tr>
 					<tr>
 						<td colSpan={2}>
@@ -115,17 +129,25 @@ export default function ApplicantTable({
 							) : (
 								<div>undecided</div>
 							)}
-							{hasBasicWritePerm ? (
-								<>
-									<button
-										onClick={() => submit('accepted')}
-										disabled={!acceptable}
-									>
-										Accept
-									</button>
-									<button onClick={() => submit('rejected')}>Reject</button>
-								</>
-							) : undefined}
+							<div className="flex flex-row gap-2">
+								{hasBasicWritePerm ? (
+									<>
+										<Button
+											onClick={() => submit('accepted')}
+											disabled={!acceptable}
+										>
+											Accept
+										</Button>
+										<Button
+											kind="secondary"
+											className="bg-hackuta-red"
+											onClick={() => submit('rejected')}
+										>
+											Reject
+										</Button>
+									</>
+								) : undefined}
+							</div>
 						</td>
 					</tr>
 				</tbody>

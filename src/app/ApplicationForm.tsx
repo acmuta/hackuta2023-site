@@ -8,7 +8,6 @@ import { Button } from '@/components/Button'
 import { Dropdown, TextInput } from '@/components/Form'
 import ErrorMessage from '@/components/Form/ErrorMessage'
 import { FileInput } from '@/components/Form/FileInput'
-import { Heading } from '@/components/Heading'
 import {
 	Application,
 	ApplicationSchema,
@@ -23,7 +22,7 @@ import {
 	LevelOfStudySchema,
 	TernarySchema,
 	TShirtSizeSchema,
-	YesNoSchema,
+	YesNoSchema
 } from '@/lib/db/models/User'
 import { range, stringifyError } from '@/lib/utils/client'
 import { fetchPost, toOption, zodEnumToOptions } from '@/lib/utils/shared'
@@ -96,8 +95,8 @@ export function ApplicationForm() {
 			gap="1.25rem"
 			className={styles.applicationForm}
 		>
-			<Heading level={2}>Application</Heading>
-			<Heading level={3}>General Information</Heading>
+			<h2 className='font-heading text-4xl'>Application</h2>
+			<h3 className='font-heading text-2xl'>General Information</h3>
 			<TextInput
 				id="firstName"
 				text="First Name"
@@ -168,10 +167,11 @@ export function ApplicationForm() {
 				isMulti
 			/>
 
-			<Heading level={3}>Optional Information</Heading>
+			<h3 className='font-heading text-2xl'>Optional Information</h3>
 			<Dropdown
 				id="underrepresentedGroup"
 				text="Do you identify as part of an underrepresented group in the technology industry?"
+				description='(Optional)'
 				errors={errors['underrepresentedGroup']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(TernarySchema)}
@@ -180,7 +180,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="gender"
 				text="Gender"
-				description='You may type freely and select "Create" to add custom options.'
+				description='(Optional) You may type freely and select "Create" to add custom options.'
 				errors={errors['gender']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(KnownGenderSchema)}
@@ -190,7 +190,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="pronouns"
 				text="Pronouns"
-				description='You may type freely and select "Create" to add custom options.'
+				description='(Optional) You may type freely and select "Create" to add custom options.'
 				errors={errors['pronouns']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(KnownPronounsSchema)}
@@ -201,7 +201,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="raceEthnicity"
 				text="Race/Ethnicity"
-				description='You may type freely and select "Create" to add custom options.'
+				description='(Optional) You may type freely and select "Create" to add custom options.'
 				errors={errors['raceEthnicity']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(KnownRaceEthnicitySchema)}
@@ -211,8 +211,8 @@ export function ApplicationForm() {
 			/>
 			<Dropdown
 				id="sexuality"
-				text="Do you consider yourself to be any of the following?"
-				description='You may type freely and select "Create" to add custom options.'
+				text="Sexuality"
+				description='(Optional) You may type freely and select "Create" to add custom options.'
 				errors={errors['sexuality']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(KnownSexualitySchema)}
@@ -222,6 +222,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="highestLevelOfEducation"
 				text="What is the highest level of formal education that you have completed?"
+				description='(Optional)'
 				errors={errors['highestLevelOfEducation']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(LevelOfStudySchema)}
@@ -230,7 +231,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="fieldOfStudy"
 				text="Major/Field of Study"
-				description='You may type freely and select "Create" to add custom options.'
+				description='(Optional) You may type freely and select "Create" to add custom options.'
 				errors={errors['fieldOfStudy']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(KnownMajorSchema)}
@@ -241,11 +242,17 @@ export function ApplicationForm() {
 			<FileInput
 				id="resume"
 				text="Resume"
-				description="Optional. Only PDFs less than 1 MB are allowed."
+				description="(Optional) Only PDFs less than 1 MB are allowed. The resume may be shared with our sponsors and partners."
 				accept="application/pdf"
 			/>
+			<TextInput
+				id="catchall"
+				text="Any additional information you'd like us to know?"
+				description='(Optional)'
+				errors={errors['catchall']}
+			/>
 
-			<Heading level={3}>MLH Checkboxes</Heading>
+			<h3 className='font-heading text-2xl'>MLH Checkboxes</h3>
 			<Dropdown
 				id="agreedMlhCoC"
 				text={
