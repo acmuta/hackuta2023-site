@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import Link, { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes, ReactNode } from 'react'
 import { ButtonProps as HtmlButtonProps, SVGProps } from 'react-html-props'
@@ -41,7 +40,7 @@ export function Button({
 	return (
 		<button
 			type={type}
-			className={classNames(getButtonClassNames(), className)}
+			className={twJoin(getButtonClassNames(), className)}
 			{...props}
 		>
 			{kind === 'primary' ? <ButtonStar /> : undefined}
@@ -62,7 +61,7 @@ export function LinkButton({
 	...props
 }: LinkButtonProps) {
 	return (
-		<Link className={classNames(getButtonClassNames())} {...props}>
+		<Link className={twJoin(getButtonClassNames(), 'no-underline')} {...props}>
 			{kind === 'primary' ? <ButtonStar /> : undefined}
 			{children}
 			{kind === 'primary' ? <ButtonStar /> : undefined}

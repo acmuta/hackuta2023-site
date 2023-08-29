@@ -210,8 +210,8 @@ video {
 	margin-top: calc(-1 * var(--header-height));
 }
 
-:where(a, a:visited) {
-	color: var(--color-primary);
+a, a:where(:visited) {
+	@apply underline text-hackuta-darkblue
 }
 
 table.borderTable,

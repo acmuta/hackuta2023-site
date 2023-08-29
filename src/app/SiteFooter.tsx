@@ -13,10 +13,10 @@ export default function SiteFooter() {
 					title={'Socials'}
 					linkClassName={'flex flex-row gap-1'}
 					links={[
-						<Link key="discord" href={'https://discord.gg/4e64SfjmWS'}>
+						<Link key="discord" href={'https://discord.gg/4e64SfjmWS'} className='no-underline text-hackuta-beige'>
 							<Discord width={'32px'} aria-label="HackUTA 2023 Discord" />
 						</Link>,
-						<Link key="instagram" href={'https://instagram.com/acmuta'}>
+						<Link key="instagram" href={'https://instagram.com/acmuta'} className='no-underline text-hackuta-beige'>
 							<Instagram width={'32px'} aria-label="Instagram @acmuta" />
 						</Link>,
 						// <Link key="twitter" href={'https://twitter.com/utadatathon'}>
@@ -27,10 +27,10 @@ export default function SiteFooter() {
 				<FooterNav
 					title={'Policy'}
 					links={[
-						<Link key="acm" href={'https://www.acm.org/code-of-ethics'}>
+						<Link key="acm" href={'https://www.acm.org/code-of-ethics'} className='no-underline text-hackuta-beige'>
 							ACM Code of Ethics
 						</Link>,
-						<Link key="mlh" href={'https://hackp.ac/coc'}>
+						<Link key="mlh" href={'https://hackp.ac/coc'} className='no-underline text-hackuta-beige'>
 							MLH Code of Conduct
 						</Link>,
 					]}
