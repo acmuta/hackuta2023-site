@@ -1,10 +1,8 @@
 import { HeadingProps as HtmlHeadingProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
-import styles from './Heading.module.css'
-
 export type HeadingProps = HtmlHeadingProps & {
-	level: 1 | 2 | 3 | 4 | 5 | 6
+	level?: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 export const Heading = ({
@@ -13,11 +11,17 @@ export const Heading = ({
 	className,
 	...props
 }: HeadingProps) => {
-	const Tag: string = !level ? 'h1' : `h${level}`
-	const HeadingTag = Tag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+	const HeadingTag = `h${level}` as const
 
 	return (
-		<HeadingTag className={twMerge(styles.heading, className)} {...props}>
+		<HeadingTag
+			className={twMerge(
+				'shadow-hackuta',
+				level == 1 ? 'text-4xl' : level > 1 ? 'text-2xl' : undefined,
+				className,
+			)}
+			{...props}
+		>
 			{children}
 		</HeadingTag>
 	)

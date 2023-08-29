@@ -26,7 +26,6 @@ const Links = {
 	'/admin/users': 'Users',
 	'/admin/schedule': 'Schedule',
 	'/admin/post': 'Posts',
-	'/admin/organizers': 'Organizers',
 	'/admin/marketing': 'Marketing',
 	'/admin/faq': 'FAQ',
 	'/admin/check-in': 'Check',
@@ -51,9 +50,6 @@ function Sidebar() {
 			</li>
 			<li>
 				<Link href="/admin/marketing">Marketing Emails</Link>
-			</li>
-			<li>
-				<Link href="/admin/organizers">Organizers</Link>
 			</li>
 			<li>
 				<Link href="/admin/post">Posts</Link>

@@ -1,4 +1,5 @@
 import { Box } from '@/components/Box'
+import { Heading } from '@/components/Heading'
 import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
 
@@ -17,7 +18,7 @@ export default async function Marketing() {
 			.distinct('receivedEmailTags')
 		return (
 			<Box direction="column" gap="1rem" style={{ width: '75%' }}>
-				<h1>Marketing Emails</h1>
+				<Heading level={1}>Marketing Emails</Heading>
 				<Form allEmails={allEmails} existingTags={existingTags} />
 			</Box>
 		)

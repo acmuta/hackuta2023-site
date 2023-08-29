@@ -1,5 +1,6 @@
 import { headers } from 'next/headers'
 
+import { Heading } from '@/components/Heading'
 import { hasPermission } from '@/lib/auth/shared'
 import User from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
@@ -26,7 +27,7 @@ export default async function Applications() {
 
 	return (
 		<>
-			<h2>Applications</h2>
+			<Heading level={1}>Applications</Heading>
 			Queue Size: {queue.length}/{appliedUsers.length}
 			<div className="h-[48vh] w-[600px] overflow-scroll">
 				<ul>
