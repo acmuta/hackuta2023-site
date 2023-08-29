@@ -1,10 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
 
 import clientPromise from '@/lib/db'
 import type { FaqModel } from '@/lib/db/models/Faq'
 import logger from '@/lib/logger'
+
+import { FaqRouteSchema } from './schema'
 
 interface RouteProps {
 	params: { id: string }
@@ -36,13 +37,6 @@ export async function DELETE(request: NextRequest, { params }: RouteProps) {
 		return NextResponse.json({})
 	}
 }
-
-export const FaqRouteSchema = z.object({
-	q: z.string(),
-	a: z.string(),
-	next: z.string().or(z.null()),
-})
-export type FaqRoute = z.infer<typeof FaqRouteSchema>
 
 export async function POST(request: NextRequest) {
 	try {

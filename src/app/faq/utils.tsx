@@ -4,6 +4,7 @@ import { Accordion } from '@/components/Accordion'
 import { WavyPattern } from '@/components/WavyPattern'
 import clientPromise from '@/lib/db'
 import { FaqModel } from '@/lib/db/models/Faq'
+import logger from '@/lib/logger'
 
 import { MarkDownRenderer } from '../admin/post/MarkDownRenderer'
 

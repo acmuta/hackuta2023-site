@@ -7,7 +7,7 @@ import { Dropdown, Option, TextInput } from "@/components/Form"
 import { stringifyError } from '@/lib/utils/client'
 
 import { MarkDownEditor } from "../post/MarkDownEditor"
-import type { FaqRoute } from './[id]/route'
+import type { FaqRoute } from './[id]/schema'
 
 export interface FaqEditorProps {
 	faqs: { _id: string, q: string, a: string, next: string | null }[],

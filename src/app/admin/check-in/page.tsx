@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // export default IDScanner
 'use client'
 import React, { useState } from 'react'
-import { QrReader } from 'react-qr-reader'
 
 interface IDScannerProps {
 	onScanned: (id: string) => void
@@ -99,7 +99,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 				Scan QR Code
 			</h3>
 			<div style={{ marginBottom: '5px', textAlign: 'center' }}>
-				<QrReader
+				{/* <QrReader
 					delay={300}
 					onError={handleError}
 					onResult={handleScan}
@@ -109,7 +109,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 						margin: '0 auto',
 						boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
 					}}
-				/>
+				/> */}
 			</div>
 			{errorMessage && (
 				<p
@@ -212,4 +212,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 	)
 }
 
-export default IDScanner
+export default function bruh() {
+	return <div>WIP</div>
+}
