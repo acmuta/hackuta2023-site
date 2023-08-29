@@ -1,34 +1,40 @@
-import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { HtmlProps } from 'react-html-props'
-
-import { Box } from '@/components/Box'
-
-import { Heading } from '../Heading'
-import styles from './Footer.module.css'
+import { DivProps, HtmlProps, SVGProps } from 'react-html-props'
+import { twJoin } from 'tailwind-merge'
 
 export type FooterProps = HtmlProps & {
 	children?: ReactNode
 }
 
-export type FooterNavProps = HtmlProps & {
+export type FooterNavProps = DivProps & {
 	title: ReactNode
 	links: ReactNode[]
 	linkClassName?: string
 }
 
+export type LogoProps = SVGProps
+const Logo = (props: LogoProps) => {
+	return (
+		<svg className='mr-9' width="75" height="149" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+			<title>HackUTA</title>
+			<path d="M0 36.7586V119.829C0 121.811 1.17911 123.608 3.00673 124.414L57.7847 148.567C59.1912 149.187 60.8055 149.139 62.1755 148.439L85.8026 136.336C87.4927 135.471 88.551 133.739 88.5426 131.857L88.3433 85.0305C88.3264 81.3633 84.4747 78.95 81.1227 80.507L63.3715 88.7534C61.6168 89.5681 60.4855 91.303 60.4546 93.2242L60.1205 115.534C60.0672 119.095 56.3895 121.469 53.0767 120.082L31.1116 110.879C29.2363 110.092 28.0179 108.274 28.0179 106.256V27.6419C28.0179 23.8857 24.0033 21.4584 20.6288 23.1795L2.74845 32.2961C1.0612 33.1553 0 34.8791 0 36.7586Z" fill="#D2C2A9" />
+			<path d="M148.994 112.241V29.1709C148.994 27.1885 147.815 25.3924 145.988 24.5861L91.2125 0.433436C89.806 -0.186576 88.1917 -0.139311 86.8217 0.561331L63.1946 12.6641C61.5045 13.5288 60.4462 15.2609 60.4546 17.1432L60.6539 63.9694C60.6707 67.6367 64.5225 70.05 67.8745 68.493L85.6257 60.2465C87.3804 59.4319 88.5117 57.697 88.5426 55.7758L88.8767 33.4665C88.93 29.9049 92.6077 27.5305 95.9205 28.9179L117.886 38.1207C119.761 38.9076 120.979 40.7259 120.979 42.7444V121.358C120.979 125.114 124.994 127.542 128.368 125.82L146.252 116.704C147.939 115.845 149 114.121 149 112.241H148.994Z" fill="#D2C2A9" />
+		</svg>
+	)
+}
+
 export const Footer = ({ children, className, ...props }: FooterProps) => {
 	return (
-		<Box
-			as="footer"
-			direction="row"
-			justifyContent="center"
-			className={classNames(styles.footer, className)}
-			wrap="wrap"
-			{...props}
-		>
-			{children}
-		</Box>
+		<footer className={twJoin(
+			'flex flex-row items-center flex-wrap py-8 px-16 gap-4',
+			'bg-hackuta-black text-hackuta-beige',
+			className,
+		)} {...props}>
+			<Logo className='h-14 mr-5' />
+			<div className='flex flex-row gap-8 items-start'>
+				{children}
+			</div>
+		</footer>
 	)
 }
 
@@ -39,16 +45,18 @@ export const FooterNav = ({
 	...props
 }: FooterNavProps) => {
 	return (
-		<Box direction="column" className={styles.footerNav} {...props}>
-			<Heading level={2} className={styles.footerNavHeading}>
+		<section className={twJoin(
+			'flex flex-col gap-2',
+		)} {...props}>
+			<h3 className={'font-heading text-4xl'}>
 				{title}
-			</Heading>
+			</h3>
 			<ul className={linkClassName}>
 				{links.map((link, index) => (
-					<li key={index}>{link}</li>
+					<li className={'font-body'} key={index}>{link}</li>
 				))}
 			</ul>
-		</Box>
+		</section>
 	)
 }
 

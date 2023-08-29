@@ -1,15 +1,8 @@
 .heading {
-	font-family: var(--font-heading);
-	font-size: 2rem;
-	font-weight: var(--font-weight-bold);
-	text-transform: uppercase;
 	word-wrap: break-word;
 }
 
 h2.heading {
-	font-size: 3rem;
-	font-weight: var(--font-weight-bold);
-	text-transform: uppercase;
 	word-wrap: break-word;
 }
 

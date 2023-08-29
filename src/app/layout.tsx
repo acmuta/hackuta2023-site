@@ -1,13 +1,34 @@
 import './globals.css'
 
-import classNames from 'classnames'
+import { Atkinson_Hyperlegible, Bungee } from 'next/font/google'
+import localFont from 'next/font/local'
+import { twMerge } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
+import { MarqueeHeader } from '@/components/MarqueeHeader'
 import { siteName } from '@/lib/utils/server'
 
-import styles from './layout.module.css'
 import SiteFooter from './SiteFooter'
-import SiteHeader from './SiteHeader'
+
+/** fonts **/
+export const bungee = Bungee({
+	subsets: ['latin-ext'],
+	weight: ['400'],
+	variable: '--font-bungee',
+})
+export const atkinson = Atkinson_Hyperlegible({
+	subsets: ['latin-ext'],
+	weight: ['400', '700'],
+	variable: '--font-atkinson',
+})
+export const saoTorpes = localFont({
+	src: '../../public/fonts/SaoTorpes.otf',
+	variable: '--font-sao-torpes'
+})
+export const shrimp = localFont({
+	src: '../../public/fonts/Shrimp.ttf',
+	variable: '--font-shrimp'
+})
 
 export const metadata = {
 	title: siteName,
@@ -44,16 +65,11 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
-			<Box as="body" direction="column">
-				<div className={classNames(styles.star, styles.topLeft)}></div>
-				<div className={classNames(styles.star, styles.topRight)}></div>
-				<div className={classNames(styles.star, styles.bottomLeft)}></div>
-				<div className={classNames(styles.star, styles.bottomRight)}></div>
-				<SiteHeader />
-				<main className={styles.main}>{children}</main>
+		<html lang="en" className={twMerge(bungee.variable, atkinson.variable, saoTorpes.variable, shrimp.variable)}>
+			<Box as="body" direction="column" className='p-2'>
+				<MarqueeHeader showBadge />
+				<main className='flex-[1]'>{children}</main>
 				<SiteFooter />
-				<div className="layout-background-overlay"></div>
 			</Box>
 		</html>
 	)

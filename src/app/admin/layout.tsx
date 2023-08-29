@@ -16,7 +16,7 @@ export default async function AdminLayout({
 			<aside>
 				<Sidebar />
 			</aside>
-			<main style={{ width: '100%' }}>{children}</main>
+			<main className={'w-full'}>{children}</main>
 		</Box>
 	)
 }
@@ -24,12 +24,11 @@ export default async function AdminLayout({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Links = {
 	'/admin/users': 'Users',
-	'/admin/teams': 'Teams',
 	'/admin/schedule': 'Schedule',
 	'/admin/post': 'Posts',
 	'/admin/organizers': 'Organizers',
 	'/admin/marketing': 'Marketing',
-	'/admin/faqs': 'FAQs',
+	'/admin/faq': 'FAQ',
 	'/admin/check-in': 'Check',
 	'/admin/applications': 'Applications',
 	'/admin': 'Root',
@@ -48,7 +47,7 @@ function Sidebar() {
 				<Link href="/admin/check-in">Check-In</Link>
 			</li>
 			<li>
-				<Link href="/admin/faqs">FAQs</Link>
+				<Link href="/admin/faq">FAQ</Link>
 			</li>
 			<li>
 				<Link href="/admin/marketing">Marketing Emails</Link>
@@ -61,9 +60,6 @@ function Sidebar() {
 			</li>
 			<li>
 				<Link href="/admin/schedule">Schedule</Link>
-			</li>
-			<li>
-				<Link href="/admin/teams">Teams</Link>
 			</li>
 			<li>
 				<Link href="/admin/users">Users</Link>

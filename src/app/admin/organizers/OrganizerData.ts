@@ -21,36 +21,6 @@ export const Techorganizers: OrganizerData[] = [
 		},
 	},
 	{
-		avatar: 'https://avatars.githubusercontent.com/pxs4528',
-		name: 'Parth Sharma',
-		major: 'Computer Science',
-		socials: {
-			github: 'pxs4528',
-			instagram: 'parth.sharma2410',
-			linkedIn: 'parthsharma0310',
-		},
-	},
-	{
-		avatar: '/images/Organizers/tuan.png',
-		name: 'Tuan Trinh',
-		major: 'Computer Science',
-		socials: {
-			github: 'tuan882612',
-			instagram: '',
-			linkedIn: '',
-		},
-	},
-	{
-		avatar: '/images/Organizers/tony.png',
-		name: 'Tony Tang',
-		major: 'Computer Science',
-		socials: {
-			github: 'toni-tang',
-			instagram: 'tonytvng',
-			linkedIn: 'tony-tang-',
-		},
-	},
-	{
 		avatar: '/images/Organizers/sneh.png',
 		name: 'Sneh Acharya',
 		major: 'Computer Science',
@@ -71,12 +41,22 @@ export const Techorganizers: OrganizerData[] = [
 		},
 	},
 	{
-		avatar: '',
-		name: 'Aryan Mediratta',
+		avatar: 'https://avatars.githubusercontent.com/pxs4528',
+		name: 'Parth Sharma',
 		major: 'Computer Science',
 		socials: {
-			github: 'aryan_02',
-			instagram: 'aryan_mediratta',
+			github: 'pxs4528',
+			instagram: 'parth.sharma2410',
+			linkedIn: 'parthsharma0310',
+		},
+	},
+	{
+		avatar: '/images/Organizers/tuan.png',
+		name: 'Tuan Trinh',
+		major: 'Computer Science',
+		socials: {
+			github: 'tuan882612',
+			instagram: '',
 			linkedIn: '',
 		},
 	},
@@ -167,28 +147,6 @@ export const Executives: OrganizerData[] = [
 		},
 	},
 ]
-export const Outreach: OrganizerData[] = [
-	{
-		avatar: '/images/Organizers/aviral.png',
-		name: 'Aviral Saxena',
-		major: 'Computer Science',
-		socials: {
-			github: 'AviralSaxena',
-			instagram: '_avi.c',
-			linkedIn: '',
-		},
-	},
-	{
-		avatar: '/images/Organizers/aniv.png',
-		name: 'Aniv Surana',
-		major: 'Computer Science',
-		socials: {
-			github: 'anivsurana',
-			instagram: 'aniv.surana',
-			linkedIn: 'anivsurana',
-		},
-	},
-]
 
 export const Logsorganizers: OrganizerData[] = [
 	{
@@ -274,26 +232,6 @@ export const MarketOrganizers: OrganizerData[] = [
 		},
 	},
 	{
-		avatar: '/images/Organizers/turza.png',
-		name: 'Turza Saha',
-		major: 'Computer Science',
-		socials: {
-			github: 'TurzaSaha28',
-			instagram: 'turzasaha10',
-			linkedIn: 'turza-saha-7a33b6239',
-		},
-	},
-	{
-		avatar: '/images/Organizers/sami.png',
-		name: 'Sami Ali',
-		major: 'Marketing',
-		socials: {
-			github: '',
-			instagram: '',
-			linkedIn: '',
-		},
-	},
-	{
 		avatar: '/images/Organizers/josephine.png',
 		name: 'Josephine',
 		major: '',
@@ -336,14 +274,33 @@ export const CorpoOrganizers: OrganizerData[] = [
 			linkedIn: 'asminpothula',
 		},
 	},
+	{
+		avatar: '/images/Organizers/aviral.png',
+		name: 'Aviral Saxena',
+		major: 'Computer Science',
+		socials: {
+			github: 'AviralSaxena',
+			instagram: '_avi.c',
+			linkedIn: '',
+		},
+	},
+	{
+		avatar: '/images/Organizers/aniv.png',
+		name: 'Aniv Surana',
+		major: 'Computer Science',
+		socials: {
+			github: 'anivsurana',
+			instagram: 'aniv.surana',
+			linkedIn: 'anivsurana',
+		},
+	},
 ]
 
 export const AllTeams: Record<string, OrganizerData[]> = {
 	'Executive Team': Executives,
-	'Tech Team': Techorganizers,
+	'Corporate Team': CorpoOrganizers,
 	'Experience Team': XPorganizers,
 	'Logistics Team': Logsorganizers,
-	'Corporate Team': CorpoOrganizers,
 	'Marketing Team': MarketOrganizers,
-	'Outreach Team': Outreach,
+	'Tech Team': Techorganizers,
 }

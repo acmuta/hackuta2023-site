@@ -6,7 +6,9 @@ import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers'
 import DiscordProvider from 'next-auth/providers/discord'
 import EmailProvider from 'next-auth/providers/email'
 import GitHubProvider from 'next-auth/providers/github'
+import GitLabProvider from 'next-auth/providers/gitlab'
 import GoogleProvider from 'next-auth/providers/google'
+import TwitterProvider from 'next-auth/providers/twitter'
 
 import {
 	EnhancedSession,
@@ -31,7 +33,9 @@ const SupportedProviders = new Map<
 >([
 	['discord', DiscordProvider],
 	['github', GitHubProvider],
+	['gitlab', GitLabProvider],
 	['google', GoogleProvider],
+	['twitter', TwitterProvider],
 ])
 
 function* getOAuthProviders(): Generator<OAuthConfig<any>> {

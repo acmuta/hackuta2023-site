@@ -4,7 +4,6 @@
 }
 
 .accordion > summary {
-	font-family: var(--font-heading);
 	display: flex;
 	font-size: 1rem;
 	padding: 0.5rem 1rem;
@@ -17,8 +16,6 @@
 }
 
 .accordion > summary:hover {
-	box-shadow: 3px 0 0 var(--color-uta-orange) inset;
-	color: var(--color-uta-orange);
 	cursor: pointer;
 }
 
