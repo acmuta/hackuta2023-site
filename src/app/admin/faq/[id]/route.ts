@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
 
 		// Insert entry into linked list
 		await faqs.updateOne(
-			{ next: { $eq: newNextId } },
+			{ next: { $eq: newNextId }, _id: { $ne: newEntry.insertedId } },
 			{ $set: { next: newEntry.insertedId } },
 		)
 
