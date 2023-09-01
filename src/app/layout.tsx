@@ -11,23 +11,23 @@ import { siteName } from '@/lib/utils/server'
 import SiteFooter from './SiteFooter'
 
 /** fonts **/
-export const bungee = Bungee({
+const bungee = Bungee({
 	subsets: ['latin-ext'],
 	weight: ['400'],
 	variable: '--font-bungee',
 })
-export const atkinson = Atkinson_Hyperlegible({
+const atkinson = Atkinson_Hyperlegible({
 	subsets: ['latin-ext'],
 	weight: ['400', '700'],
 	variable: '--font-atkinson',
 })
-export const saoTorpes = localFont({
+const saoTorpes = localFont({
 	src: '../../public/fonts/SaoTorpes.otf',
-	variable: '--font-sao-torpes'
+	variable: '--font-sao-torpes',
 })
-export const shrimp = localFont({
+const shrimp = localFont({
 	src: '../../public/fonts/Shrimp.ttf',
-	variable: '--font-shrimp'
+	variable: '--font-shrimp',
 })
 
 export const metadata = {
@@ -65,10 +65,18 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className={twMerge(bungee.variable, atkinson.variable, saoTorpes.variable, shrimp.variable)}>
-			<Box as="body" direction="column" className='p-2'>
-				<MarqueeHeader showBadge />
-				<main className='flex-[1]'>{children}</main>
+		<html
+			lang="en"
+			className={twMerge(
+				bungee.variable,
+				atkinson.variable,
+				saoTorpes.variable,
+				shrimp.variable,
+			)}
+		>
+			<Box as="body" direction="column" className="p-2">
+				<MarqueeHeader />
+				<main className="flex-[1]">{children}</main>
 				<SiteFooter />
 			</Box>
 		</html>

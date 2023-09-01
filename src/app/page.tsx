@@ -75,88 +75,109 @@ async function Landing() {
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
-			companyName: "StateFarm",
-			companyUrl: "https://www.statefarm.com/",
-			imageUrl: "/images/Sponsors/statefarm.svg",
-			kind: "Sponsor",
+			companyName: 'StateFarm',
+			companyUrl: 'https://www.statefarm.com/',
+			imageUrl: '/images/Sponsors/statefarm.svg',
+			kind: 'Sponsor',
 		},
 		{
-			companyName: "Mouser Electronics",
-			companyUrl: "https://www.mouser.com/",
-			imageUrl: "/images/Sponsors/mouser-electronics.svg",
-			kind: "Sponsor",
+			companyName: 'Mouser Electronics',
+			companyUrl: 'https://www.mouser.com/',
+			imageUrl: '/images/Sponsors/mouser-electronics.svg',
+			kind: 'Sponsor',
 		},
 		{
-			companyName: "Major League Hacking",
-			companyUrl: "https://mlh.io/",
-			imageUrl: "/images/Partners/mlh-logo-color-dark.svg",
-			kind: "Partner",
+			companyName: 'Major League Hacking',
+			companyUrl: 'https://mlh.io/',
+			imageUrl: '/images/Partners/mlh-logo-color-dark.svg',
+			kind: 'Partner',
 		},
 		{
-			companyName: "Standout Stickers",
-			companyUrl: "https://www.standoutstickers.com/",
-			imageUrl: "/images/Partners/standout-stickers.jpg",
-			kind: "Partner",
+			companyName: 'Rosenfeld',
+			companyUrl: 'https://rosenfeldmedia.com/',
+			imageUrl: '/images/Partners/rosenfeld.webp',
+			kind: 'Partner',
+		},
+		{
+			companyName: 'Standout Stickers',
+			companyUrl: 'https://www.standoutstickers.com/',
+			imageUrl: '/images/Partners/standout-stickers.jpg',
+			kind: 'Partner',
 		},
 	]
 
-	return (<>
-		<Box
-			direction="column"
-			alignItems="center"
-			justifyContent="start"
-			gap=".5rem"
-			className='my-2'
-		>
-			<div className='flex flex-col items-center justify-start gap-8 bg-hackuta-red p-16 w-full'>
-				<div className='flex flex-col items-center justify-start gap-8'>
-					<section className="flex flex-col items-center gap-4">
-						<h1 className='font-heading text-hackuta-yellow text-6xl drop-shadow-hackuta'>
-							HackUTA 2023
-						</h1>
-						<div className='font-shrimp text-white tracking-wider uppercase'>Once in a year event</div>
+	return (
+		<>
+			<Box
+				direction="column"
+				alignItems="center"
+				justifyContent="start"
+				gap=".5rem"
+				className="my-2"
+			>
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-16 w-full">
+					<div className="flex flex-col items-center justify-start gap-8">
+						<section className="flex flex-col items-center gap-4">
+							<h1 className="font-heading text-hackuta-yellow text-6xl drop-shadow-hackuta">
+								HackUTA 2023
+							</h1>
+							<div className="font-shrimp text-white tracking-wider uppercase">
+								Once in a year event
+							</div>
+						</section>
+						<Box direction="row" gap="1rem">
+							<LinkButton href="/api/auth/signin">Apply</LinkButton>
+							<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
+								Sponsor
+							</LinkButton>
+						</Box>
+						<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
+						<div className="absolute left-[20%] top-[20%] rotate-[-15deg] z-10">
+							<div className="flex py-2 px-6 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
+								Don&apos;t miss out!
+							</div>
+							<CTAArrow
+								className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
+							/>
+						</div>
+					</div>
+					<Separator className="h-[10px] w-full" />
+					<section className="flex flex-col self-start gap-8">
+						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+							Schedule
+							<WavyPattern className="w-32" />
+						</h2>
+						<div className="font-shrimp text-white tracking-wider uppercase">
+							Coming soon...
+						</div>
+						<ClippedBadge className="w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]" />
 					</section>
-					<Box direction="row" gap="1rem">
-						<LinkButton href="/api/auth/signin">Apply</LinkButton>
-						<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
-							Sponsor
-						</LinkButton>
-					</Box>
-					<HackTicket className='animate-[jump-shaking_0.5s_ease-in-out_1]' />
-					<div className="absolute left-[20%] top-[20%] rotate-[-15deg] z-10">
-						<div className='flex py-2 px-6 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta'>Don&apos;t miss out!</div>
-						<CTAArrow className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'} />
+				</div>
+				<FaqSection faqs={faqs} />
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
+						Sponsors & Partners
+						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
+					</h2>
+					<div
+						className={twJoin(
+							'grid grid-cols-3 auto-rows-fr gap-4',
+							'md:grid-cols-2',
+						)}
+					>
+						{sponsors.map((company, index) => (
+							<SponsorTicket
+								key={`${company.companyName}-${index}`}
+								companyName={company.companyName}
+								companyUrl={company.companyUrl}
+								imageUrl={company.imageUrl}
+								kind={company.kind as SponsorTicketKind}
+							/>
+						))}
 					</div>
 				</div>
-				<Separator className='h-[10px] w-full' />
-				<section className="flex flex-col self-start gap-8">
-					<h2 className='flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl'>
-						Schedule
-						<WavyPattern className='w-32' />
-					</h2>
-					<div className='font-shrimp text-white tracking-wider uppercase'>Coming soon...</div>
-					<ClippedBadge className='w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]' />
-				</section>
-			</div>
-			<FaqSection faqs={faqs} />
-			<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-16 w-full">
-				<h2 className='flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl'>
-					Sponsors & Partners
-					<WavyPattern className='w-32' strokeColor='rgb(14 48 76)' />
-				</h2>
-				<div className={twJoin("grid grid-cols-3 auto-rows-fr gap-4", "md:grid-cols-2")}>
-					{sponsors.map((company, index) => (
-						<SponsorTicket
-							key={`${company.companyName}-${index}`}
-							companyName={company.companyName}
-							companyUrl={company.companyUrl}
-							imageUrl={company.imageUrl}
-							kind={company.kind as SponsorTicketKind} />
-					))}
-				</div>
-			</div>
-		</Box>
-		{/* <Box as="main" direction="column" className={styles.main}>
+			</Box>
+			{/* <Box as="main" direction="column" className={styles.main}>
 
 			<Box direction="column" className={styles.sectionContainer}>
 				<Box
@@ -187,45 +208,10 @@ async function Landing() {
 							</>
 						))}
 					</div>
-				</Box>
-				<Box
-					as="section"
-					direction="column"
-					className={classNames(styles.titleSection)}
-				>
-					{/* <Heading id="sponsors" level={2} className={'anchorOffset'}>
-						Sponsors
-					</Heading> */}
-		{/* <SponsorHeader /> */}
-		{/* </Box >
-			</Box >
-		</Box > * /} */}
-	</>)
+				</Box>*/}
+		</>
+	)
 }
-
-// const SponsorHeader: React.FC = () => {
-// 	return (
-// 		<Box
-// 			direction="row"
-// 			wrap="wrap"
-// 			alignItems="center"
-// 			justifyContent="center"
-// 			gap="3rem"
-// 			className={classNames(styles.sponsorLogoBox, styles.fitParentWidth)}
-// 		>
-// 			{/* <Link
-// 				href="https://www.uta.edu/academics/schools-colleges/engineering/academics/departments/cse"
-// 				rel="noreferrer"
-// 			>
-// 				<Image
-// 					src={UtaCseDeptLogo}
-// 					alt="UTA Department of Computer Science and Engineering, College of Engineering"
-// 					style={{ width: '20rem', height: 'auto' }}
-// 				/>
-// 			</Link> */}
-// 		</Box>
-// 	)
-// }
 
 async function Dashboard({ user }: { user: JsonUser }) {
 	const client = await clientPromise
