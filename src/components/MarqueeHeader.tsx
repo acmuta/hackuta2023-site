@@ -12,7 +12,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 	}
 	return (
 		<div className="bg-hackuta-black" {...props}>
-			<div className="flex flex-row justify-center gap-8 px-24 py-4 my-2 bg-hackuta-black text-hackuta-beige font-heading border-t-hackuta-beige border-b-hackuta-beige border-t-8 border-b-8">
+			<div className="sm:flex-wrap flex flex-row justify-center gap-8 px-24 py-4 my-2 bg-hackuta-black text-hackuta-beige font-heading border-t-hackuta-beige border-b-hackuta-beige border-t-8 border-b-8">
 				<span>Arlington&apos;s One and Only Hackathon</span>
 				<span>The Greatest Show Around</span>
 			</div>
@@ -20,7 +20,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 				<MLHTrustBadge
 					color="gray"
 					imageClassName={
-						'block w-[100px] absolute top-0 max-w-[100px] min-w-[60px] right-[min(5vw,50px)] z-50'
+						'md:w-[100px] block w-[50px] absolute top-0 max-w-[100px] min-w-[60px] right-[min(5vw,50px)] z-50'
 					}
 				/>
 			)}
