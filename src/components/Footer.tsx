@@ -31,7 +31,7 @@ export const Footer = ({ children, className, ...props }: FooterProps) => {
 			className,
 		)} {...props}>
 			<Logo className='h-14 mr-5' />
-			<div className='flex flex-row gap-8 items-start'>
+			<div className='flex flex-col md:flex-row gap-8 items-start'>
 				{children}
 			</div>
 		</footer>
