@@ -9,7 +9,7 @@ export default async function Home() {
 	const { user } = getEnhancedSession(headers())
 
 	if (!user) {
-		redirect('/api/auth/signin')
+		redirect('/api/auth/signin?callbackUrl=%2Fapply')
 	} else if (user.application) {
 		redirect('/dashboard')
 	}

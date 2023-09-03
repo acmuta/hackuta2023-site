@@ -11,7 +11,6 @@ import { getEnhancedSession } from '@/lib/utils/server'
 
 import PostRenderer from '../post/[slug]/PostRenderer'
 import Card from './Card'
-import styles from './page.module.css'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
@@ -20,7 +19,7 @@ export const dynamic = 'force-dynamic'
 export default async function Dashboard() {
 	const { user } = getEnhancedSession(headers())
 	if (!user) {
-		redirect('/api/auth/signin')
+		redirect('/api/auth/signin?callbackUrl=%2Fdashboard')
 	} else if (!user.application) {
 		redirect('/apply')
 	}
