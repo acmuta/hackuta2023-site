@@ -17,7 +17,7 @@ export default async function Marketing() {
 			.collection<User>('users')
 			.distinct('receivedEmailTags')
 		return (
-			<Box direction="column" gap="1rem" style={{ width: '75%' }}>
+			<Box direction="column" gap="1rem">
 				<Heading level={1}>Marketing Emails</Heading>
 				<Form allEmails={allEmails} existingTags={existingTags} />
 			</Box>

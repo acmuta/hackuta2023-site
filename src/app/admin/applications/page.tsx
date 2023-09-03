@@ -29,7 +29,7 @@ export default async function Applications() {
 		<>
 			<Heading level={1}>Applications</Heading>
 			Queue Size: {queue.length}/{appliedUsers.length}
-			<div className="h-[48vh] w-[600px] overflow-scroll">
+			<div className="h-[80vh] w-[600px] overflow-scroll">
 				<ul>
 					{queue.length > 0
 						? queue.map((user: User, i: number) => (

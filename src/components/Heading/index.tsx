@@ -16,7 +16,7 @@ export const Heading = ({
 	return (
 		<HeadingTag
 			className={twMerge(
-				'shadow-hackuta',
+				'drop-shadow-hackuta',
 				level == 1 ? 'text-4xl' : level > 1 ? 'text-2xl' : undefined,
 				className,
 			)}

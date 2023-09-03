@@ -9,11 +9,11 @@ export default function AdminLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<div className={'flex flex-col gap-2 w-full'}>
+		<div className={'flex flex-col gap-2 content-center w-full py-2'}>
 			<nav className="flex flex-row justify-center">
 				<Sidebar />
 			</nav>
-			<main className={'w-full pb-4'}>{children}</main>
+			<main className="max-w-[1000px] mx-auto">{children}</main>
 		</div>
 	)
 }
