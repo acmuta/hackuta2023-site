@@ -144,21 +144,21 @@ export default async function Landing() {
 				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center gap-4">
-							<h1 className="font-heading text-hackuta-yellow text-6xl drop-shadow-hackuta">
+							<h1 className="sm:text-6xl font-heading text-hackuta-yellow text-4xl drop-shadow-hackuta">
 								HackUTA 2023
 							</h1>
 							<div className="font-shrimp text-white tracking-wider uppercase">
 								Once in a year event
 							</div>
 						</section>
-						<Box direction="row" gap="1rem">
+						<div className='flex flex-col md:flex-row px-3 mx-3'>
 							<LinkButton href="/api/auth/signin">Apply</LinkButton>
 							<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 								Sponsor
 							</LinkButton>
-						</Box>
+						</div>
 						<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
-						<div className="absolute left-[20%] top-[20%] rotate-[-15deg] z-10">
+						<div className="md:block hidden absolute left-[20%] top-[20%] rotate-[-15deg] z-10">
 							<div className="flex py-2 px-6 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
 								Don&apos;t miss out!
 							</div>
@@ -176,7 +176,7 @@ export default async function Landing() {
 						<div className="font-shrimp text-white tracking-wider uppercase">
 							Coming soon...
 						</div>
-						<ClippedBadge className="w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]" />
+						<ClippedBadge className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]" />
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
