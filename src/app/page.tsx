@@ -152,7 +152,7 @@ export default async function Landing() {
 							</div>
 						</section>
 						<Box direction="row" gap="1rem">
-							<LinkButton href="/api/auth/signin">Apply</LinkButton>
+							<LinkButton href="/apply">Apply</LinkButton>
 							<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 								Sponsor
 							</LinkButton>
