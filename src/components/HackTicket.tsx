@@ -12,7 +12,7 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 			)}
 			{...props}
 		>
-			<HackTicketSide>081023</HackTicketSide>
+			<HackTicketSide childClassName="hidden sm:flex">081023</HackTicketSide>
 			{/* bg-[url(../../public/images/sunburst.svg)] */}
 			<div className="flex flex-col gap-10 md:gap-16 px-3 md:px-6 py-3 w-68 md:w-96 mr-[-1rem] bg-hackuta-yellow">
 				<h1 className="font-heading border-b border-black border-dashed">
