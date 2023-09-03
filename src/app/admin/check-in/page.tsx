@@ -3,5 +3,5 @@
 import IDScanner from './IDScanner'
 
 export default function CheckIn() {
-	return <IDScanner onScanned={alert} />
+	return <IDScanner onScanned={(id) => alert(id)} />
 }

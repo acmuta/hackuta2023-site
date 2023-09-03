@@ -3,6 +3,8 @@ import User from '@/lib/db/models/User'
 
 import styles from './page.module.css'
 
+export const revalidate = 10
+
 export default async function PrintPage() {
 	const client = await clientPromise
 	const users = await client
