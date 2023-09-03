@@ -95,7 +95,7 @@ export default async function Dashboard() {
 				direction="row"
 				alignItems="start"
 				wrap="wrap"
-				className={classNames(styles.cardContainer)}
+				className={classNames('flex-1 gap-8')}
 			>
 				{...children}
 			</Box>
