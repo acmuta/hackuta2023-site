@@ -1,65 +1,48 @@
+'use client'
+
 import Link from 'next/link'
+import { useSelectedLayoutSegment } from 'next/navigation'
 
-import { Box } from '@/components/Box'
-
-import styles from './layout.module.css'
-
-export const dynamic = 'force-dynamic'
-
-export default async function AdminLayout({
+export default function AdminLayout({
 	children,
 }: {
 	children: React.ReactNode
 }) {
 	return (
-		<Box direction="row" className={styles.adminLayoutRoot}>
-			<aside>
+		<div className={'flex flex-col gap-2 w-full'}>
+			<nav className="flex flex-row justify-center">
 				<Sidebar />
-			</aside>
-			<main className={'w-full'}>{children}</main>
-		</Box>
+			</nav>
+			<main className={'w-full pb-4'}>{children}</main>
+		</div>
 	)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Links = {
-	'/admin/users': 'Users',
-	'/admin/schedule': 'Schedule',
-	'/admin/post': 'Posts',
-	'/admin/marketing': 'Marketing',
-	'/admin/faq': 'FAQ',
-	'/admin/check-in': 'Check',
-	'/admin/applications': 'Applications',
 	'/admin': 'Root',
+	'/admin/applications': 'Applications',
+	'/admin/check-in': 'Check-In',
+	'/admin/faq': 'FAQ',
+	'/admin/marketing': 'Marketing',
+	'/admin/post': 'Posts',
+	'/admin/schedule': 'Schedule',
+	'/admin/users': 'Users',
 }
 
 function Sidebar() {
+	const selectedSegment = useSelectedLayoutSegment()
+	const selectedPath = `/admin${selectedSegment ? `/${selectedSegment}` : ''}`
 	return (
-		<ul>
-			<li>
-				<Link href="/admin">Root</Link>
-			</li>
-			<li>
-				<Link href="/admin/applications">Applications</Link>
-			</li>
-			<li>
-				<Link href="/admin/check-in">Check-In</Link>
-			</li>
-			<li>
-				<Link href="/admin/faq">FAQ</Link>
-			</li>
-			<li>
-				<Link href="/admin/marketing">Marketing Emails</Link>
-			</li>
-			<li>
-				<Link href="/admin/post">Posts</Link>
-			</li>
-			<li>
-				<Link href="/admin/schedule">Schedule</Link>
-			</li>
-			<li>
-				<Link href="/admin/users">Users</Link>
-			</li>
+		<ul className="flex flex-row flex-wrap gap-2">
+			{Object.entries(Links).map(([path, name]) => (
+				<li key={path}>
+					{selectedPath === path ? (
+						<b>{name}</b>
+					) : (
+						<Link href={path}>{name}</Link>
+					)}
+				</li>
+			))}
 		</ul>
 	)
 }

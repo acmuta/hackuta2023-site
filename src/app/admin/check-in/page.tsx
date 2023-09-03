@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // export default IDScanner
 'use client'
 import React, { useState } from 'react'
+import { QrReader } from 'react-qr-reader'
 
 interface IDScannerProps {
 	onScanned: (id: string) => void
@@ -71,26 +71,26 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 				fontFamily: 'Arial, sans-serif',
 				padding: '20px',
 				borderRadius: '15px',
-				boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+				boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
 				backgroundColor: 'transparent',
-				border: '1px solid #921F05', // Added border line here
+				border: '1px solid #000', // Added border line here
 			}}
 		>
 			<h2
 				style={{
-					borderBottom: '2px solid #921F05',
+					borderBottom: '2px solid #000',
 					paddingBottom: '10px',
 					marginBottom: '20px',
 					textAlign: 'center',
 					fontSize: '1.6rem',
-					color: '#921F05',
+					color: '#000',
 				}}
 			>
 				HACKUTA 2023 CHECK-IN
 			</h2>
 			<h3
 				style={{
-					color: '#921F05',
+					color: '#000',
 					marginBottom: '15px',
 					textAlign: 'center',
 					fontWeight: '500',
@@ -99,7 +99,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 				Scan QR Code
 			</h3>
 			<div style={{ marginBottom: '5px', textAlign: 'center' }}>
-				{/* <QrReader
+				<QrReader
 					delay={300}
 					onError={handleError}
 					onResult={handleScan}
@@ -109,7 +109,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 						margin: '0 auto',
 						boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
 					}}
-				/> */}
+				/>
 			</div>
 			{errorMessage && (
 				<p
@@ -125,7 +125,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 			)}
 			<h3
 				style={{
-					color: '#921F05',
+					color: '#000',
 					marginBottom: '15px',
 					textAlign: 'center',
 					fontWeight: '500',
@@ -144,7 +144,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 						padding: '12px',
 						marginBottom: '15px',
 						borderRadius: '8px',
-						border: '1px solid #ccc',
+						border: '1px solid #000',
 						boxSizing: 'border-box',
 						fontSize: '1rem',
 					}}
@@ -155,8 +155,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 						display: 'block',
 						width: '85%',
 						padding: '12px',
-						backgroundColor: '#921F05',
-						color: '#ebdf98',
+						backgroundColor: 'black',
+						color: 'white',
 						cursor: 'pointer',
 						border: 'none',
 						borderRadius: '8px',
@@ -168,10 +168,13 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 						textAlign: 'center',
 					}}
 					onMouseOver={(e) => {
-						e.currentTarget.style.backgroundColor = '#7a1904'
+						e.currentTarget.style.backgroundColor = '#d2c2a9'
+						e.currentTarget.style.color = 'black'
+						e.currentTarget.style.border = '1px solid #000'
 					}}
 					onMouseOut={(e) => {
-						e.currentTarget.style.backgroundColor = '#921F05'
+						e.currentTarget.style.backgroundColor = 'black'
+						e.currentTarget.style.color = 'white'
 					}}
 				>
 					Submit
@@ -212,6 +215,4 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 	)
 }
 
-export default function bruh() {
-	return <div>WIP</div>
-}
+export default IDScanner

@@ -60,11 +60,6 @@
 	padding: 0 2rem;
 }
 
-.cardContainer {
-	flex: 1;
-	gap: 2rem;
-}
-
 @media screen and (max-width: 768px) {
 	.heroHeading1 {
 		font-size: 2rem;
