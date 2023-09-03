@@ -1,12 +1,14 @@
-import { headers } from 'next/headers'
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { DivProps, ElementProps } from 'react-html-props'
 
 export type MarqueeHeaderProps = DivProps & {
 	showBadge?: boolean
 }
 export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
-	const pathname = headers().get('x-invoke-path')
+	const pathname = usePathname()
 	if (showBadge === undefined) {
 		showBadge = pathname === '/'
 	}
