@@ -180,14 +180,14 @@ export default async function Landing() {
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-16 w-full">
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-2 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
 					</h2>
 					<div
 						className={twJoin(
-							'grid grid-cols-3 auto-rows-fr gap-4',
+							'flex flex-wrap auto-rows-fr gap-4',
 							'md:grid-cols-2',
 						)}
 					>

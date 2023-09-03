@@ -20,7 +20,7 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 	const botRadius = 'rounded-bl-xl rounded-br-xl';
 	return (
 		
-		<div className="flex flex-col py-6 px-6 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
+		<div className="flex flex-col max-w-sm py-6 px-3 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
 			<header className={twMerge("flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0", topRadius)} {...props}>
 				<span>HackUTA 2023</span>
 				<Separator />
