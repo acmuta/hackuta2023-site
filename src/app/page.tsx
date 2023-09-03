@@ -141,7 +141,7 @@ export default async function Landing() {
 				gap=".5rem"
 				className="my-2"
 			>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-16 w-full">
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center gap-4">
 							<h1 className="sm:text-6xl font-heading text-hackuta-yellow text-4xl drop-shadow-hackuta">
@@ -151,8 +151,8 @@ export default async function Landing() {
 								Once in a year event
 							</div>
 						</section>
-						<div className='flex flex-col md:flex-row px-3 mx-3'>
-							<LinkButton href="/api/auth/signin">Apply</LinkButton>
+						<div className="flex flex-col md:flex-row px-3 mx-3">
+							<LinkButton href="/apply">Apply</LinkButton>
 							<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
 								Sponsor
 							</LinkButton>
@@ -180,15 +180,15 @@ export default async function Landing() {
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-2 w-full">
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
 					</h2>
 					<div
 						className={twJoin(
-							'flex flex-wrap auto-rows-fr gap-4',
-							'md:grid-cols-2',
+							'grid auto-rows-fr gap-4',
+							'grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3',
 						)}
 					>
 						{sponsors.map((company, index) => (

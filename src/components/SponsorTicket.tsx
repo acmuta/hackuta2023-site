@@ -19,33 +19,53 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 	const topRadius = 'rounded-tl-xl rounded-tr-xl';
 	const botRadius = 'rounded-bl-xl rounded-br-xl';
 	return (
-		
-		<div className="flex flex-col max-w-sm py-6 px-3 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
-			<header className={twMerge("flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0", topRadius)} {...props}>
+		<div className="flex flex-col py-6 px-6 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
+			<header
+				className={twMerge(
+					'hidden sm:flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0',
+					topRadius,
+				)}
+				{...props}
+			>
 				<span>HackUTA 2023</span>
 				<Separator />
 				<span>{companyName}</span>
 				<Separator />
-				<span className='tracking-widest'>#0123456</span>
+				<span className="tracking-widest">#0123456</span>
 			</header>
-			<div className={twJoin('flex items-center justify-center px-8 py-4', 'border-2 border-hackuta-black border-dashed border-b-0')}>
+			<div
+				className={twJoin(
+					'flex items-center justify-center px-2 sm:px-8 sm:py-4',
+					'border-2 border-hackuta-black border-dashed border-b-0',
+				)}
+			>
 				<Link href={companyUrl}>
 					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src={imageUrl} alt={companyName} className='my-2 object-contain h-[100px]' />
+					<img
+						src={imageUrl}
+						alt={companyName}
+						className="my-2 object-contain h-[100px]"
+					/>
 				</Link>
 			</div>
-			<footer className={twMerge("flex flex-row justify-between items-center gap-8 px-6 py-4  font-shrimp uppercase text-white", botRadius, kind === 'Sponsor' ? 'bg-hackuta-black' : 'bg-[#cf4227]')}>
-				<div className="flex flex-row gap-1 opacity-25">
+			<footer
+				className={twMerge(
+					'flex flex-row justify-between items-center gap-8 px-6 py-4  font-shrimp uppercase text-white',
+					botRadius,
+					kind === 'Sponsor' ? 'bg-hackuta-black' : 'bg-[#cf4227]',
+				)}
+			>
+				<div className="hidden sm:flex flex-row gap-1 opacity-25">
 					<Star width={starSize} height={starSize} />
 					<Star width={starSize} height={starSize} />
 					<Star width={starSize} height={starSize} />
 					<Star width={starSize} height={starSize} />
 				</div>
 				<div className="flex flex-row gap-4 items-center">
-					<span>Oct 7-8 2023</span>
-					<span className='flex flex-row gap-2 items-center'>
+					<span className="hidden sm:inline">Oct 7-8 2023</span>
+					<span className="flex flex-row gap-2 items-center">
 						{kind} Certified
-						<VerifiedBadge className='h-6 w-6' />
+						<VerifiedBadge className="h-6 w-6" />
 					</span>
 				</div>
 			</footer>
