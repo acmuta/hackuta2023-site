@@ -22,16 +22,16 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 		<div className="flex flex-col py-6 px-6 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
 			<header
 				className={twMerge(
-					'hidden sm:flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0',
+					'flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0',
 					topRadius,
 				)}
 				{...props}
 			>
 				<span>HackUTA 2023</span>
-				<Separator />
-				<span>{companyName}</span>
-				<Separator />
-				<span className="tracking-widest">#0123456</span>
+				<Separator className="hidden sm:block" />
+				<span className="hidden sm:block">{companyName}</span>
+				<Separator className="hidden sm:block" />
+				<span className="hidden sm:block tracking-widest">#0123456</span>
 			</header>
 			<div
 				className={twJoin(
