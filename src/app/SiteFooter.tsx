@@ -3,8 +3,6 @@ import Link from 'next/link'
 
 import { Footer, FooterNav } from '@/components/Footer'
 
-import { MarqueeHeader } from '../components/MarqueeHeader'
-
 export default function SiteFooter() {
 	return (
 		<div className={'flex flex-col'}>
@@ -52,7 +50,6 @@ export default function SiteFooter() {
 					]}
 				/>
 			</Footer>
-			<MarqueeHeader />
 		</div>
 	)
 }

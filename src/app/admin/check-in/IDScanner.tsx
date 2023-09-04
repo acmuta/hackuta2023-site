@@ -22,7 +22,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 
 			if (match) {
 				const id = data.text.slice('hackuta2023:'.length)
-				setInputValue(`ID number: ${id}`)
+				setInputValue(id)
 				onScanned?.(id)
 			} else {
 				setErrorMessage('Scanned QR code is not a valid HackUTA ID hex.')

@@ -11,10 +11,10 @@
 	--color-green: #228848;
 	--color-red: #d50032;
 
-	--color-background: #D2C2A9;
+	--color-background: #d2c2a9;
 	--color-body: #323e52;
-	--color-primary: #2869A9;
-	--color-primary-darker: #122F4C;
+	--color-primary: #2869a9;
+	--color-primary-darker: #122f4c;
 	--color-primary-lighter: #ab2406;
 	--color-primary-body: var(--color-white);
 	--color-outline: #059266;
@@ -210,8 +210,9 @@ video {
 	margin-top: calc(-1 * var(--header-height));
 }
 
-a, a:where(:visited) {
-	@apply underline text-hackuta-darkblue
+a,
+a:where(:visited) {
+	@apply underline text-hackuta-darkblue;
 }
 
 table.borderTable,

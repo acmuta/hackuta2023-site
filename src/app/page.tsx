@@ -139,7 +139,7 @@ export default async function Landing() {
 				alignItems="center"
 				justifyContent="start"
 				gap=".5rem"
-				className="my-2"
+				className="mb-2"
 			>
 				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
