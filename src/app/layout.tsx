@@ -38,7 +38,6 @@ export const metadata = {
 		initialScale: 1,
 	},
 	icons: [
-		// https://realfavicongenerator.net
 		{
 			rel: 'icon',
 			type: 'image/png',
@@ -53,10 +52,6 @@ export const metadata = {
 		},
 	],
 	manifest: '/site.webmanifest',
-	other: {
-		'msapplication-TileColor': '#da532c',
-		'theme-color': '#ffffff',
-	},
 }
 
 export default function RootLayout({
