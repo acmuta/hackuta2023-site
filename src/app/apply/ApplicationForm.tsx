@@ -95,8 +95,8 @@ export function ApplicationForm() {
 			gap="1.25rem"
 			className={styles.applicationForm}
 		>
-			<h2 className='font-heading text-4xl'>Application</h2>
-			<h3 className='font-heading text-2xl'>General Information</h3>
+			<h2 className="font-heading text-4xl">Application</h2>
+			<h3 className="font-heading text-2xl">General Information</h3>
 			<TextInput
 				id="firstName"
 				text="First Name"
@@ -167,11 +167,11 @@ export function ApplicationForm() {
 				isMulti
 			/>
 
-			<h3 className='font-heading text-2xl'>Optional Information</h3>
+			<h3 className="font-heading text-2xl">Optional Information</h3>
 			<Dropdown
 				id="underrepresentedGroup"
 				text="Do you identify as part of an underrepresented group in the technology industry?"
-				description='(Optional)'
+				description="(Optional)"
 				errors={errors['underrepresentedGroup']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(TernarySchema)}
@@ -222,7 +222,7 @@ export function ApplicationForm() {
 			<Dropdown
 				id="highestLevelOfEducation"
 				text="What is the highest level of formal education that you have completed?"
-				description='(Optional)'
+				description="(Optional)"
 				errors={errors['highestLevelOfEducation']}
 				selectProps={{ form: 'applicationForm' }}
 				options={zodEnumToOptions(LevelOfStudySchema)}
@@ -246,13 +246,25 @@ export function ApplicationForm() {
 				accept="application/pdf"
 			/>
 			<TextInput
+				id="monthsCoding"
+				text="How many months have you been coding?"
+				description="(Optional) Input an integer."
+				errors={errors['monthsCoding']}
+			/>
+			<TextInput
+				id="hackathonsAttended"
+				text="How many hackathons have you attended?"
+				description="(Optional) Input an integer."
+				errors={errors['hackathonsAttended']}
+			/>
+			<TextInput
 				id="catchall"
 				text="Any additional information you'd like us to know?"
-				description='(Optional)'
+				description="(Optional)"
 				errors={errors['catchall']}
 			/>
 
-			<h3 className='font-heading text-2xl'>MLH Checkboxes</h3>
+			<h3 className="font-heading text-2xl">MLH Checkboxes</h3>
 			<Dropdown
 				id="agreedMlhCoC"
 				text={
