@@ -6,6 +6,9 @@ import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 import { stringifyError } from '@/lib/utils/shared'
 
+// Database query
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
 	try {
 		// get all users with a resume by filter
