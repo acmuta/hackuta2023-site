@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
 		logger.info(
 			users.slice(0, 10).map((u) => u.email),
-			`[/admin/marketing/send] sending emails to ${users.length} addresses: ${body.subject} ${body.tag}`,
+			`[/admin/email/send] sending emails to ${users.length} addresses: ${body.subject} ${body.tag}`,
 		)
 
 		const htmlRenderer = doT.template(body.html, doTSettings)
@@ -81,9 +81,9 @@ export async function POST(request: Request) {
 
 		return NextResponse.json(jsend.success({ number_recipients: users.length }))
 	} catch (e) {
-		logger.error(e, '[/admin/marketing/send]')
+		logger.error(e, '[/admin/email/send]')
 		return NextResponse.json(
-			jsend.error('/admin/marketing/send Error: see log for more information.'),
+			jsend.error('/admin/email/send Error: see log for more information.'),
 		)
 	}
 }

@@ -10,60 +10,60 @@ export type AppPermissions =
 	| undefined
 	| true
 	| {
-			administration?: true | OnlyRead
-			applications?:
+			administration?:
 				| true
 				| {
-						submit?: true | OnlyWrite
-						manage?:
+						application?:
 							| true
 							| {
-									basic?: true | ReadWrite
-									demographicsInformation?: true | OnlyRead
+									basic?: true
+									sensitive?: true
+									decision?: true
 							  }
+						checkIn?:
+							| true
+							| {
+									[event: string]: true
+							  }
+						email?: true
+						faq?: true
+						post?: true
+						schedule?: true
+						user?: true
 				  }
-			auth?: OnlyWrite
-			checkIn?: true | OnlyWrite
-			faqs?: true | ReadWrite
-			marketing?: true | OnlyWrite
-			posts?: true | ReadWrite
-			schedule?: true | ReadWrite
-			teams?: true | ReadWrite
-			users?: true | ReadWrite
+			application?: true
+			auth?: true
+			faq?: true
+			post?: true
+			schedule?: true
 	  }
 
 export const RolePermissionMap = {
 	'@unauthenticated': {
-		auth: { write: true },
-		faqs: { read: true },
-		// schedule: { read: true },
-		// posts: { read: true },
+		auth: true,
+		faq: true,
+		schedule: true,
+		post: true,
 	},
 	'@authenticated': {
-		applications: { submit: true },
+		application: true,
 	},
 	organizer: {
-		administration: true,
-		applications: { submit: true, manage: { basic: true } },
-		checkIn: true,
+		administration: {
+			application: {
+				basic: true,
+			},
+			checkIn: true,
+		},
 	},
-	sponsor: {
-		administration: true,
-		posts: true,
-		teams: true,
-		users: true,
+	information: {
+		administration: {
+			faq: true,
+			post: true,
+			schedule: true,
+		},
 	},
-	admin: {
-		administration: true,
-		applications: { submit: true, manage: { basic: true } },
-		checkIn: true,
-		faqs: true,
-		marketing: true,
-		posts: true,
-		schedule: true,
-		teams: true,
-		users: true,
-	},
+	admin: true,
 } satisfies Record<string, AppPermissions>
 
 export function hasPermission(
@@ -117,16 +117,6 @@ export function mergePermission(
 	return result
 }
 
-interface OnlyRead extends PermissionShapeObject {
-	read?: true
-}
-
-interface OnlyWrite extends PermissionShapeObject {
-	write?: true
-}
-
-interface ReadWrite extends OnlyRead, OnlyWrite {}
-
 /**
  * JSON friendly.
  */
@@ -141,21 +131,27 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		perms: undefined,
 	},
 	{
-		matcher: new RegExp('^/admin($|/)'),
+		matcher: new RegExp('^/admin'),
 		perms: {
-			administration: {
-				read: true,
-			},
+			administration: {},
 		},
 	},
 	{
 		matcher: new RegExp('^/admin/applications'),
 		perms: {
-			applications: {
-				manage: {
-					basic: {
-						read: true,
-					},
+			administration: {
+				application: {
+					basic: true,
+				},
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/admin/applications/decide'),
+		perms: {
+			administration: {
+				application: {
+					decision: true,
 				},
 			},
 		},
@@ -163,85 +159,83 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 	{
 		matcher: new RegExp('^/admin/check-in'),
 		perms: {
-			checkIn: {
-				write: true,
+			administration: {
+				checkIn: {},
 			},
 		},
 	},
 	{
-		matcher: new RegExp('^/admin/marketing'),
+		matcher: new RegExp('^/admin/email'),
 		perms: {
-			marketing: {
-				write: true,
+			administration: {
+				email: true,
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/admin/faq'),
+		perms: {
+			administration: {
+				faq: true,
 			},
 		},
 	},
 	{
 		matcher: new RegExp('^/admin/post'),
 		perms: {
-			posts: {
-				write: true,
+			administration: {
+				post: true,
 			},
 		},
 	},
 	{
-		matcher: new RegExp('^/admin/teams'),
+		matcher: new RegExp('^/admin/schedule'),
 		perms: {
-			teams: {
-				read: true,
+			administration: {
+				schedule: true,
 			},
 		},
 	},
 	{
 		matcher: new RegExp('^/admin/users'),
 		perms: {
-			users: {
-				read: true,
-			},
-		},
-	},
-	{
-		matcher: new RegExp('^/api/admin/user'),
-		perms: {
-			applications: {
-				manage: {
-					basic: {
-						write: true,
-					},
-				},
+			administration: {
+				user: true,
 			},
 		},
 	},
 	{
 		matcher: new RegExp('^/api/auth'),
 		perms: {
-			auth: {
-				write: true,
-			},
+			auth: true,
 		},
 	},
 	{
-		matcher: new RegExp('^/faq$'),
+		matcher: new RegExp('^/faq'),
 		perms: {
-			faqs: {
-				read: true,
-			},
+			faq: true,
 		},
 	},
 	{
-		matcher: new RegExp('^/post/'),
+		matcher: new RegExp('^/post'),
 		perms: {
-			posts: {
-				read: true,
-			},
+			post: true,
 		},
 	},
 	{
-		matcher: new RegExp('^/schedule$'),
+		matcher: new RegExp('^/schedule'),
 		perms: {
-			schedule: {
-				read: true,
-			},
+			schedule: true,
 		},
 	},
 ]
+
+export function hasRoutePermission(
+	pathname: string,
+	granted: AppPermissions,
+): boolean {
+	return RoutePermissions.every(
+		({ matcher, perms }) =>
+			!matcher.test(pathname) || hasPermission(granted, perms),
+	)
+}

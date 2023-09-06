@@ -5,7 +5,7 @@ import User from '@/lib/db/models/User'
 
 import Form from './Form'
 
-export default async function Marketing() {
+export default async function Email() {
 	try {
 		const client = await clientPromise
 		const allEmails = await client
@@ -18,7 +18,7 @@ export default async function Marketing() {
 			.distinct('receivedEmailTags')
 		return (
 			<Box direction="column" gap="1rem">
-				<Heading level={1}>Marketing Emails</Heading>
+				<Heading level={1}>Emails</Heading>
 				<Form allEmails={allEmails} existingTags={existingTags} />
 			</Box>
 		)

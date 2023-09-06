@@ -3,9 +3,8 @@ import { NextResponse } from 'next/server'
 
 import {
 	EnhancedSession,
-	hasPermission,
+	hasRoutePermission,
 	RolePermissionMap,
-	RoutePermissions,
 } from './lib/auth/shared'
 
 export async function middleware(request: NextRequest) {
@@ -53,10 +52,9 @@ export async function middleware(request: NextRequest) {
 	}
 
 	// Check authorization and rewrite accordingly.
-	const authorized = RoutePermissions.every(
-		({ matcher, perms }) =>
-			!matcher.test(request.nextUrl.pathname) ||
-			hasPermission(session?.perms, perms),
+	const authorized = hasRoutePermission(
+		request.nextUrl.pathname,
+		session?.perms,
 	)
 	if (authorized) {
 		return NextResponse.next(middlewareInit)

@@ -10,7 +10,6 @@ import { fetchPost } from '@/lib/utils/client'
 
 import { MarkDownEditor } from '../post/MarkDownEditor'
 import { PostBodySchema, RecipientFilters } from './constants'
-import styles from './Marketing.module.css'
 
 interface Props {
 	allEmails: string[]
@@ -44,7 +43,7 @@ export default function Form({ allEmails, existingTags }: Props) {
 				alert('Action cancelled!')
 				return
 			}
-			await fetchPost<unknown>('/admin/marketing/send', JSON.stringify(body))
+			await fetchPost<unknown>('/admin/email/send', JSON.stringify(body))
 		} catch (e) {
 			console.error(e)
 			alert(e)
@@ -104,7 +103,7 @@ export default function Form({ allEmails, existingTags }: Props) {
 				onSourceChange={setBodyText}
 				onPreviewChange={setBodyHtml}
 			/>
-			<Button className={styles.submitButton} type="submit">
+			<Button className={'self-start'} type="submit">
 				Send
 			</Button>
 		</Box>

@@ -1,3 +1,5 @@
+import 'primereact/resources/primereact.min.css'
+import 'primereact/resources/themes/lara-light-teal/theme.css'
 import './globals.css'
 
 import { Atkinson_Hyperlegible, Bungee } from 'next/font/google'

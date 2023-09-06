@@ -59,7 +59,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 					)}
 				>
 					<HeaderLink href="/">Home</HeaderLink>
-					{hasPermission(perms, { administration: { read: true } }) && (
+					{hasPermission(perms, { administration: {} }) && (
 						<HeaderLink href="/admin">Admin</HeaderLink>
 					)}
 					{!user?.application && <HeaderLink href="/apply">Apply</HeaderLink>}

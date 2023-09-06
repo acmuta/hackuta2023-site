@@ -5,12 +5,14 @@ import { twJoin } from 'tailwind-merge'
 
 export { ToggleButton } from './ToggleButton'
 
-const getButtonClassNames = () => twJoin(
-	'flex flex-row gap-4 justify-center items-center',
-	'py-3 px-5 mb-2 md:mb-0 md:mr-2',
-	'bg-hackuta-blue shadow-hackuta text-white font-saotorpes tracking-wider te',
-	'cursor-pointer select-none'
-)
+const getButtonClassNames = () =>
+	twJoin(
+		'flex flex-row gap-4 justify-center items-center',
+		'py-3 px-5 mb-2 md:mb-0 md:mr-2',
+		'bg-hackuta-blue shadow-hackuta text-white font-saotorpes tracking-wider te',
+		'cursor-pointer select-none',
+		'disabled:bg-[gray] disabled:cursor-not-allowed',
+	)
 
 interface StarProps extends SVGProps {
 	fillColor: string,
