@@ -6,9 +6,9 @@ import { fromZodError } from 'zod-validation-error'
 
 import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
+import { BlockedHackerSchema } from '@/lib/db/models/BlockedHacker'
 import { EventSchema } from '@/lib/db/models/Event'
-import { FaqSchema } from '@/lib/db/models/Faq'
-import { stringifyError } from '@/lib/utils/client'
+import { fetchPost, stringifyError } from '@/lib/utils/client'
 
 interface Props {
 	text: string
@@ -16,28 +16,27 @@ interface Props {
 	schema: SchemaName
 }
 
-type SchemaName = 'event' | 'faq'
+type SchemaName = 'event' | 'blocked_hacker'
 
 const SchemaMap: Record<SchemaName, ZodTypeAny> = {
+	blocked_hacker: BlockedHackerSchema,
 	event: EventSchema,
-	faq: FaqSchema,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function JsonEditor({ text, postUrl, schema }: Props) {
 	const [textVal, setTextVal] = useState(text)
 	const [error, setError] = useState<string>()
 
-	// const save = async () => {
-	// 	try {
-	// 		const isValid = validate()
-	// 		if (isValid) {
-	// 			await fetchPost<unknown>(postUrl, textVal)
-	// 		}
-	// 	} catch (e) {
-	// 		setError(stringifyError(e))
-	// 	}
-	// }
+	const save = async () => {
+		try {
+			const isValid = validate()
+			if (isValid) {
+				await fetchPost<unknown>(postUrl, textVal)
+			}
+		} catch (e) {
+			setError(stringifyError(e))
+		}
+	}
 
 	const validate = () => {
 		try {
@@ -59,7 +58,7 @@ export default function JsonEditor({ text, postUrl, schema }: Props) {
 
 	return (
 		<Box direction="column" gap="1rem">
-			{error}
+			<span className="text-hackuta-red"> {error}</span>
 			<textarea
 				title="idk"
 				id="json"
@@ -69,7 +68,7 @@ export default function JsonEditor({ text, postUrl, schema }: Props) {
 				onChange={(e) => setTextVal(e.target.value)}
 			/>
 			<Box direction="row" gap="1rem">
-				{/* <Button onClick={save}>Save</Button> */}
+				<Button onClick={save}>Save</Button>
 				<Button kind="secondary" onClick={validate}>
 					Validate
 				</Button>

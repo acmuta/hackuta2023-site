@@ -1,19 +1,13 @@
 import JSZip from 'jszip'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
 import clientPromise from '@/lib/db'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
+import { stringifyError } from '@/lib/utils/shared'
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
-) {
+export async function GET() {
 	try {
-		if (req.method !== 'GET') {
-			throw new Error(`Unsupported ${req.method}`)
-		}
-
 		// get all users with a resume by filter
 		const client = await clientPromise
 		const users: User[] = await client
@@ -42,12 +36,16 @@ export default async function handler(
 
 		// send the zip file
 		const zip = await jzip.generateAsync({ type: 'nodebuffer' })
-		res.setHeader('Content-Type', 'application/zip')
-		res.setHeader('Content-Disposition', 'attachment; filename=resumes.zip')
+		const res = new NextResponse(zip, {
+			headers: {
+				'Content-Disposition': 'attachment; filename=resumes.zip',
+				'Content-Type': 'application/zip',
+			},
+		})
 
-		return res.status(200).send(zip)
+		return res
 	} catch (e) {
 		logger.error(e, '[/api/admin/resumes]')
-		return res.status(500)
+		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }

@@ -17,7 +17,10 @@ export type AppPermissions =
 							| true
 							| {
 									basic?: true
+									/** Read access to full application */
 									sensitive?: true
+									/** Write access to blocklist */
+									blocklist?: true
 									decision?: true
 							  }
 						checkIn?:
@@ -137,11 +140,27 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		},
 	},
 	{
+		matcher: new RegExp('^/api/admin'),
+		perms: {
+			administration: {},
+		},
+	},
+	{
 		matcher: new RegExp('^/admin/applications'),
 		perms: {
 			administration: {
 				application: {
 					basic: true,
+				},
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/admin/applications/blocklist'),
+		perms: {
+			administration: {
+				application: {
+					blocklist: true,
 				},
 			},
 		},
@@ -197,11 +216,25 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		},
 	},
 	{
+		matcher: new RegExp('^/api/admin/schedule'),
+		perms: {
+			administration: {
+				schedule: true,
+			},
+		},
+	},
+	{
 		matcher: new RegExp('^/admin/users'),
 		perms: {
 			administration: {
 				user: true,
 			},
+		},
+	},
+	{
+		matcher: new RegExp('^/api/apply'),
+		perms: {
+			application: true,
 		},
 	},
 	{

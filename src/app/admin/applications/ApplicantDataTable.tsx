@@ -7,13 +7,16 @@ import {
 	DataTableExpandedRows,
 	DataTableValueArray,
 } from 'primereact/datatable'
-import { useState } from 'react'
+import { ReactFragment, useState } from 'react'
+import { twJoin } from 'tailwind-merge'
 
 import { Button } from '@/components/Button'
 import { AppPermissions, hasPermission } from '@/lib/auth/shared'
+import { BlockedHacker } from '@/lib/db/models/BlockedHacker'
 import User, { Application } from '@/lib/db/models/User'
 import { stringifyError } from '@/lib/utils/shared'
 
+import JsonEditor from '../JsonEditor'
 import { ApplicationDecideRequestBody } from './decide/route'
 
 export type Row = Application & {
@@ -23,11 +26,13 @@ export type Row = Application & {
 
 export interface ApplicantDataTableProps {
 	applications: Row[]
+	blockedHackers: readonly BlockedHacker[]
 	perms: AppPermissions
 }
 
 export default function ApplicantDataTable({
 	applications,
+	blockedHackers,
 	perms,
 }: ApplicantDataTableProps) {
 	const [selectedRows, setSelectedRows] = useState<Row[]>([])
@@ -41,6 +46,34 @@ export default function ApplicantDataTable({
 	const hasDecisionPerm = hasPermission(perms, {
 		administration: { application: { decision: true } },
 	})
+	const hasBlocklistPerm = hasPermission(perms, {
+		administration: { application: { blocklist: true } },
+	})
+
+	const isBlocked = (r: Row) =>
+		blockedHackers.some(
+			(b) =>
+				`${b.first_name} ${b.last_name}` === `${r.firstName} ${r.lastName}`,
+		)
+
+	interface DisqualifierFieldProps {
+		children: ReactFragment | number
+		criterionName?: string
+		disqualified: boolean
+	}
+
+	const DisqualifierField = ({
+		children,
+		criterionName,
+		disqualified,
+	}: DisqualifierFieldProps) => (
+		<div
+			className={twJoin(disqualified ? 'bg-hackuta-red text-white' : '', 'p-2')}
+		>
+			{children}
+			{disqualified && criterionName ? ` (${criterionName})` : ''}
+		</div>
+	)
 
 	const decide = async (decision: NonNullable<User['applicationStatus']>) => {
 		try {
@@ -92,9 +125,45 @@ export default function ApplicantDataTable({
 			>
 				{hasDecisionPerm && <Column selectionMode="multiple" />}
 				{hasSensitivePerm && <Column expander />}
-				<Column header="First Name" field="firstName" filter sortable />
-				<Column header="Last Name" field="lastName" filter sortable />
-				<Column header="Age" field="age" filter sortable />
+				<Column
+					header="First Name"
+					field="firstName"
+					body={(r: Row) => (
+						<DisqualifierField disqualified={isBlocked(r)}>
+							{r.firstName}
+						</DisqualifierField>
+					)}
+					filter
+					sortable
+				/>
+				<Column
+					header="Last Name"
+					field="lastName"
+					body={(r: Row) => (
+						<DisqualifierField
+							criterionName="BLOCKED"
+							disqualified={isBlocked(r)}
+						>
+							{r.lastName}
+						</DisqualifierField>
+					)}
+					filter
+					sortable
+				/>
+				<Column
+					header="Age"
+					field="age"
+					body={(r: Row) => (
+						<DisqualifierField
+							criterionName="UNDER18"
+							disqualified={r.age < 18}
+						>
+							{r.age}
+						</DisqualifierField>
+					)}
+					filter
+					sortable
+				/>
 				<Column header="School" field="school" filter sortable />
 				<Column
 					header="Country of Residence"
@@ -120,7 +189,28 @@ export default function ApplicantDataTable({
 						)
 					}
 				/>
-				<Column header="Status" field="status" filter sortable />
+				<Column
+					header="Status"
+					field="status"
+					body={(r: Row) => (
+						<span
+							className={twJoin(
+								r.status === 'accepted'
+									? 'bg-[green] text-white'
+									: r.status === 'waitlisted'
+									? 'bg-hackuta-yellow text-black'
+									: r.status === 'rejected'
+									? 'bg-hackuta-red text-white'
+									: 'bg-black text-white',
+								'p-2',
+							)}
+						>
+							{r.status}
+						</span>
+					)}
+					filter
+					sortable
+				/>
 			</DataTable>
 			{hasDecisionPerm && (
 				<>
@@ -150,6 +240,16 @@ export default function ApplicantDataTable({
 						</Button>
 					</div>
 				</>
+			)}
+			{hasBlocklistPerm && (
+				<details className="border-2 border-black p-2 mt-2">
+					<summary>Blocklist</summary>
+					<JsonEditor
+						postUrl="/admin/applications/blocklist"
+						schema="blocked_hacker"
+						text={JSON.stringify(blockedHackers, undefined, 4)}
+					/>
+				</details>
 			)}
 		</div>
 	)

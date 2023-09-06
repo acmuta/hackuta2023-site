@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import clientPromise from '@/lib/db'
-import User from '@/lib/db/models/User'
+import {
+	BlockedHacker,
+	BlockedHackerCollection,
+	BlockedHackerSchema,
+} from '@/lib/db/models/BlockedHacker'
 import logger from '@/lib/logger'
-import { stringifyError } from '@/lib/utils/server'
+import { stringifyError } from '@/lib/utils/shared'
 
 const BodySchema = z.object({
 	emails: z.string().array(),
@@ -14,24 +18,27 @@ const BodySchema = z.object({
 export type ApplicationDecideRequestBody = z.infer<typeof BodySchema>
 
 export async function POST(request: NextRequest) {
-	const body = BodySchema.parse(await request.json())
 	try {
+		const body = BlockedHackerSchema.array().parse(await request.json())
+
 		const client = await clientPromise
 		await client
 			.db()
-			.collection<User>('users')
-			.updateMany(
-				{ email: { $in: body.emails } },
+			.collection<BlockedHacker>(BlockedHackerCollection)
+			.bulkWrite([
 				{
-					$set: {
-						applicationDecided: new Date(),
-						applicationStatus: body.decision,
-					},
+					deleteMany: { filter: {} },
 				},
-			)
+				...body.map((v) => ({
+					insertOne: {
+						document: v,
+					},
+				})),
+			])
+
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
-		logger.error(e, `[/admin/applications/decide]`)
+		logger.error(e, request.nextUrl.pathname)
 		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }
