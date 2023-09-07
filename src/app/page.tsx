@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { SVGProps } from 'react-html-props'
 import { twJoin } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import HackathonCalendar from '@/components/calendar'
 import { ClippedBadge } from '@/components/ClippedBadge'
 import { HackTicket } from '@/components/HackTicket'
 import { SponsorTicket, SponsorTicketKind } from '@/components/SponsorTicket'
@@ -98,6 +100,8 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 
 export default async function Landing() {
 	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	const startDate = new Date('10/07/2023 06:00:00')
+	const endDate = new Date('10/08/2023 18:00:00')
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
@@ -134,6 +138,7 @@ export default async function Landing() {
 
 	return (
 		<>
+		
 			<Box
 				direction="column"
 				alignItems="center"
@@ -202,6 +207,13 @@ export default async function Landing() {
 						))}
 					</div>
 				</div>
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
+						Schedule
+						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
+					</h2>
+					<HackathonCalendar startDate={startDate} endDate={endDate}/>
+					</div>
 			</Box>
 			{/* <Box as="main" direction="column" className={styles.main}>
 
