@@ -23,10 +23,10 @@ export function FaqSection({
 					// .sort((a, b) => a._id - b._id)
 					.map((faq) => (
 						<Accordion
-							className='drop-shadow-hackuta border-l-4 border-hackuta-yellow pl-4'
-							arrowClassName='text-hackuta-red drop-shadow-hackuta'
-							summaryClassName='text-xl font-body'
-							contentClassName='font-body mb-4'
+							className="drop-shadow-hackuta border-l-4 border-hackuta-yellow pl-4 w-full max-w-md"
+							arrowClassName="text-hackuta-red drop-shadow-hackuta"
+							summaryClassName="text-xl font-body"
+							contentClassName="font-body mb-4"
 							key={`${faq.q}-${faq.a}`}
 							summary={faq.q}
 						>
@@ -44,7 +44,7 @@ export function FaqSection({
 				Frequently Asked
 				<WavyPattern className="w-32" />
 			</h2>
-			<div className="flex flex-col gap-4 w-full md:w-1/2">{content}</div>
+			<div className="flex flex-row flex-wrap gap-4 items-start">{content}</div>
 		</div>
 	)
 }
