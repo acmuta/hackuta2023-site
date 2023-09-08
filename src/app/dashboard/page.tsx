@@ -72,10 +72,10 @@ export default async function Dashboard() {
 	} else {
 		children = [
 			<p key="kid">
-				We&apos;ve received your application. Check back later to see if you get
-				accepted, and feel free to contact the organizers at{' '}
-				<a href="mailto:hello@hackuta.org">hello@hackuta.org</a> if you need any
-				assistance!
+				We&apos;ve received your application. You will receive an email update
+				about the status of the application. Feel free to contact the organizers
+				at <a href="mailto:hello@hackuta.org">hello@hackuta.org</a> if you need
+				any assistance!
 			</p>,
 		]
 	}
