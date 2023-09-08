@@ -153,8 +153,8 @@ export default async function Landing() {
 						</section>
 						<div className="flex flex-col md:flex-row px-3 mx-3">
 							<LinkButton href="/apply">Apply</LinkButton>
-							<LinkButton href="mailto:sponsor@hackuta.org" kind="secondary">
-								Sponsor
+							<LinkButton href="https://discord.gg/4e64SfjmWS" kind="secondary">
+								Discord
 							</LinkButton>
 						</div>
 						<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
