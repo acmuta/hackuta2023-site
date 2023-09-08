@@ -96,6 +96,7 @@ export default function ApplicantDataTable({
 
 	return (
 		<div className="flex flex-col gap-2">
+			<p>Total Applications: {applications.length}</p>
 			<DataTable
 				value={applications}
 				// pagination
