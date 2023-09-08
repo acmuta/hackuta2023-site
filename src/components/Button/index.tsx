@@ -59,11 +59,12 @@ export type LinkButtonProps = LinkProps &
 	}
 export function LinkButton({
 	children,
+	className,
 	kind = 'primary',
 	...props
 }: LinkButtonProps) {
 	return (
-		<Link className={twJoin(getButtonClassNames(), 'no-underline')} {...props}>
+		<Link className={twJoin(getButtonClassNames(), 'no-underline', className)} {...props}>
 			{kind === 'primary' ? <ButtonStar /> : undefined}
 			{children}
 			{kind === 'primary' ? <ButtonStar /> : undefined}
