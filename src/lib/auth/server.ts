@@ -5,7 +5,7 @@ import {
 	AppPermissions,
 	mergePermission,
 	PermissionShape,
-	RolePermissionMap,
+	RolePermissionMap
 } from './shared'
 
 export * from './shared'

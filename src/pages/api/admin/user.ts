@@ -8,11 +8,21 @@ import logger from '@/lib/logger'
 export default async function handler(
 	req: NextApiRequest,
 	res: NextJSendResponse<User[]>,
-) {
+  ) {
+	const client = await clientPromise
+  
 	try {
-		const client = await clientPromise
-
-		if (req.method !== 'POST') {
+	  if (req.method === 'GET') {
+		const users = await client
+		  .db()
+		  .collection<User>('users')
+		  .find({})
+		  .toArray();
+		res.status(200).json(jsend.success(users));
+		return;
+	  }
+  
+	  if (req.method === 'POST') {
 			throw new Error(`Unsupported ${req.method}`)
 		}
 
