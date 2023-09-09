@@ -37,7 +37,9 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 				)}
 			>
 				{/* Hamburger Menu Icon */}
-				<Menu className={twMerge('cursor-pointer')} onClick={toggleMenu} />
+				<button onClick={toggleMenu}>
+					<Menu className={twMerge('cursor-pointer')} aria-label="Menu" />
+				</button>
 
 				<div
 					className={twMerge(
@@ -116,11 +118,18 @@ interface HeaderLinkProps {
 }
 
 const HeaderLink = ({ href, children }: HeaderLinkProps) => {
+	const pathname = usePathname()
+	const selected =
+		href === '/' ? !pathname || pathname === '/' : pathname?.startsWith(href)
 	return (
 		<li>
-			<Link href={href} className="font-heading text-hackuta-beige">
-				{children}
-			</Link>
+			{selected ? (
+				<span className="font-heading text-hackuta-beige">{children}</span>
+			) : (
+				<Link href={href} className="font-heading text-hackuta-beige">
+					{children}
+				</Link>
+			)}
 		</li>
 	)
 }

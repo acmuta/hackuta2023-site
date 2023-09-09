@@ -12,12 +12,23 @@ export type SponsorTicketProps = DivProps & {
 	kind: 'Sponsor'|'Partner'
 }
 
-export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props}: SponsorTicketProps) => {
-	const Separator = ({className, ...props}: SpanProps) =>
-		<span aria-hidden className={twMerge('h-full bg-black w-[1px]', className)} {...props}></span>
-	const starSize = 16;
-	const topRadius = 'rounded-tl-xl rounded-tr-xl';
-	const botRadius = 'rounded-bl-xl rounded-br-xl';
+export const SponsorTicket = ({
+	companyName,
+	companyUrl,
+	imageUrl,
+	kind,
+	...props
+}: SponsorTicketProps) => {
+	const Separator = ({ className, ...props }: SpanProps) => (
+		<span
+			aria-hidden
+			className={twMerge('h-full bg-black w-[1px]', className)}
+			{...props}
+		></span>
+	)
+	const starSize = 16
+	const topRadius = 'rounded-tl-xl rounded-tr-xl'
+	const botRadius = 'rounded-bl-xl rounded-br-xl'
 	return (
 		<div className="flex flex-col py-6 px-6 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
 			<header
@@ -65,7 +76,7 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 					<span className="hidden sm:inline">Oct 7-8 2023</span>
 					<span className="flex flex-row gap-2 items-center">
 						{kind} Certified
-						<VerifiedBadge className="h-6 w-6" />
+						<VerifiedBadge className="h-6 w-6" aria-hidden />
 					</span>
 				</div>
 			</footer>
@@ -74,11 +85,19 @@ export const SponsorTicket = ({companyName, companyUrl, imageUrl, kind, ...props
 }
 
 type StarProps = SVGProps
-const Star = ({...props}: StarProps) => {
+const Star = ({ ...props }: StarProps) => {
 	return (
-		<svg viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-	<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-		fill="#fff" />
-</svg>
+		<svg
+			viewBox="0 0 20 19"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden
+			{...props}
+		>
+			<path
+				d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
+				fill="#fff"
+			/>
+		</svg>
 	)
 }

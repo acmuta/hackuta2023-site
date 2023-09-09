@@ -170,6 +170,7 @@ export default async function Landing() {
 								</div>
 								<CTAArrow
 									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
+									aria-hidden
 								/>
 							</div>
 							<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
@@ -184,7 +185,10 @@ export default async function Landing() {
 						<div className="font-shrimp text-white tracking-wider uppercase">
 							Coming soon...
 						</div>
-						<ClippedBadge className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]" />
+						<ClippedBadge
+							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
+							aria-hidden
+						/>
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
