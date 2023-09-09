@@ -1,6 +1,6 @@
 'use client'
 
-import { DownloadSquare } from 'iconoir-react'
+import { Attachment, InfoEmpty } from 'iconoir-react'
 import Link from 'next/link'
 import { Column } from 'primereact/column'
 import {
@@ -98,7 +98,12 @@ export default function ApplicantDataTable({
 
 	return (
 		<div className="flex flex-col gap-2">
-			<p>Total Applications: {applications.length}</p>
+			<p>
+				Total Applications: {applications.length}.{' '}
+				<Link href={`/admin/applications/resume`} target="_blank" download>
+					Download All Resume
+				</Link>
+			</p>
 			<DataTable
 				value={applications}
 				// pagination
@@ -175,32 +180,33 @@ export default function ApplicantDataTable({
 					sortable
 				/>
 				<Column
-					header={
-						<div className="flex flex-col gap-2">
-							<span>Resume</span>
-							<Link
-								href={`/admin/applications/resume`}
-								className="text-hackuta-blue text-xs"
-								target="_blank"
-								download
-							>
-								Download All
-							</Link>
+					header="Misc"
+					body={(r: Row) => (
+						<div className="flex gap-1">
+							{r.resume ? (
+								<Link
+									href={`/admin/applications/resume/${r.email}`}
+									title="Download resume"
+									target="_blank"
+									download
+								>
+									<Attachment aria-hidden />
+								</Link>
+							) : undefined}
+							{r.catchall ? (
+								<button
+									title={`View other information applicant'd like to share`}
+									onClick={() =>
+										alert(
+											`The applicant also would like to share:\n${r.catchall}`,
+										)
+									}
+								>
+									<InfoEmpty aria-hidden />
+								</button>
+							) : undefined}
 						</div>
-					}
-					body={(r: Row) =>
-						r.resume ? (
-							<Link
-								href={`/admin/applications/resume/${r.email}`}
-								target="_blank"
-								download
-							>
-								<DownloadSquare />
-							</Link>
-						) : (
-							'N/A'
-						)
-					}
+					)}
 				/>
 				<Column
 					header="Status"
