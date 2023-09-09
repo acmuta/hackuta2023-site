@@ -28,7 +28,7 @@ export default function Cards() {
 		)
 	}
 	return (
-		<div>
+		<div className="flex flex-row flex-wrap items-start flex-1 ">
 			{data.data.posts.map((post) => (
 				<Card
 					key={post.slug}
