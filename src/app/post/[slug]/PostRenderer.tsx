@@ -1,48 +1,21 @@
-import doT from 'dot'
-import { ObjectId } from 'mongodb'
-import { headers } from 'next/headers'
+'use client'
 
 import { MarkDownRenderer } from '@/app/admin/post/MarkDownRenderer'
-import clientPromise from '@/lib/db'
-import Account from '@/lib/db/models/Account'
 import { Post } from '@/lib/db/models/Post'
-import { doTSettings, getEnhancedSession } from '@/lib/utils/server'
-
-import { RenderContext } from './constants'
+import { RenderContext, renderTemplate } from '@/lib/utils/shared'
 
 interface PostRendererProps {
+	context: RenderContext,
 	post: Post
 	sourceType: 'briefSource' | 'contentSource'
 }
 
-export default async function PostRenderer({
+export default function PostRenderer({
+	context,
 	post,
 	sourceType,
 }: PostRendererProps) {
-	const template = post[sourceType] ?? ''
-	const renderer = doT.template(template, doTSettings)
-	const context = await createRenderContext()
-	const markdown = renderer(context)
+	const markdown = renderTemplate(post[sourceType], context)
 
 	return <MarkDownRenderer>{markdown}</MarkDownRenderer>
-}
-
-async function createRenderContext(): Promise<RenderContext> {
-	const { user } = getEnhancedSession(headers())
-
-	const client = await clientPromise
-	const discordAccount = user
-		? await client
-				.db()
-				.collection<Account>('accounts')
-				.findOne({
-					provider: 'discord',
-					userId: new ObjectId(user._id),
-				})
-		: null
-
-	return {
-		user,
-		linkedDiscordAccount: !!discordAccount,
-	}
 }

@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
 import { Dropdown, TextInput } from '@/components/Form'
-import { Checkbox } from '@/components/Form/Checkbox'
 import { CardStyleSchema, Post } from '@/lib/db/models/Post'
 import { zodEnumToOptions } from '@/lib/utils/shared'
 
@@ -18,27 +17,16 @@ export interface PostEditorProps extends Partial<Post> {}
 export default function PostEditor({
 	briefSource: initialBriefSource,
 	contentSource: initialContentSource,
-	hidden,
 	name,
 	priority,
 	slug,
+	visibleCondition,
 	cardStyle,
 }: PostEditorProps) {
 	const isEditing = !!slug
-	// The internal states are used on <TextInput>'s to make sure hydration works.
-	// We will then synchronize the persisted states backed by the local storage on client side.
+
 	const [briefSource, setBriefSource] = useState(initialBriefSource)
 	const [contentSource, setContentSource] = useState(initialContentSource)
-
-	const submit = () => {
-		if (!isEditing) {
-			setTimeout(() => {
-				// Clear local storage of the sources on submission.
-				setBriefSource('')
-				setContentSource('')
-			}, 1)
-		}
-	}
 
 	const cardStyleOptions = zodEnumToOptions(CardStyleSchema)
 
@@ -49,7 +37,6 @@ export default function PostEditor({
 			action="/admin/post/submit"
 			method="POST"
 			gap="1.5rem"
-			onSubmit={submit}
 		>
 			<Box direction="row" alignItems="start" wrap="wrap" gap="1rem">
 				<NameSlugInput name={name} slug={slug} readOnly={isEditing} />
@@ -61,7 +48,6 @@ export default function PostEditor({
 					required
 					pattern="\d+"
 				/>
-				<Checkbox id="hidden" text="Hide the Post" defaultChecked={hidden} />
 			</Box>
 			<Box direction="row" alignItems="start" wrap="wrap" gap="1rem">
 				<Dropdown
@@ -75,6 +61,13 @@ export default function PostEditor({
 							: undefined,
 					}}
 					isClearable
+				/>
+				<TextInput
+					id="visibleCondition"
+					text="Visible Condition"
+					description="Visible iff evaluates to true. DoT Template enabled"
+					defaultValue={visibleCondition}
+					required
 				/>
 			</Box>
 			<MarkDownEditor

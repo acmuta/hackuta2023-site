@@ -8,6 +8,7 @@ import {
 } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers'
+import { headers } from 'next/headers'
 import z from 'zod'
 
 import jsend, { NextJSendResponse } from '@/lib/api/jsend'
@@ -15,6 +16,9 @@ import User from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 
 import { EnhancedSession, RolePermissionMap } from '../auth/shared'
+import clientPromise from '../db'
+import Account from '../db/models/Account'
+import { RenderContext } from './shared'
 
 export * from './shared'
 
@@ -183,5 +187,25 @@ export async function makeApiPostHandler<
 	} catch (e) {
 		logger.error(e, req.url)
 		res.status(500).json(jsend.error(e))
+	}
+}
+
+export async function createTemplateRenderContext(): Promise<RenderContext> {
+	const { user } = getEnhancedSession(headers())
+
+	const client = await clientPromise
+	const discordAccount = user
+		? await client
+				.db()
+				.collection<Account>('accounts')
+				.findOne({
+					provider: 'discord',
+					userId: new ObjectId(user._id),
+				})
+		: null
+
+	return {
+		user,
+		linkedDiscordAccount: !!discordAccount,
 	}
 }

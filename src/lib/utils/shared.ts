@@ -4,6 +4,8 @@ import { z } from 'zod'
 
 import { JSend } from '@/lib/api/jsend'
 
+import { JsonUser } from '../db/models/User'
+
 export function range(start: number, end: number) {
 	return new Array(end - start).fill(undefined).map((_, i) => i + start)
 }
@@ -67,3 +69,16 @@ export type ToJsonValue<T> = T extends Date | ObjectId
 			[K in keyof T]: ToJsonValue<T[K]>
 	  }
 	: T
+
+export interface RenderContext {
+	user: JsonUser | null
+	linkedDiscordAccount: boolean
+}
+
+export function renderTemplate(
+	template: string | undefined,
+	ctx: RenderContext,
+) {
+	const renderer = doT.template(template ?? '', doTSettings)
+	return renderer(ctx)
+}

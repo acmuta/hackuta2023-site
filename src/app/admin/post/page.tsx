@@ -18,7 +18,7 @@ export default async function Post() {
 				<Link href="/admin/post/new">Create a new post</Link>
 				{posts.length ? (
 					<table className="borderTable" style={{ maxWidth: '48rem' }}>
-						<tbody>
+						<thead>
 							<tr>
 								<th>Name</th>
 								<th>Display Type</th>
@@ -26,14 +26,16 @@ export default async function Post() {
 								<th>Visible</th>
 								<th>Actions</th>
 							</tr>
+						</thead>
+						<tbody>
 							{...posts.map(
 								({
 									name,
 									slug,
-									hidden,
 									priority,
 									briefSource,
 									contentSource,
+									visibleCondition,
 								}) => (
 									<tr key={slug}>
 										<td>{name}</td>
@@ -47,19 +49,13 @@ export default async function Post() {
 												: 'empty'}
 										</td>
 										<td>{priority}</td>
-										<td
-											style={{
-												color: hidden
-													? 'var(--color-red)'
-													: 'var(--color-green)',
-											}}
-										>
-											{(!hidden).toString()}
+										<td>
+											<code>{visibleCondition}</code>
 										</td>
 										<td>
 											<Box direction="row" gap="0.75rem">
 												<Link href={`/admin/post/edit/${slug}`}>Edit</Link>
-												{!hidden && contentSource ? (
+												{contentSource ? (
 													<Link href={`/post/${slug}`}>View Page</Link>
 												) : undefined}
 											</Box>

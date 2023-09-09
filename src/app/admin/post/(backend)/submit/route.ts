@@ -10,9 +10,6 @@ export async function POST(request: Request) {
 		// Convert form data to regular object.
 		const formData = await request.formData()
 		const bodyObj: Record<string, any> = Object.fromEntries(formData)
-		if (bodyObj.hidden === 'on') {
-			bodyObj.hidden = true
-		}
 		if ('priority' in bodyObj) {
 			bodyObj.priority = parseInt(bodyObj.priority)
 		}

@@ -18,7 +18,6 @@ export const PostSchema = z.object({
 	priority: z.number({
 		description: 'Lower number, higher priority.',
 	}),
-	hidden: z.boolean().optional(),
 	cardStyle: CardStyleSchema.optional(),
 	briefSource: z
 		.string({
@@ -29,6 +28,12 @@ export const PostSchema = z.object({
 		.string({
 			description:
 				'The main content of the post in MarkDown using doT template',
+		})
+		.optional(),
+	visibleCondition: z
+		.string({
+			description:
+				'The visible condition using doT template; visible iff evaluate to true',
 		})
 		.optional(),
 })

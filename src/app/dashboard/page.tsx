@@ -5,12 +5,12 @@ import { redirect } from 'next/navigation'
 
 import { Box } from '@/components/Box'
 import clientPromise from '@/lib/db'
-import { Post } from '@/lib/db/models/Post'
 import User from '@/lib/db/models/User'
-import { getEnhancedSession } from '@/lib/utils/server'
+import {
+	getEnhancedSession
+} from '@/lib/utils/server'
 
-import PostRenderer from '../post/[slug]/PostRenderer'
-import Card from './Card'
+import Cards from './Cards'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
@@ -25,17 +25,6 @@ export default async function Dashboard() {
 	}
 
 	const client = await clientPromise
-	const posts = await client
-		.db()
-		.collection<Post>('posts')
-		.find(
-			{
-				briefSource: { $exists: true, $ne: '' },
-				hidden: { $ne: true },
-			},
-			{ sort: { priority: 'ascending' } },
-		)
-		.toArray()
 
 	// Generate check-in PIN
 	if (user.checkInPin === undefined) {
@@ -49,35 +38,26 @@ export default async function Dashboard() {
 			)
 	}
 
-	let children: JSX.Element[]
+	let kid: JSX.Element
 
 	if (user.applicationStatus === 'accepted') {
-		children = posts.map((post) => (
-			<Card
-				key={post.slug}
-				cardStyle={post.cardStyle}
-				href={post.contentSource ? `/post/${post.slug}` : undefined}
-			>
-				{/* @ts-expect-error Async React Server Component */}
-				<PostRenderer post={post} sourceType="briefSource" />
-			</Card>
-		))
+		kid =<Cards />
 	} else if (user.applicationStatus) {
-		children = [
-			<p key="kid">
+		kid = (
+			<p className="flex-1">
 				Application status: {user.applicationStatus}. Please contact the
 				organizers if you believe this is a mistake.
-			</p>,
-		]
+			</p>
+		)
 	} else {
-		children = [
-			<p key="kid">
+		kid = (
+			<p className="flex-1">
 				We&apos;ve received your application. You will receive an email update
 				about the status of the application. Feel free to contact the organizers
 				at <a href="mailto:hello@hackuta.org">hello@hackuta.org</a> if you need
 				any assistance!
-			</p>,
-		]
+			</p>
+		)
 	}
 
 	return (
@@ -87,22 +67,13 @@ export default async function Dashboard() {
 			style={{ flex: 1 }}
 			gap="1rem"
 		>
-			<h2>
-				Hello, {user.application?.firstName} {user.application?.lastName}
-			</h2>
+			{kid}
 			<Box
 				direction="row"
 				alignItems="start"
 				wrap="wrap"
 				className={classNames('flex-1 gap-8')}
-			>
-				{...children}
-			</Box>
-			<div
-				dangerouslySetInnerHTML={{
-					__html: `<!-- hey you found my ugly hack! --><script>setInterval(() => window.location.reload(), 60_000)</script>`,
-				}}
-			></div>
+			></Box>
 		</Box>
 	)
 }
