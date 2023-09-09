@@ -19,6 +19,9 @@ export default async function Applications() {
 			...u.application!,
 			email: u.email,
 			status: u.applicationStatus ?? ('undecided' as const),
+			resume: /^data:application\/pdf;base64,./.test(
+				u.application!.resume ?? '',
+			),
 		}))
 	const blockedHackers = await client
 		.db()

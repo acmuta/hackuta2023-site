@@ -1,6 +1,7 @@
 'use client'
 
 import { DownloadSquare } from 'iconoir-react'
+import Link from 'next/link'
 import { Column } from 'primereact/column'
 import {
 	DataTable,
@@ -19,8 +20,9 @@ import { stringifyError } from '@/lib/utils/shared'
 import JsonEditor from '../JsonEditor'
 import { ApplicationDecideRequestBody } from './decide/route'
 
-export type Row = Application & {
+export type Row = Omit<Application, 'resume'> & {
 	email: string
+	resume: boolean
 	status: 'accepted' | 'rejected' | 'waitlisted' | 'undecided'
 }
 
@@ -173,18 +175,23 @@ export default function ApplicantDataTable({
 					sortable
 				/>
 				<Column
-					header="Resume"
+					header={
+						<div className="flex flex-col gap-2">
+							<span>Resume</span>
+							<Link
+								href={`/admin/applications/resume`}
+								download
+								className="text-hackuta-blue text-xs"
+							>
+								Download All
+							</Link>
+						</div>
+					}
 					body={(r: Row) =>
-						r.resume?.startsWith('data:application/pdf;base64,') ? (
-							<DownloadSquare
-								className="cursor-pointer"
-								onClick={() => {
-									const a = document.createElement('a')
-									a.download = `${r.firstName} ${r.lastName}.pdf`
-									a.href = r.resume!
-									a.click()
-								}}
-							/>
+						r.resume ? (
+							<Link href={`/admin/applications/resume/${r.email}`} download>
+								<DownloadSquare />
+							</Link>
 						) : (
 							'N/A'
 						)
