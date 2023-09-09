@@ -180,8 +180,9 @@ export default function ApplicantDataTable({
 							<span>Resume</span>
 							<Link
 								href={`/admin/applications/resume`}
-								download
 								className="text-hackuta-blue text-xs"
+								target="_blank"
+								download
 							>
 								Download All
 							</Link>
@@ -189,7 +190,11 @@ export default function ApplicantDataTable({
 					}
 					body={(r: Row) =>
 						r.resume ? (
-							<Link href={`/admin/applications/resume/${r.email}`} download>
+							<Link
+								href={`/admin/applications/resume/${r.email}`}
+								target="_blank"
+								download
+							>
 								<DownloadSquare />
 							</Link>
 						) : (
