@@ -32,7 +32,7 @@ interface HackathonCalendarProps {
   );
   return (
     <div className="container mx-auto p-8">
-      <div className="grid grid-cols-2 gap-16">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-16">
         <div>
           <h2 className="text-xl font-semibold">{format(startDate, 'MMMM d, yyyy')}</h2>
           {eventsForBothDays?.map((event, index) => (
