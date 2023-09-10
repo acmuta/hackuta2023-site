@@ -1,63 +1,46 @@
 // components/HackathonCalendar.tsx
 import { format, isSameDay } from 'date-fns';
-import React from 'react';
+import { WithId } from 'mongodb';
+
+import clientPromise from '@/lib/db';
+import { EventModel } from '@/lib/db/models/Event';
+import logger from '@/lib/logger';
+
+export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
+  try {
+		const client = await clientPromise
+		const events = await client.db()
+			.collection<EventModel>('events')
+			.find()
+			.toArray()
+    
+		return events
+  } catch (error) {
+    logger.error(error);
+  }
+}
 
 interface HackathonCalendarProps {
   startDate: Date;
   endDate: Date;
+  events: WithId<EventModel>[] | undefined;
 }
 
-const hackathonEvents = [
-    {
-      title: 'Opening Ceremony',
-      date: new Date('10/07/2023 06:00:00'),
-    },
-    {
-      title: 'Workshop: Web Development',
-      date: new Date('10/07/2023 08:00:00'),
-    },
-    {
-      title: 'Workshop: Mobile App Development',
-      date: new Date('10/07/2023 10:00:00'),
-    },
-    {
-      title: 'Hackathon Kickoff',
-      date: new Date('10/07/2023 12:00:00'),
-    },
-    {
-      title: 'Hackathon Day 2',
-      date: new Date('10/08/2023 06:00:00'),
-    },
-    {
-      title: 'Workshop: AI and ML',
-      date: new Date('10/08/2023 08:00:00'),
-    },
-    {
-      title: 'Workshop: Cloud Computing',
-      date: new Date('10/08/2023 10:00:00'),
-    },
-    {
-      title: 'Hackathon Presentations',
-      date: new Date('10/08/2023 12:00:00'),
-    },
-  ];
-
-const HackathonCalendar: React.FC<HackathonCalendarProps> = ({ startDate, endDate }) => {
-  const eventsForBothDays = hackathonEvents.filter(event =>
-    isSameDay(event.date, startDate) || isSameDay(event.date, endDate)
+ export function HackathonCalendar({ startDate, endDate, events }: HackathonCalendarProps) {
+  const eventsForBothDays = events?.filter(event =>
+    isSameDay(new Date(event.date), startDate) || isSameDay(new Date(event.date), endDate)
   );
-
   return (
-    <div className="container mx-auto p-4">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="container mx-auto p-8">
+      <div className="grid grid-cols-2 gap-16">
         <div>
           <h2 className="text-xl font-semibold">{format(startDate, 'MMMM d, yyyy')}</h2>
-          {eventsForBothDays.map((event, index) => (
-            isSameDay(event.date, startDate) && (
+          {eventsForBothDays?.map((event, index) => (
+            isSameDay(new Date(event.date), startDate) && (
               <div key={index} className="border rounded p-4 mb-2">
-                <h3 className="text-lg font-semibold">{event.title}</h3>
+                <h3 className="text-sm">{event.title}</h3>
                 <p className="text-gray-600">
-                  {format(event.date, 'h:mm a')}
+                  {format(new Date(event.date), 'h:mm a')}
                 </p>
               </div>
             )
@@ -65,12 +48,12 @@ const HackathonCalendar: React.FC<HackathonCalendarProps> = ({ startDate, endDat
         </div>
         <div>
           <h2 className="text-xl font-semibold">{format(endDate, 'MMMM d, yyyy')}</h2>
-          {eventsForBothDays.map((event, index) => (
-            isSameDay(event.date, endDate) && (
+          {eventsForBothDays?.map((event, index) => (
+            isSameDay(new Date(event.date), endDate) && (
               <div key={index} className="border rounded p-4 mb-2">
-                <h3 className="text-lg font-semibold">{event.title}</h3>
+                <h3 className="text-sm">{event.title}</h3>
                 <p className="text-gray-600">
-                  {format(event.date, 'h:mm a')}
+                  {format(new Date(event.date), 'h:mm a')}
                 </p>
               </div>
             )
@@ -81,4 +64,3 @@ const HackathonCalendar: React.FC<HackathonCalendarProps> = ({ startDate, endDat
   );
 };
 
-export default HackathonCalendar;
