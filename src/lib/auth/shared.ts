@@ -232,12 +232,6 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		},
 	},
 	{
-		matcher: new RegExp('^/apply'),
-		perms: {
-			application: true,
-		},
-	},
-	{
 		matcher: new RegExp('^/api/apply'),
 		perms: {
 			application: true,
@@ -250,7 +244,7 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		},
 	},
 	{
-		matcher: new RegExp('^/dashboard'),
+		matcher: new RegExp('^/dashboard/info'),
 		perms: {
 			post: true,
 		},
