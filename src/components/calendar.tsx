@@ -39,7 +39,7 @@ interface HackathonCalendarProps {
             isSameDay(new Date(event.date), startDate) && (
               <div key={index} className="border rounded p-4 mb-2">
                 <h3 className="text-sm break-words">{event.title}</h3>
-                <p className="text-blue-600">
+                <p className="text-white-600">
                   {format(new Date(event.date), 'h:mm a')}
                 </p>
               </div>
@@ -52,7 +52,7 @@ interface HackathonCalendarProps {
             isSameDay(new Date(event.date), endDate) && (
               <div key={index} className="border rounded p-4 mb-2">
                 <h3 className="text-sm break-words">{event.title}</h3>
-                <p className="text-blue-600">
+                <p className="text-white-600">
                   {format(new Date(event.date), 'h:mm a')}
                 </p>
               </div>
