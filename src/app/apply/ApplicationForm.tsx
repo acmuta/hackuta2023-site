@@ -58,8 +58,8 @@ export function ApplicationForm() {
 							console.error('resume', v)
 							throw 'resume is not File'
 						}
-						if (v.size > 1 * 1024 * 1024) {
-							throw 'resume must be smaller than 1 MB'
+						if (v.size > 2 * 1024 * 1024) {
+							throw 'resume must be smaller than 2 MB'
 						}
 						jsonData[k] = await getBase64(v as File)
 					} else {
@@ -241,8 +241,8 @@ export function ApplicationForm() {
 			/>
 			<FileInput
 				id="resume"
-				text="Resume"
-				description="(Optional) Only PDFs less than 1 MB are allowed. The resume may be shared with our sponsors and partners."
+				text="Résumé"
+				description="(Optional) Only PDFs less than 2 MB are allowed. We highly encourage you to upload your résumé as sponsors may have meetings with select students."
 				accept="application/pdf"
 			/>
 			<TextInput

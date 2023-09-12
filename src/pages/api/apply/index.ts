@@ -25,8 +25,8 @@ export default async function handler(
 		const body = req.body
 		const application = ApplicationSchema.parse(body)
 
-		if ((application.resume?.length ?? 0) > 1024 * 1024 * 1.34) {
-			throw new Error('Resume must be smaller than 1 MB')
+		if ((application.resume?.length ?? 0) > 1024 * 1024 * 2.8) {
+			throw new Error('Resume must be smaller than 2 MB')
 		}
 
 		await client
