@@ -117,6 +117,12 @@ export default async function Landing() {
 			kind: 'Sponsor',
 		},
 		{
+			companyName: 'GitHub',
+			companyUrl: 'https://github.com/',
+			imageUrl: '/images/Sponsors/github.svg',
+			kind: 'Sponsor',
+		},
+		{
 			companyName: 'Major League Hacking',
 			companyUrl: 'https://mlh.io/',
 			imageUrl: '/images/Partners/mlh-logo-color-dark.svg',
