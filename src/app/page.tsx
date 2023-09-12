@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { SVGProps } from 'react-html-props'
 import { twJoin } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
+import { getEvents, HackathonCalendar } from '@/components/calendar'
 import { ClippedBadge } from '@/components/ClippedBadge'
 import { HackTicket } from '@/components/HackTicket'
 import { SponsorTicket, SponsorTicketKind } from '@/components/SponsorTicket'
@@ -97,7 +99,9 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 }
 
 export default async function Landing() {
-	// const [events, faqs] = await Promise.all([getEvents(), getFaqs()])
+	const startDate = new Date('10/07/2023 06:00:00')
+	const endDate = new Date('10/08/2023 18:00:00')
+	const events = await getEvents()
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
@@ -134,6 +138,7 @@ export default async function Landing() {
 
 	return (
 		<>
+		
 			<Box
 				direction="column"
 				alignItems="center"
@@ -183,7 +188,7 @@ export default async function Landing() {
 							<WavyPattern className="w-32" />
 						</h2>
 						<div className="font-shrimp text-white tracking-wider uppercase">
-							Coming soon...
+						<HackathonCalendar startDate={startDate} endDate={endDate} events={events}/>
 						</div>
 						<ClippedBadge
 							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
