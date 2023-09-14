@@ -69,6 +69,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 						<HeaderLink href="/dashboard">Dashboard</HeaderLink>
 					)}
 					<HeaderLink href="/faq">FAQ</HeaderLink>
+					<HeaderLink href="/schedule">Schedule</HeaderLink>
 					<HeaderLink href={user ? '/api/auth/signout' : '/api/auth/signin'}>
 						{user ? 'Sign Out' : 'Sign In'}
 					</HeaderLink>
