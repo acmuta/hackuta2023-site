@@ -144,7 +144,6 @@ export default async function Landing() {
 
 	return (
 		<>
-		
 			<Box
 				direction="column"
 				alignItems="center"
@@ -152,7 +151,7 @@ export default async function Landing() {
 				gap=".5rem"
 				className="mb-2"
 			>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-red p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center gap-4">
 							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-hackuta-yellow drop-shadow-hackuta">
@@ -194,7 +193,11 @@ export default async function Landing() {
 							<WavyPattern className="w-32" />
 						</h2>
 						<div className="font-shrimp text-white tracking-wider uppercase">
-						<HackathonCalendar startDate={startDate} endDate={endDate} events={events}/>
+							<HackathonCalendar
+								startDate={startDate}
+								endDate={endDate}
+								events={events}
+							/>
 						</div>
 						<ClippedBadge
 							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
