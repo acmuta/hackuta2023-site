@@ -6,10 +6,10 @@ import { twJoin, twMerge } from 'tailwind-merge'
 export type SafeNumber = number | `${number}`
 export type SponsorTicketKind = SponsorTicketProps['kind']
 export type SponsorTicketProps = DivProps & {
-	companyName: string,
-	companyUrl: string,
-	imageUrl: string,
-	kind: 'Sponsor'|'Partner'
+	companyName: string
+	companyUrl: string
+	imageUrl: string
+	kind: 'Sponsor' | 'Partner'
 }
 
 export const SponsorTicket = ({
@@ -33,7 +33,7 @@ export const SponsorTicket = ({
 		<div className="flex flex-col py-6 px-6 drop-shadow-hackuta bg-[url('../cutout-ticket.png')] bg-center bg-cover bg-clip-border">
 			<header
 				className={twMerge(
-					'flex flex-row gap-4 px-6 py-4 font-shrimp text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0',
+					'flex flex-row gap-4 px-6 py-4 font-rhd text-hackuta-black uppercase border-2 border-hackuta-black border-dashed border-b-0',
 					topRadius,
 				)}
 				{...props}
@@ -61,7 +61,7 @@ export const SponsorTicket = ({
 			</div>
 			<footer
 				className={twMerge(
-					'flex flex-row justify-between items-center gap-8 px-6 py-4  font-shrimp uppercase text-white',
+					'flex flex-row justify-between items-center gap-8 px-6 py-4  font-rhd uppercase text-white',
 					botRadius,
 					kind === 'Sponsor' ? 'bg-hackuta-black' : 'bg-[#cf4227]',
 				)}

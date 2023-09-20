@@ -14,7 +14,7 @@ export default async function calendar() {
 					Schedule
 					<WavyPattern className="w-32" />
 				</h2>
-				<div className="font-shrimp text-white tracking-wider uppercase">
+				<div className="font-rhd text-white tracking-wider uppercase">
 					<HackathonCalendar
 						startDate={startDate}
 						endDate={endDate}

@@ -154,10 +154,10 @@ export default async function Landing() {
 				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-red p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center gap-4">
-							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-hackuta-yellow drop-shadow-hackuta">
+							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-white drop-shadow-hackuta">
 								HackUTA 2023
 							</h1>
-							<div className="sm:text-xl font-shrimp text-white tracking-wider uppercase">
+							<div className="sm:text-xl font-rhd text-white tracking-wider uppercase">
 								Once in a year event
 							</div>
 						</section>
@@ -192,7 +192,7 @@ export default async function Landing() {
 							Schedule
 							<WavyPattern className="w-32" />
 						</h2>
-						<div className="font-shrimp text-white tracking-wider uppercase">
+						<div className="font-rhd text-white tracking-wider uppercase">
 							<HackathonCalendar
 								startDate={startDate}
 								endDate={endDate}

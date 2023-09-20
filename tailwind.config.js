@@ -17,6 +17,7 @@ module.exports = {
         'hackuta-pattern-red': "url('/images/red-pattern-bg.png')",
         'hackuta-pattern-blue': "url('/images/blue-pattern-bg.png')",
         'hackuta-pattern-yellow': "url('/images/yellow-pattern-bg.png')",
+        'hackuta-pattern-black': "url('/images/black-pattern-bg.png')",
       },
       boxShadow: {
         hackuta: shadow,
@@ -34,10 +35,8 @@ module.exports = {
         hackuta: shadow,
       },
       fontFamily: {
-        heading: ['var(--font-bungee)', 'sans-serif'],
+        heading: ['var(--font-rhd)', 'sans-serif'],
         body: ['var(--font-atkinson)', 'sans-serif'],
-        saotorpes: ['var(--font-sao-torpes)', 'sans-serif'],
-        shrimp: ['var(--font-shrimp)', 'sans-serif'],
       },
       keyFrames: {
         'jump-shaking': {

@@ -75,10 +75,13 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 					)}
 				>
 					{
-						<div className="flex items-center gap-2">
+						<a
+							className="flex items-center gap-2 no-underline text-hackuta-beige hover:opacity-80"
+							href="/"
+						>
 							<Logo className="inline-block" />
 							<span className="text-center text-3xl">HackUTA 2023</span>
-						</div>
+						</a>
 					}
 
 					{/* <span className="text-center">
@@ -180,13 +183,16 @@ const HeaderLink = ({ href, children }: HeaderLinkProps) => {
 	return (
 		<li>
 			{selected ? (
-				<span className="font-heading text-hackuta-black border-2 p-2 opacity-95 bg-hackuta-beige rounded-lg border-hackuta-beige">
+				<Link
+					href={href}
+					className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 bg-hackuta-beige rounded-lg border-hackuta-beige no-underline transition-all"
+				>
 					{children}
-				</span>
+				</Link>
 			) : (
 				<Link
 					href={href}
-					className="font-heading text-hackuta-beige hover:opacity-80 no-underline transition-all"
+					className="font-heading text-hackuta-beige hover:opacity-80 no-underline transition-all rounded-lg hover:underline"
 				>
 					{children}
 				</Link>
