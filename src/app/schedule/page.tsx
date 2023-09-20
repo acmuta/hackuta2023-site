@@ -8,7 +8,7 @@ export default async function calendar() {
 	const events = await getEvents()
 
 	return (
-		<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-red p-8 md:p-16 w-full">
+		<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
 			<section className="flex flex-col self-start gap-8">
 				<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 					Schedule

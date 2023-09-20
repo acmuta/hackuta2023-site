@@ -206,7 +206,7 @@ export default async function Landing() {
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-8 md:p-16 w-full">
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow bg-hackuta-pattern-yellow p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />

@@ -15,6 +15,8 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hackuta-pattern-red': "url('/images/red-pattern-bg.png')",
+        'hackuta-pattern-blue': "url('/images/blue-pattern-bg.png')",
+        'hackuta-pattern-yellow': "url('/images/yellow-pattern-bg.png')",
       },
       boxShadow: {
         hackuta: shadow,
