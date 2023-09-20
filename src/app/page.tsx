@@ -155,12 +155,14 @@ export default async function Landing() {
 			>
 				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
-						<section className="flex flex-col items-center gap-4">
+						<section className="flex flex-col items-center">
 							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-white drop-shadow-hackuta">
 								HackUTA 2023
 							</h1>
-							<div className="sm:text-xl font-rhd text-white tracking-wider uppercase">
-								Once in a year event
+							<div className="sm:text-xl font-rhd text-white md:text-2xl tracking-wider uppercase gap-2 inline-block">
+								<span className="select-none mx-2">⎯⎯⎯⎯</span>
+								<span>The Greatest Show</span>
+								<span className="select-none mx-2">⎯⎯⎯⎯</span>
 							</div>
 						</section>
 						<div className="flex flex-col gap-3">
