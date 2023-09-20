@@ -3,7 +3,7 @@
 import { Menu } from 'iconoir-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactFragment, useEffect, useState } from 'react'
+import { ReactFragment, useState } from 'react'
 import { SVGProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
@@ -46,15 +46,6 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 
 	const { user, perms } = useEnhancedSession()
 	const [menuOpen, setMenuOpen] = useState(false)
-	const [showMenu, setShowMenu] = useState(false)
-
-	useEffect(() => {
-		if (window.innerWidth < 880) {
-			setShowMenu(true)
-		} else {
-			setShowMenu(false)
-		}
-	}, [])
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen)
@@ -74,11 +65,9 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 				)}
 			>
 				{/* Hamburger Menu Icon */}
-				{showMenu && (
-					<button onClick={toggleMenu} className="mr-4">
-						<Menu className={twMerge('cursor-pointer')} aria-label="Menu" />
-					</button>
-				)}
+				<button onClick={toggleMenu} className="mr-4 md:hidden">
+					<Menu className={twMerge('cursor-pointer')} aria-label="Menu" />
+				</button>
 
 				<div
 					className={twMerge(
@@ -97,39 +86,33 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 					</span>
 					<span className="text-center">The Greatest Show Around</span> */}
 
-					{!showMenu && (
-						<ul
-							className={twMerge(
-								'flex flex-col md:flex-row gap-4 py-2 bg-hackuta-black no-underline',
-							)}
-						>
-							<HeaderLink href="/">Home</HeaderLink>
-							{hasPermission(perms, { administration: {} }) && (
-								<HeaderLink href="/admin">Admin</HeaderLink>
-							)}
-							{!user?.application && (
-								<HeaderLink href="/apply">Apply</HeaderLink>
-							)}
-							{user?.application && (
-								<HeaderLink href="/dashboard">Dashboard</HeaderLink>
-							)}
-							<HeaderLink href="/faq">FAQ</HeaderLink>
-							<HeaderLink href="/schedule">Schedule</HeaderLink>
-							<HeaderLink
-								href={user ? '/api/auth/signout' : '/api/auth/signin'}
-							>
-								{user ? 'Sign Out' : 'Sign In'}
-							</HeaderLink>
-						</ul>
-					)}
+					<ul
+						className={twMerge(
+							'flex-col md:flex-row gap-4 py-2 bg-hackuta-black no-underline hidden md:flex',
+						)}
+					>
+						<HeaderLink href="/">Home</HeaderLink>
+						{hasPermission(perms, { administration: {} }) && (
+							<HeaderLink href="/admin">Admin</HeaderLink>
+						)}
+						{!user?.application && <HeaderLink href="/apply">Apply</HeaderLink>}
+						{user?.application && (
+							<HeaderLink href="/dashboard">Dashboard</HeaderLink>
+						)}
+						<HeaderLink href="/faq">FAQ</HeaderLink>
+						<HeaderLink href="/schedule">Schedule</HeaderLink>
+						<HeaderLink href={user ? '/api/auth/signout' : '/api/auth/signin'}>
+							{user ? 'Sign Out' : 'Sign In'}
+						</HeaderLink>
+					</ul>
 				</div>
 			</div>
 
 			{/* Optional: Displaying the menu list */}
-			{showMenu && menuOpen && (
+			{menuOpen && (
 				<ul
 					className={twMerge(
-						'flex flex-col md:flex-row gap-4 pt-2 pb-4 bg-hackuta-black px-8',
+						'flex flex-col md:flex-row gap-4 pt-2 pb-4 bg-hackuta-black px-8 md:hidden',
 					)}
 				>
 					<HeaderLink href="/">Home</HeaderLink>
