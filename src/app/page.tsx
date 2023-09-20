@@ -4,9 +4,9 @@ import { SVGProps } from 'react-html-props'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { getEvents, HackathonCalendar } from '@/components/calendar'
-import { ClippedBadge } from '@/components/ClippedBadge'
+import { getEvents } from '@/components/calendar'
 import { HackTicket } from '@/components/Tickets/HackTicket'
+// import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
 
@@ -153,19 +153,35 @@ export default async function Landing() {
 				gap=".5rem"
 				className="mb-2"
 			>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full min-h-max">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center">
 							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-white drop-shadow-hackuta">
 								HackUTA 2023
 							</h1>
-							<div className="sm:text-xl font-rhd text-white md:text-2xl tracking-wider uppercase gap-2 inline-block">
+							<div className="sm:text-lg font-rhd text-white font-semibold md:text-3xl tracking-wider uppercase gap-2 inline-block">
 								<span className="select-none mx-2">⎯⎯⎯⎯</span>
 								<span>The Greatest Show</span>
 								<span className="select-none mx-2">⎯⎯⎯⎯</span>
 							</div>
+							<div className="font-rhm text-2xl my-4 tracking-wider uppercase">
+								<span className="mr-2">📅</span>
+								<span className="text-white">October 7-8, 2023</span>
+							</div>
 						</section>
-						<div className="flex flex-col gap-3">
+						<div className="relative">
+							{/* <div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
+								<div className="flex py-2 px-6 md:ml-12 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
+									Don&apos;t miss out!
+								</div>
+								<CTAArrow
+									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
+									aria-hidden
+								/>
+							</div> */}
+							<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8" />
+						</div>
+						<div className="flex gap-3">
 							<LinkButton href="/apply" className="text-2xl">
 								Apply
 							</LinkButton>
@@ -177,20 +193,8 @@ export default async function Landing() {
 								Discord
 							</LinkButton>
 						</div>
-						<div className="relative">
-							<div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
-								<div className="flex py-2 px-6 md:ml-12 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
-									Don&apos;t miss out!
-								</div>
-								<CTAArrow
-									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
-									aria-hidden
-								/>
-							</div>
-							<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
-						</div>
 					</div>
-					<Separator className="h-[10px] w-full" />
+					{/* <Separator className="h-[10px] w-full" />
 					<section className="flex flex-col self-start gap-8">
 						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 							Schedule
@@ -206,8 +210,8 @@ export default async function Landing() {
 						<ClippedBadge
 							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
 							aria-hidden
-						/>
-					</section>
+						/> 
+					</section> */}
 				</div>
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
