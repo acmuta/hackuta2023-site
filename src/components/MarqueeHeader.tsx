@@ -3,7 +3,8 @@
 import { Menu } from 'iconoir-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { SVGProps, useEffect, useState } from 'react'
+import { ReactFragment, useEffect, useState } from 'react'
+import { SVGProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
 import { hasPermission } from '@/lib/auth/shared'
