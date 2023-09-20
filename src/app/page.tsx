@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { SVGProps } from 'react-html-props'
-import { twJoin } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
 import { getEvents, HackathonCalendar } from '@/components/calendar'
 import { ClippedBadge } from '@/components/ClippedBadge'
-import { HackTicket } from '@/components/HackTicket'
-import { SponsorTicket, SponsorTicketKind } from '@/components/SponsorTicket'
+import { HackTicket } from '@/components/Tickets/HackTicket'
+import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
 
 import { FaqSection, getFaqs } from './faq/utils'
@@ -33,7 +32,7 @@ const Separator = ({ ...props }: SeparatorProps) => {
 				y1="6"
 				x2="1572"
 				y2="6"
-				stroke="#8C1B16"
+				stroke="rgb(0,0,0,.3)"
 				strokeWidth="10"
 				strokeDasharray="24 24"
 			/>
@@ -122,8 +121,11 @@ export default async function Landing() {
 			imageUrl: '/images/Sponsors/github.svg',
 			kind: 'Sponsor',
 		},
+	]
+
+	const partners = [
 		{
-			companyName: 'Major League Hacking',
+			companyName: 'Major\xa0League Hacking',
 			companyUrl: 'https://mlh.io/',
 			imageUrl: '/images/Partners/mlh-logo-color-dark.svg',
 			kind: 'Partner',
@@ -131,13 +133,13 @@ export default async function Landing() {
 		{
 			companyName: 'Rosenfeld',
 			companyUrl: 'https://rosenfeldmedia.com/',
-			imageUrl: '/images/Partners/rosenfeld.webp',
+			imageUrl: '/images/Partners/rosenfeld.png',
 			kind: 'Partner',
 		},
 		{
 			companyName: 'Standout Stickers',
 			companyUrl: 'https://www.standoutstickers.com/',
-			imageUrl: '/images/Partners/standout-stickers.jpg',
+			imageUrl: '/images/Partners/standout-stickers.png',
 			kind: 'Partner',
 		},
 	]
@@ -151,7 +153,7 @@ export default async function Landing() {
 				gap=".5rem"
 				className="mb-2"
 			>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-red p-8 md:p-16 w-full">
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<div className="flex flex-col items-center justify-start gap-8">
 						<section className="flex flex-col items-center gap-4">
 							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-white drop-shadow-hackuta">
@@ -206,24 +208,31 @@ export default async function Landing() {
 					</section>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow bg-hackuta-pattern-yellow p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Sponsors & Partners
-						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div
-						className={twJoin(
-							'grid auto-rows-fr gap-4',
-							'grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3',
-						)}
-					>
+					<div className="flex flex-col md:flex-row justify-between items-center flex-wrap flex-auto">
 						{sponsors.map((company, index) => (
-							<SponsorTicket
+							<LogoTicket
 								key={`${company.companyName}-${index}`}
 								companyName={company.companyName}
 								companyUrl={company.companyUrl}
 								imageUrl={company.imageUrl}
-								kind={company.kind as SponsorTicketKind}
+								kind={company.kind as LogoTicketKind}
+							/>
+						))}
+					</div>
+
+					<div className="flex flex-col md:flex-row justify-between items-center flex-wrap flex-auto">
+						{partners.map((company, index) => (
+							<LogoTicket
+								key={`${company.companyName}-${index}`}
+								companyName={company.companyName}
+								companyUrl={company.companyUrl}
+								imageUrl={company.imageUrl}
+								kind={company.kind as LogoTicketKind}
 							/>
 						))}
 					</div>

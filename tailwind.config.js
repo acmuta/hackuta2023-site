@@ -14,10 +14,16 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
+        'hackuta-pattern-transparent': "url('/images/transparent-pattern-bg.png')",
         'hackuta-pattern-red': "url('/images/red-pattern-bg.png')",
+        'hackuta-pattern-red-2': "url('/images/red-pattern-bg-2.png')",
+        'hackuta-pattern-red-3': "url('/images/red-pattern-bg-3.png')",
         'hackuta-pattern-blue': "url('/images/blue-pattern-bg.png')",
         'hackuta-pattern-yellow': "url('/images/yellow-pattern-bg.png')",
         'hackuta-pattern-black': "url('/images/black-pattern-bg.png')",
+        'hackuta-ticket': "url('/images/ticket.svg')",
+        'hackuta-ticket-red': "url('/images/ticket-red.svg')",
+        'hackuta-ticket-blue': "url('/images/ticket-blue.svg')",
       },
       boxShadow: {
         hackuta: shadow,
@@ -28,8 +34,9 @@ module.exports = {
         'hackuta-blue': '#2869A9',
         'hackuta-darkblue': '#122F4C',
         'hackuta-red': '#AF2922',
-        'hackuta-darkred': '#8C1B16',
+        'hackuta-darkred': '#7A1D18',
         'hackuta-yellow': '#F8B92A',
+        'hackuta-black-60': 'rgba(19, 13, 8, 0.6)',
       },
       dropShadow: {
         hackuta: shadow,
@@ -37,6 +44,7 @@ module.exports = {
       fontFamily: {
         heading: ['var(--font-rhd)', 'sans-serif'],
         body: ['var(--font-atkinson)', 'sans-serif'],
+        mono: ['var(--font-rhm)', 'monospace'],
       },
       keyFrames: {
         'jump-shaking': {
@@ -48,6 +56,9 @@ module.exports = {
           '75%': { transform: 'translateY(-9px) rotate(-17deg)' },
           '100%': { transform: 'translateY(0) rotate(0)' },
         }
+      },
+      width: {
+        15: '3.75rem',
       }
     },
   },
