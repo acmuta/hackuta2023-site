@@ -104,21 +104,34 @@ export default async function Landing() {
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
-			companyName: 'StateFarm',
-			companyUrl: 'https://www.statefarm.com/',
-			imageUrl: '/images/Sponsors/statefarm.svg',
-			kind: 'Sponsor',
-		},
-		{
 			companyName: 'Mouser Electronics',
 			companyUrl: 'https://www.mouser.com/',
 			imageUrl: '/images/Sponsors/mouser-electronics.svg',
 			kind: 'Sponsor',
 		},
 		{
+			companyName: 'UTA CSE Department',
+			companyUrl:
+				'https://www.uta.edu/academics/schools-colleges/engineering/academics/departments/cse',
+			imageUrl: '/images/Sponsors/utacse.png',
+			kind: 'Sponsor',
+		},
+		{
+			companyName: 'StateFarm',
+			companyUrl: 'https://www.statefarm.com/',
+			imageUrl: '/images/Sponsors/statefarm.svg',
+			kind: 'Sponsor',
+		},
+		{
 			companyName: 'GitHub',
 			companyUrl: 'https://github.com/',
 			imageUrl: '/images/Sponsors/github.svg',
+			kind: 'Sponsor',
+		},
+		{
+			companyName: 'UTA ISO',
+			companyUrl: 'https://www.uta.edu/security/',
+			imageUrl: '/images/Sponsors/utaiso.png',
 			kind: 'Sponsor',
 		},
 	]
@@ -128,6 +141,12 @@ export default async function Landing() {
 			companyName: 'Major\xa0League Hacking',
 			companyUrl: 'https://mlh.io/',
 			imageUrl: '/images/Partners/mlh-logo-color-dark.svg',
+			kind: 'Partner',
+		},
+		{
+			companyName: 'Mathworks',
+			companyUrl: 'https://www.mathworks.com/',
+			imageUrl: '/images/Partners/mathworks.png',
 			kind: 'Partner',
 		},
 		{
@@ -219,7 +238,7 @@ export default async function Landing() {
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div className="flex flex-col md:flex-row justify-between items-center flex-wrap flex-auto">
+					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
 						{sponsors.map((company, index) => (
 							<LogoTicket
 								key={`${company.companyName}-${index}`}
@@ -231,7 +250,7 @@ export default async function Landing() {
 						))}
 					</div>
 
-					<div className="flex flex-col md:flex-row justify-between items-center flex-wrap flex-auto">
+					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
 						{partners.map((company, index) => (
 							<LogoTicket
 								key={`${company.companyName}-${index}`}
