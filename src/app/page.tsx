@@ -215,6 +215,13 @@ export default async function Landing() {
 							>
 								Discord
 							</LinkButton>
+							<LinkButton
+								href="https://docs.google.com/forms/d/e/1FAIpQLSfQ5gopSj69iT5josqR7u5ztnebidDRo9h9F3gL5qduCHCTag/viewform?usp=sf_link"
+								className="bg-hackuta-darkblue"
+								kind="secondary"
+							>
+								Volunteer/Mentor
+							</LinkButton>
 						</div>
 					</div>
 					{/* <Separator className="h-[10px] w-full" />

@@ -17,7 +17,7 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 			</div>
 
 			{/* Middle */}
-			<div className="px-8 py-2.5 flex flex-col justify-between text-center">
+			<div className="px-8 py-2.5 flex flex-col justify-between text-center border-x border-dashed border-red-800">
 				<p className="border-y border-gray-700 py-1 font-semibold flex items-center justify-around">
 					<span className="text-left text-sm">SAT</span>
 					<span className="text-xl">OCTOBER 7</span>
@@ -43,7 +43,7 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 			</div>
 
 			{/* Right */}
-			<div className="flex justify-between items-end gap-0 w-52 border-l border-dashed border-gray-700">
+			<div className="flex justify-between items-end gap-0 w-64">
 				{/* admit one strip */}
 				<p className="flex text-darkgray -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3">
 					<span>ADMIT&nbsp;ONE</span>
@@ -51,25 +51,27 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 					<span>ADMIT&nbsp;ONE</span>
 				</p>
 				{/* info area */}
-				<div className="p-2 flex flex-col justify-center items-center text-center">
-					<h1 className="text-lg">HACKER</h1>
-					<div className="flex flex-col font-normal text-sm">
-						<p className="m-0 text-sm">
-							SAT 12PM <span className="font-medium text-base">TO</span> SUN
-							12PM
-						</p>
-						<p className="m-0">
-							DOORS <span className="font-medium text-base">@</span> 9:00 AM
-						</p>
+				<div className="w-64">
+					<div className="p-2 flex flex-col justify-center items-center text-center">
+						<h1 className="text-lg">HACKER</h1>
+						<div className="flex flex-col font-normal text-sm">
+							<p className="m-0 text-sm">
+								SAT 12PM <span className="font-medium text-base">TO</span> SUN
+								12PM
+							</p>
+							<p className="m-0">
+								DOORS <span className="font-medium text-base">@</span> 9:00 AM
+							</p>
+						</div>
+						<div className="h-32 mt-2">
+							<img
+								src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
+								alt="QR code"
+								className="h-full"
+							/>
+						</div>
+						<p className="text-sm font-semibold text-gray-600">ID: A12345</p>
 					</div>
-					<div className="h-32 mt-2">
-						<img
-							src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
-							alt="QR code"
-							className="h-full"
-						/>
-					</div>
-					<p className="text-sm font-semibold text-gray-600">ID: A12345</p>
 				</div>
 			</div>
 		</div>
