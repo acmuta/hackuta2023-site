@@ -4,7 +4,12 @@ import { DivProps } from 'react-html-props'
 
 import Countdown from '../Countdown'
 
-export type HackTicketProps = DivProps
+export type HackTicketProps = DivProps & {
+	applied: boolean
+	role?: string
+	id?: string
+	fname?: string
+}
 export const HackTicket = ({
 	className,
 	applied = false,

@@ -100,8 +100,6 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 }
 
 export default async function Landing() {
-	const { userSession } = await getEnhancedSession(headers())
-
 	const startDate = new Date('10/07/2023 06:00:00')
 	const endDate = new Date('10/08/2023 18:00:00')
 	const events = await getEvents()
