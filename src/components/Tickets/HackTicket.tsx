@@ -1,9 +1,15 @@
+'use client'
+
 import { DivProps } from 'react-html-props'
 
+import Countdown from '../Countdown'
+
 export type HackTicketProps = DivProps
-export const HackTicket = ({ className, ...props }: HackTicketProps) => {
+export const HackTicket = ({ className }: HackTicketProps) => {
 	return (
-		<div className="mx-auto bg-white shadow-md drop-shadow-xl h-64 hidden md:flex">
+		<div
+			className={`mx-auto bg-white shadow-md drop-shadow-xl h-64 hidden md:flex ${className}`}
+		>
 			{/* Left */}
 			<div className="flex items-end w-64 bg-cover bg-center opacity-85 bg-hackuta-sqrbg-ruby bg-opacity-90">
 				<p className="flex text-red-700 -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3 opacity-50">
@@ -27,13 +33,14 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 					<h1 className="text-3xl font-bold text-red-600">GREATEST SHOW</h1>
 					<h2 className="text-xl font-bold text-red-800">ACM at UTA</h2>
 				</div>
-				<div className="my-2.5 gap-0.5 flex flex-col font-semibold text-sm">
-					<p>
+				<div className="my-2.5 gap-0.5 flex flex-col font-semibold text-3xl text-red-950">
+					<Countdown />
+					{/* <p>
 						SAT 12PM <span className="font-bold text-lg">TO</span> SUN 12PM
 					</p>
 					<p>
 						DOORS <span className="font-bold text-lg">@</span> 9:00 AM
-					</p>
+					</p> */}
 				</div>
 				<p className="flex justify-around items-center pt-2 border-t font-normal border-gray-700">
 					<span>SWSH & SEIR</span>
@@ -64,6 +71,7 @@ export const HackTicket = ({ className, ...props }: HackTicketProps) => {
 							</p>
 						</div>
 						<div className="h-32 mt-2">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
 								src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
 								alt="QR code"
