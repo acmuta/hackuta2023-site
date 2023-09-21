@@ -10,6 +10,7 @@ export const HackTicket = ({
 	applied = false,
 	role = 'Unregistered',
 	id = 'APPLY FOR ID',
+	fname = '',
 }: HackTicketProps) => {
 	return (
 		<>
@@ -107,7 +108,9 @@ export const HackTicket = ({
 					{/* info area */}
 					<div className="w-64">
 						<div className="p-2 flex flex-col justify-center items-center text-center">
-							<h1 className="text-lg">{role}</h1>
+							<h1 className="text-lg capitalize">
+								{fname} [{role}]
+							</h1>
 							<div className="flex flex-col font-normal text-sm">
 								<p className="m-0 text-sm">
 									SAT 12PM <span className="font-medium text-base">TO</span> SUN

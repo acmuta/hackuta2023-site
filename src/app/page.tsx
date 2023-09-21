@@ -100,6 +100,8 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 }
 
 export default async function Landing() {
+	const { userSession } = await getEnhancedSession(headers())
+
 	const startDate = new Date('10/07/2023 06:00:00')
 	const endDate = new Date('10/08/2023 18:00:00')
 	const events = await getEvents()
@@ -206,7 +208,15 @@ export default async function Landing() {
 							</div> */}
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
-								applied={getEnhancedSession(headers()) !== null}
+								applied={
+									getEnhancedSession(headers()) !== null &&
+									getEnhancedSession(headers()).user?.applied === typeof Date
+								}
+								role={getEnhancedSession(headers()).user?.roles.join(' + ')}
+								id={getEnhancedSession(headers()).user?._id}
+								fname={
+									getEnhancedSession(headers()).user?.application?.firstName
+								}
 							/>
 
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
