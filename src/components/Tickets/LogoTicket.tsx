@@ -41,7 +41,6 @@ export const LogoTicket = ({
 			</div>
 			<div className="w-28 flex justify-center items-center">
 				<Image src={imageUrl} alt={companyName} width={128} height={96} />
-				<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red"></div>
 			</div>
 			<div className="w-15 h-28 flex justify-center items-center">
 				<div className="-rotate-90 text-center font-semibold font-mono uppercase text-hackuta-black-60">

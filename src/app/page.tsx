@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { headers } from 'next/headers'
 import { SVGProps } from 'react-html-props'
 
 import { Box } from '@/components/Box'
@@ -9,6 +10,7 @@ import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
 
@@ -202,7 +204,13 @@ export default async function Landing() {
 									aria-hidden
 								/>
 							</div> */}
-							<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8" />
+							<HackTicket
+								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
+								applied={getEnhancedSession(headers()) !== null}
+							/>
+
+							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
+							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby"></div>
 						</div>
 						<div className="flex gap-3">
 							<LinkButton href="/apply" className="text-2xl">

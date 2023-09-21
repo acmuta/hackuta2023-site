@@ -31,6 +31,9 @@ module.exports = {
         'hackuta-sqrbg-seir': "url('/images/backgrounds/seir.png')",
         'hackuta-sqrbg-swsh': "url('/images/backgrounds/swsh.png')",
         'hackuta-sqrbg-hackuta2022': "url('/images/backgrounds/hackuta2022.png')",
+        'hackuta-sqrbg-unregistered': "url('/images/backgrounds/unregistered.png')",
+
+        'hackuta-noqrcode': "url('/images/noqrcode.svg')",
       },
       boxShadow: {
         hackuta: shadow,

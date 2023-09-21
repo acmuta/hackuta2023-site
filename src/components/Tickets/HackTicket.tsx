@@ -5,20 +5,45 @@ import { DivProps } from 'react-html-props'
 import Countdown from '../Countdown'
 
 export type HackTicketProps = DivProps
-export const HackTicket = ({ className }: HackTicketProps) => {
+export const HackTicket = ({
+	className,
+	applied = false,
+	role = 'Unregistered',
+	id = 'APPLY FOR ID',
+}: HackTicketProps) => {
 	return (
 		<div
 			className={`mx-auto bg-white shadow-md drop-shadow-xl h-64 hidden md:flex ${className}`}
 		>
 			{/* Left */}
-			<div className="flex items-end w-64 bg-cover bg-center opacity-85 bg-hackuta-sqrbg-ruby bg-opacity-90">
+			<div
+				className={`flex items-end w-64 bg-cover bg-center opacity-85 ${
+					applied ? 'bg-hackuta-sqrbg-ruby' : 'bg-hackuta-sqrbg-unregistered'
+				} bg-opacity-90`}
+			>
 				<p className="flex text-red-700 -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3 opacity-50">
-					<span>ADMIT&nbsp;ONE</span>
-					<span className="text-red-500">ADMIT&nbsp;ONE</span>
-					<span>ADMIT&nbsp;ONE</span>
+					{/* if registered, show admit one */}
+					{applied && (
+						<>
+							<span>ADMIT&nbsp;ONE</span>
+							<span className="text-red-500">ADMIT&nbsp;ONE</span>
+							<span>ADMIT&nbsp;ONE</span>
+						</>
+					)}
+					{/* if unregistered, show apply now */}
+					{!applied && (
+						<>
+							<span className="text-xs">APPLY&nbsp;NOW</span>
+							<span>&nbsp;</span>
+							<span className="text-red-500 text-xs">APPLY&nbsp;NOW</span>
+							<span>&nbsp;</span>
+							<span className="text-xs">APPLY&nbsp;NOW</span>
+							<span>&nbsp;</span>
+						</>
+					)}
 				</p>
 				<div className="ticket-number w-64 flex justify-end items-end p-2">
-					<p className="text-red-400">ID: A12345</p>
+					<p className="text-red-400 text-opacity-80">{id}</p>
 				</div>
 			</div>
 
@@ -53,14 +78,29 @@ export const HackTicket = ({ className }: HackTicketProps) => {
 			<div className="flex justify-between items-end gap-0 w-64">
 				{/* admit one strip */}
 				<p className="flex text-darkgray -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3">
-					<span>ADMIT&nbsp;ONE</span>
-					<span className="text-gray-600">ADMIT&nbsp;ONE</span>
-					<span>ADMIT&nbsp;ONE</span>
+					{/* if applied, show admit one */}
+					{applied && (
+						<>
+							<span>ADMIT&nbsp;ONE</span>
+							<span className="text-gray-600">ADMIT&nbsp;ONE</span>
+							<span>ADMIT&nbsp;ONE</span>
+						</>
+					)}
+					{/* if unregistered, show apply now */}
+					{!applied && (
+						<>
+							<span className="text-xs">APPLY&nbsp;NOW</span>
+							<span>&nbsp;</span>
+							<span className="text-gray-600 text-xs">APPLY&nbsp;NOW</span>
+							<span>&nbsp;</span>
+							<span className="text-xs">APPLY&nbsp;NOW</span>
+						</>
+					)}
 				</p>
 				{/* info area */}
 				<div className="w-64">
 					<div className="p-2 flex flex-col justify-center items-center text-center">
-						<h1 className="text-lg">HACKER</h1>
+						<h1 className="text-lg">{role}</h1>
 						<div className="flex flex-col font-normal text-sm">
 							<p className="m-0 text-sm">
 								SAT 12PM <span className="font-medium text-base">TO</span> SUN
@@ -71,14 +111,20 @@ export const HackTicket = ({ className }: HackTicketProps) => {
 							</p>
 						</div>
 						<div className="h-32 mt-2">
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
-								src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
-								alt="QR code"
-								className="h-full"
-							/>
+							<div
+								className={`w-32 h-32 ${!applied ? 'bg-hackuta-noqrcode' : ''}`}
+							>
+								{/* eslint-disable-next-line @next/next/no-img-element */}
+								{applied && (
+									<img
+										src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
+										alt="QR code"
+										className="h-full"
+									/>
+								)}
+							</div>
 						</div>
-						<p className="text-sm font-semibold text-gray-600">ID: A12345</p>
+						<p className="text-sm font-semibold text-gray-600">{id}</p>
 					</div>
 				</div>
 			</div>
