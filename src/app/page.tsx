@@ -212,7 +212,7 @@ export default async function Landing() {
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
 							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby"></div>
 						</div>
-						<div className="flex gap-3">
+						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
 							<LinkButton href="/apply" className="text-2xl">
 								Apply
 							</LinkButton>
