@@ -179,9 +179,13 @@ export default async function Landing() {
 								HackUTA 2023
 							</h1>
 							<div className="sm:text-lg font-rhd text-white font-semibold md:text-3xl tracking-wider uppercase gap-2 inline-block">
-								<span className="select-none mx-2">⎯⎯⎯⎯</span>
+								<span className="select-none mx-2">
+									⎯<span className="hidden md:inline-block">⎯⎯⎯</span>
+								</span>
 								<span>The Greatest Show</span>
-								<span className="select-none mx-2">⎯⎯⎯⎯</span>
+								<span className="select-none mx-2">
+									⎯<span className="hidden md:inline-block">⎯⎯⎯</span>
+								</span>
 							</div>
 							<div className="font-rhm text-2xl my-4 tracking-wider uppercase">
 								<span className="mr-2">📅</span>

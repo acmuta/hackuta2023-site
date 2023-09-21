@@ -21,9 +21,16 @@ module.exports = {
         'hackuta-pattern-blue': "url('/images/blue-pattern-bg.png')",
         'hackuta-pattern-yellow': "url('/images/yellow-pattern-bg.png')",
         'hackuta-pattern-black': "url('/images/black-pattern-bg.png')",
+
         'hackuta-ticket': "url('/images/ticket.svg')",
         'hackuta-ticket-red': "url('/images/ticket-red.svg')",
         'hackuta-ticket-blue': "url('/images/ticket-blue.svg')",
+
+        'hackuta-sqrbg-ruby': "url('/images/backgrounds/rubyred.png')",
+        'hackuta-sqrbg-fireice': "url('/images/backgrounds/fireice.png')",
+        'hackuta-sqrbg-seir': "url('/images/backgrounds/seir.png')",
+        'hackuta-sqrbg-swsh': "url('/images/backgrounds/swsh.png')",
+        'hackuta-sqrbg-hackuta2022': "url('/images/backgrounds/hackuta2022.png')",
       },
       boxShadow: {
         hackuta: shadow,
@@ -59,6 +66,7 @@ module.exports = {
       },
       width: {
         15: '3.75rem',
+        46: '11.5rem',
       }
     },
   },
