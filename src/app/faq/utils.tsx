@@ -23,7 +23,7 @@ export function FaqSection({
 					// .sort((a, b) => a._id - b._id)
 					.map((faq) => (
 						<Accordion
-							className="drop-shadow-hackuta border-l-4 border-hackuta-yellow pl-4 w-full max-w-md"
+							className="drop-shadow-hackuta border-l-4 border-hackuta-darkred pl-4 w-full max-w-md"
 							arrowClassName="text-hackuta-red drop-shadow-hackuta"
 							summaryClassName="text-xl font-body"
 							contentClassName="font-body mb-4"
@@ -39,7 +39,7 @@ export function FaqSection({
 
 	// return <PageSection heading="FAQ">{content}</PageSection>
 	return (
-		<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-blue p-8 md:p-16 w-full">
+		<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 			<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 				Frequently Asked
 				<WavyPattern className="w-32" />
@@ -52,18 +52,17 @@ export function FaqSection({
 export async function getFaqs(): Promise<WithId<FaqModel>[] | undefined> {
 	try {
 		const client = await clientPromise
-		const faqs = await client.db()
-			.collection<FaqModel>('faqs')
-			.find()
-			.toArray()
-		
+		const faqs = await client.db().collection<FaqModel>('faqs').find().toArray()
+
 		// Convert the linked list into an array.
 
 		// I have discovered a truly marvelous O(N) solution for this,
 		// which the space between the comments is too small to contain.
 
 		// O(N^2) brute force:
-		const head = faqs.find((head) => !faqs.find((v) => v.next?.toString() === head._id.toString()))
+		const head = faqs.find(
+			(head) => !faqs.find((v) => v.next?.toString() === head._id.toString()),
+		)
 		const ans: typeof faqs = []
 		let node = head
 		while (node) {
