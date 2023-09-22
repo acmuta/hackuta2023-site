@@ -62,8 +62,10 @@ export function Button({
 	)
 }
 
-export type LinkButtonProps = LinkProps &
-	AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type LinkButtonProps =
+	& LinkProps
+	& AnchorHTMLAttributes<HTMLAnchorElement>
+	& {
 		children?: ReactNode
 		kind?: ButtonKind
 	}

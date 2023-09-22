@@ -19,45 +19,41 @@ const client = mailchimp(apiKey)
 // logger.info('[email] backend: MailChimp')
 
 export default async function sendEmail(opts: SendEmailOptions) {
-	const messageAttachments =
-		opts.mail.attachments?.map((attachment) => {
-			const res: MessageAttachment = {
-				content: attachment.content,
-				name: attachment.filename,
-				type: attachment.type,
-			}
-			return res
-		}) ?? []
+	const messageAttachments = opts.mail.attachments?.map((attachment) => {
+		const res: MessageAttachment = {
+			content: attachment.content,
+			name: attachment.filename,
+			type: attachment.type,
+		}
+		return res
+	}) ?? []
 
-	const to =
-		opts.mail.to?.map((recipient) => {
-			const res: MessageRecipient = {
-				email: recipient.email,
-				name: recipient.name,
-				type: 'to',
-			}
-			return res
-		}) ?? []
+	const to = opts.mail.to?.map((recipient) => {
+		const res: MessageRecipient = {
+			email: recipient.email,
+			name: recipient.name,
+			type: 'to',
+		}
+		return res
+	}) ?? []
 
-	const cc =
-		opts.mail.cc?.map((recipient) => {
-			const res: MessageRecipient = {
-				email: recipient.email,
-				name: recipient.name,
-				type: 'cc',
-			}
-			return res
-		}) ?? []
+	const cc = opts.mail.cc?.map((recipient) => {
+		const res: MessageRecipient = {
+			email: recipient.email,
+			name: recipient.name,
+			type: 'cc',
+		}
+		return res
+	}) ?? []
 
-	const bcc =
-		opts.mail.bcc?.map((recipient) => {
-			const res: MessageRecipient = {
-				email: recipient.email,
-				name: recipient.name,
-				type: 'bcc',
-			}
-			return res
-		}) ?? []
+	const bcc = opts.mail.bcc?.map((recipient) => {
+		const res: MessageRecipient = {
+			email: recipient.email,
+			name: recipient.name,
+			type: 'bcc',
+		}
+		return res
+	}) ?? []
 
 	const messageRecipients = [...to, ...cc, ...bcc]
 

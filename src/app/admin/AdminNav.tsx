@@ -29,13 +29,13 @@ export function AdminNav({ perms }: AdminNavProps) {
 				.filter(([path]) => hasRoutePermission(path, perms))
 				.map(([path, name]) => (
 					<li key={path}>
-						{selectedPath === path ? (
-							<b className="text-white">&lt;{name}/&gt;</b>
-						) : (
-							<Link href={path} className="text-[lime]">
-								{name}
-							</Link>
-						)}
+						{selectedPath === path
+							? <b className="text-white">&lt;{name}/&gt;</b>
+							: (
+								<Link href={path} className="text-[lime]">
+									{name}
+								</Link>
+							)}
 					</li>
 				))}
 		</ul>

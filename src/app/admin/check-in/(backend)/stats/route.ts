@@ -17,10 +17,12 @@ export async function GET() {
 			.db()
 			.collection<User>('users')
 			.countDocuments({ checkedIn: { $exists: true } })
-		return NextResponse.json({
-			numAccepted,
-			numCheckedIn,
-		} satisfies Stats)
+		return NextResponse.json(
+			{
+				numAccepted,
+				numCheckedIn,
+			} satisfies Stats,
+		)
 	} catch (e) {
 		logger.error(e, '[/admin/check-in/users]')
 		return NextResponse.json([])

@@ -13,9 +13,7 @@ export function FaqSection({
 }: {
 	faqs: readonly FaqModel[] | undefined
 }) {
-	const content = !faqs ? (
-		<>Failed loading FAQs. Please try again later.</>
-	) : (
+	const content = !faqs ? <>Failed loading FAQs. Please try again later.</> : (
 		<>
 			{
 				// order by _id
@@ -44,7 +42,9 @@ export function FaqSection({
 				Frequently Asked
 				<WavyPattern className="w-32" />
 			</h2>
-			<div className="flex flex-row flex-wrap gap-4 items-start">{content}</div>
+			<div className="flex flex-row flex-wrap gap-4 items-start">
+				{content}
+			</div>
 		</div>
 	)
 }
@@ -52,7 +52,8 @@ export function FaqSection({
 export async function getFaqs(): Promise<WithId<FaqModel>[] | undefined> {
 	try {
 		const client = await clientPromise
-		const faqs = await client.db().collection<FaqModel>('faqs').find().toArray()
+		const faqs = await client.db().collection<FaqModel>('faqs').find()
+			.toArray()
 
 		// Convert the linked list into an array.
 
@@ -61,7 +62,8 @@ export async function getFaqs(): Promise<WithId<FaqModel>[] | undefined> {
 
 		// O(N^2) brute force:
 		const head = faqs.find(
-			(head) => !faqs.find((v) => v.next?.toString() === head._id.toString()),
+			(head) =>
+				!faqs.find((v) => v.next?.toString() === head._id.toString()),
 		)
 		const ans: typeof faqs = []
 		let node = head

@@ -17,11 +17,11 @@ export default function Card({ cardStyle, children, href }: CardProps) {
 			{children}
 		</div>
 	)
-	return href ? (
-		<Link href={href} className={styles.cardLink}>
-			{card}
-		</Link>
-	) : (
-		card
-	)
+	return href
+		? (
+			<Link href={href} className={styles.cardLink}>
+				{card}
+			</Link>
+		)
+		: card
 }

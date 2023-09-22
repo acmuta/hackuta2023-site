@@ -47,7 +47,8 @@ export const LogoTicket = ({
 					{kind}
 				</div>
 			</div>
-			{/* <div
+			{
+				/* <div
 				className={twJoin(
 					'flex items-center justify-center px-2 sm:px-8 sm:py-4',
 					'border-2 border-hackuta-black border-dashed border-b-0',
@@ -81,7 +82,8 @@ export const LogoTicket = ({
 						<VerifiedBadge className="h-6 w-6" aria-hidden />
 					</span>
 				</div>
-			</footer> */}
+			</footer> */
+			}
 		</Link>
 	)
 }

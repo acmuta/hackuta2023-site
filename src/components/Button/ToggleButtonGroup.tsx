@@ -25,7 +25,7 @@ export const ToggleButtonGroup = ({
 
 	const handleOnChange = (position: number) => {
 		const updatedCheckedState = checkedState.map((item, index) =>
-			index === position ? !item : item,
+			index === position ? !item : item
 		)
 
 		setCheckedState(updatedCheckedState)

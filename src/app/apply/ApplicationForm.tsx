@@ -22,7 +22,7 @@ import {
 	LevelOfStudySchema,
 	TernarySchema,
 	TShirtSizeSchema,
-	YesNoSchema
+	YesNoSchema,
 } from '@/lib/db/models/User'
 import { range, stringifyError } from '@/lib/utils/client'
 import { fetchPost, toOption, zodEnumToOptions } from '@/lib/utils/shared'
@@ -36,18 +36,17 @@ export function ApplicationForm() {
 		const formData = new FormData(
 			document.getElementById('applicationForm') as HTMLFormElement,
 		)
-		const jsonData: Record<string, string | string[] | number> =
-			Object.create(null)
+		const jsonData: Record<string, string | string[] | number> = Object
+			.create(null)
 		await Promise.all(
 			[...formData].map(async ([k, v]) => {
 				if (v === '') {
 					return
 				}
 				const zodFieldType = ApplicationSchema.shape[k as keyof Application]
-				const typeName =
-					zodFieldType._def.typeName === 'ZodOptional'
-						? zodFieldType._def.innerType._def.typeName
-						: zodFieldType._def.typeName
+				const typeName = zodFieldType._def.typeName === 'ZodOptional'
+					? zodFieldType._def.innerType._def.typeName
+					: zodFieldType._def.typeName
 				if (typeName === 'ZodArray') {
 					;((jsonData[k] ??= []) as string[]).push(v.toString())
 				} else if (typeName === 'ZodNumber') {
@@ -284,11 +283,12 @@ export function ApplicationForm() {
 				id="agreedMlhSharing"
 				text={
 					<>
-						I authorize you to share my application/registration information
-						with Major League Hacking for event administration, ranking, and MLH
-						administration in-line with the{' '}
-						<Link href="https://mlh.io/privacy">MLH Privacy Policy</Link>. I
-						further agree to the terms of both the{' '}
+						I authorize you to share my application/registration
+						information with Major League Hacking for event
+						administration, ranking, and MLH administration in-line with
+						the{' '}
+						<Link href="https://mlh.io/privacy">MLH Privacy Policy</Link>.
+						I further agree to the terms of both the{' '}
 						<Link href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">
 							MLH Contest Terms and Conditions
 						</Link>{' '}

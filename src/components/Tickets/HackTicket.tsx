@@ -9,7 +9,7 @@ export type HackTicketProps = DivProps & {
 	role?: string
 	id?: string | number
 	fname?: string
-	profile_img_url?: string,
+	profile_img_url?: string
 }
 export const HackTicket = ({
 	className,
@@ -32,7 +32,9 @@ export const HackTicket = ({
 				{/* Left */}
 				<div
 					className={`flex items-end w-64 bg-cover bg-center opacity-85 ${
-						applied ? 'bg-hackuta-sqrbg-ruby' : 'bg-hackuta-sqrbg-unregistered'
+						applied
+							? 'bg-hackuta-sqrbg-ruby'
+							: 'bg-hackuta-sqrbg-unregistered'
 					} bg-opacity-90`}
 				>
 					<p className="flex text-red-700 -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3 opacity-50">
@@ -49,7 +51,9 @@ export const HackTicket = ({
 							<>
 								<span className="text-xs">APPLY&nbsp;NOW</span>
 								<span>&nbsp;</span>
-								<span className="text-red-500 text-xs">APPLY&nbsp;NOW</span>
+								<span className="text-red-500 text-xs">
+									APPLY&nbsp;NOW
+								</span>
 								<span>&nbsp;</span>
 								<span className="text-xs">APPLY&nbsp;NOW</span>
 								<span>&nbsp;</span>
@@ -69,17 +73,21 @@ export const HackTicket = ({
 						<span className="text-sm">2023</span>
 					</p>
 					<div className="font-bold font-heading">
-						<h1 className="text-3xl font-bold text-red-600">GREATEST SHOW</h1>
+						<h1 className="text-3xl font-bold text-red-600">
+							GREATEST SHOW
+						</h1>
 						<h2 className="text-xl font-bold text-red-800">ACM at UTA</h2>
 					</div>
 					<div className="my-2.5 gap-0.5 flex flex-col font-semibold text-3xl text-red-950">
 						<Countdown />
-						{/* <p>
+						{
+							/* <p>
 						SAT 12PM <span className="font-bold text-lg">TO</span> SUN 12PM
 					</p>
 					<p>
 						DOORS <span className="font-bold text-lg">@</span> 9:00 AM
-					</p> */}
+					</p> */
+						}
 					</div>
 					<p className="flex justify-around items-center pt-2 border-t font-normal border-gray-700">
 						<span>SWSH & SEIR</span>
@@ -105,7 +113,9 @@ export const HackTicket = ({
 							<>
 								<span className="text-xs">APPLY&nbsp;NOW</span>
 								<span>&nbsp;</span>
-								<span className="text-gray-600 text-xs">APPLY&nbsp;NOW</span>
+								<span className="text-gray-600 text-xs">
+									APPLY&nbsp;NOW
+								</span>
 								<span>&nbsp;</span>
 								<span className="text-xs">APPLY&nbsp;NOW</span>
 							</>
@@ -119,11 +129,15 @@ export const HackTicket = ({
 							</h1>
 							<div className="flex flex-col font-normal text-sm">
 								<p className="m-0 text-sm">
-									SAT 12PM <span className="font-medium text-base">TO</span> SUN
-									12PM
+									SAT 12PM{' '}
+									<span className="font-medium text-base">TO</span>
+									{' '}
+									SUN 12PM
 								</p>
 								<p className="m-0">
-									DOORS <span className="font-medium text-base">@</span> 9:00 AM
+									DOORS{' '}
+									<span className="font-medium text-base">@</span>{' '}
+									9:00 AM
 								</p>
 							</div>
 							<div className="h-32 mt-2">

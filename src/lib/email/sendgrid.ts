@@ -20,9 +20,9 @@ export default async function sendEmail(opts: SendEmailOptions) {
 		},
 		replyTo: opts.replyToEmail
 			? {
-					email: opts.replyToEmail,
-					name: opts.replyToName || undefined,
-			  }
+				email: opts.replyToEmail,
+				name: opts.replyToName || undefined,
+			}
 			: undefined,
 
 		to: opts.mail.to,

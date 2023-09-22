@@ -6,7 +6,8 @@ export default async function Events() {
 	return (
 		<>
 			<h2>Event Schedule</h2>
-			{/* {events ? (
+			{
+				/* {events ? (
 				<JsonEditor
 					text={JSON.stringify(events, undefined, 4)}
 					postUrl="/api/admin/schedule"
@@ -14,7 +15,8 @@ export default async function Events() {
 				/>
 			) : (
 				'Error.'
-			)} */}
+			)} */
+			}
 		</>
 	)
 }

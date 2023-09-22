@@ -6,9 +6,7 @@ import { redirect } from 'next/navigation'
 import { Box } from '@/components/Box'
 import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
-import {
-	getEnhancedSession
-} from '@/lib/utils/server'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import Cards from './Cards'
 
@@ -41,21 +39,23 @@ export default async function Dashboard() {
 	let kid: JSX.Element
 
 	if (user.applicationStatus === 'accepted') {
-		kid =<Cards />
+		kid = <Cards />
 	} else if (user.applicationStatus) {
 		kid = (
 			<p className="flex-1">
-				Application status: {user.applicationStatus}. Please contact the
-				organizers if you believe this is a mistake.
+				Application status:{' '}
+				{user.applicationStatus}. Please contact the organizers if you
+				believe this is a mistake.
 			</p>
 		)
 	} else {
 		kid = (
 			<p className="flex-1">
-				We&apos;ve received your application. You will receive an email update
-				about the status of the application. Feel free to contact the organizers
-				at <a href="mailto:hello@hackuta.org">hello@hackuta.org</a> if you need
-				any assistance!
+				We&apos;ve received your application. You will receive an email
+				update about the status of the application. Feel free to contact the
+				organizers at{' '}
+				<a href="mailto:hello@hackuta.org">hello@hackuta.org</a>{' '}
+				if you need any assistance!
 			</p>
 		)
 	}
@@ -73,7 +73,8 @@ export default async function Dashboard() {
 				alignItems="start"
 				wrap="wrap"
 				className={classNames('flex-1 gap-8')}
-			></Box>
+			>
+			</Box>
 		</Box>
 	)
 }

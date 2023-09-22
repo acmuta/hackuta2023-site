@@ -197,7 +197,8 @@ export default async function Landing() {
 							</div>
 						</section>
 						<div className="relative">
-							{/* <div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
+							{
+								/* <div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
 								<div className="flex py-2 px-6 md:ml-12 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
 									Don&apos;t miss out!
 								</div>
@@ -205,19 +206,19 @@ export default async function Landing() {
 									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
 									aria-hidden
 								/>
-							</div> */}
+							</div> */
+							}
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
 								applied={!!user?.applied}
 								role={user?.roles.join(' + ')}
 								id={user?.checkInPin?.toString()}
-								fname={
-									user?.application?.firstName
-								}
+								fname={user?.application?.firstName}
 							/>
 
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
-							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby"></div>
+							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby">
+							</div>
 						</div>
 						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
 							<LinkButton href="/apply" className="text-2xl">
@@ -239,7 +240,8 @@ export default async function Landing() {
 							</LinkButton>
 						</div>
 					</div>
-					{/* <Separator className="h-[10px] w-full" />
+					{
+						/* <Separator className="h-[10px] w-full" />
 					<section className="flex flex-col self-start gap-8">
 						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 							Schedule
@@ -255,8 +257,9 @@ export default async function Landing() {
 						<ClippedBadge
 							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
 							aria-hidden
-						/> 
-					</section> */}
+						/>
+					</section> */
+					}
 				</div>
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
@@ -289,7 +292,8 @@ export default async function Landing() {
 					</div>
 				</div>
 			</Box>
-			{/* <Box as="main" direction="column" className={styles.main}>
+			{
+				/* <Box as="main" direction="column" className={styles.main}>
 
 			<Box direction="column" className={styles.sectionContainer}>
 				<Box
@@ -320,7 +324,8 @@ export default async function Landing() {
 							</>
 						))}
 					</div>
-				</Box>*/}
+				</Box>*/
+			}
 		</>
 	)
 }

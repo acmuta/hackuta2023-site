@@ -56,7 +56,8 @@ export async function POST(request: Request) {
 		for (const user of users) {
 			const renderContext = {
 				user: {
-					name: `${user.application?.firstName} ${user.application?.lastName}`,
+					name:
+						`${user.application?.firstName} ${user.application?.lastName}`,
 				},
 			}
 			await sendEmail({
@@ -79,7 +80,9 @@ export async function POST(request: Request) {
 			await delay(CooldownMs)
 		}
 
-		return NextResponse.json(jsend.success({ number_recipients: users.length }))
+		return NextResponse.json(
+			jsend.success({ number_recipients: users.length }),
+		)
 	} catch (e) {
 		logger.error(e, '[/admin/email/send]')
 		return NextResponse.json(

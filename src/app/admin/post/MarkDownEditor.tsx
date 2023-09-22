@@ -40,8 +40,7 @@ export function MarkDownEditor({
 				isMultiline
 				value={source}
 				onChange={(e) =>
-					onSourceChange?.((e.target as HTMLTextAreaElement).value)
-				}
+					onSourceChange?.((e.target as HTMLTextAreaElement).value)}
 				spellCheck={false}
 				style={{ flex: 1, fontFamily: 'monospace' }}
 				boxProps={{ style: { flex: 1 } }}

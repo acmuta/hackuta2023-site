@@ -24,7 +24,8 @@ export const SponsorTicket = ({
 			aria-hidden
 			className={twMerge('h-full bg-black w-[1px]', className)}
 			{...props}
-		></span>
+		>
+		</span>
 	)
 	const starSize = 16
 	const topRadius = 'rounded-tl-xl rounded-tr-xl'

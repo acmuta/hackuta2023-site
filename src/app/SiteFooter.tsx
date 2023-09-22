@@ -16,14 +16,20 @@ export default function SiteFooter() {
 							href={'https://discord.gg/4e64SfjmWS'}
 							className="no-underline text-hackuta-beige"
 						>
-							<Discord width={'32px'} aria-label="HackUTA 2023 Discord" />
+							<Discord
+								width={'32px'}
+								aria-label="HackUTA 2023 Discord"
+							/>
 						</Link>,
 						<Link
 							key="instagram"
 							href={'https://instagram.com/hack.uta'}
 							className="no-underline text-hackuta-beige"
 						>
-							<Instagram width={'32px'} aria-label="Instagram @hack.uta" />
+							<Instagram
+								width={'32px'}
+								aria-label="Instagram @hack.uta"
+							/>
 						</Link>,
 						// <Link key="twitter" href={'https://twitter.com/utadatathon'}>
 						// 	<Twitter width={'32px'} aria-label="Twitter @utadatathon" />

@@ -4,8 +4,10 @@ import { InputProps } from 'react-html-props'
 import { Box } from './../Box'
 import { Label, LabelProps } from './Label'
 
-export type CheckboxProps = InputProps &
-	LabelProps & {
+export type CheckboxProps =
+	& InputProps
+	& LabelProps
+	& {
 		indeterminate?: boolean
 	}
 

@@ -70,7 +70,10 @@ export default function ApplicantDataTable({
 		disqualified,
 	}: DisqualifierFieldProps) => (
 		<div
-			className={twJoin(disqualified ? 'bg-hackuta-red text-white' : '', 'p-2')}
+			className={twJoin(
+				disqualified ? 'bg-hackuta-red text-white' : '',
+				'p-2',
+			)}
 		>
 			{children}
 			{disqualified && criterionName ? ` (${criterionName})` : ''}
@@ -84,10 +87,12 @@ export default function ApplicantDataTable({
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({
-					decision,
-					emails: selectedRows.map((r) => r.email),
-				} satisfies ApplicationDecideRequestBody),
+				body: JSON.stringify(
+					{
+						decision,
+						emails: selectedRows.map((r) => r.email),
+					} satisfies ApplicationDecideRequestBody,
+				),
 			})
 			window.location.reload()
 		} catch (e) {
@@ -183,28 +188,31 @@ export default function ApplicantDataTable({
 					header="Misc"
 					body={(r: Row) => (
 						<div className="flex gap-1">
-							{r.resume ? (
-								<Link
-									href={`/admin/applications/resume/${r.email}`}
-									title="Download resume"
-									target="_blank"
-									download
-								>
-									<Attachment aria-hidden />
-								</Link>
-							) : undefined}
-							{r.catchall ? (
-								<button
-									title={`View other information applicant'd like to share`}
-									onClick={() =>
-										alert(
-											`The applicant also would like to share:\n${r.catchall}`,
-										)
-									}
-								>
-									<InfoEmpty aria-hidden />
-								</button>
-							) : undefined}
+							{r.resume
+								? (
+									<Link
+										href={`/admin/applications/resume/${r.email}`}
+										title="Download resume"
+										target="_blank"
+										download
+									>
+										<Attachment aria-hidden />
+									</Link>
+								)
+								: undefined}
+							{r.catchall
+								? (
+									<button
+										title={`View other information applicant'd like to share`}
+										onClick={() =>
+											alert(
+												`The applicant also would like to share:\n${r.catchall}`,
+											)}
+									>
+										<InfoEmpty aria-hidden />
+									</button>
+								)
+								: undefined}
 						</div>
 					)}
 				/>

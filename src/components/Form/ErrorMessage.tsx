@@ -5,7 +5,7 @@ export interface ErrorMessageProps {
 }
 
 export default function ErrorMessage({ errors }: ErrorMessageProps) {
-	return errors?.length ? (
-		<span className={styles.error}>{errors.join('; ')}</span>
-	) : null
+	return errors?.length
+		? <span className={styles.error}>{errors.join('; ')}</span>
+		: null
 }

@@ -85,7 +85,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ onScanned }) => {
 					type="text"
 					placeholder="Enter ID"
 					value={inputValue}
-					onChange={(e) => setInputValue((e.target as HTMLInputElement).value)}
+					onChange={(e) =>
+						setInputValue((e.target as HTMLInputElement).value)}
 					errors={[errorMessage]}
 				/>
 				<Button type="submit">Submit</Button>

@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && dprint check",
     "lint:fix": "next lint --fix",
-    "format": "prettier --write src/**/*.{css,ts,tsx}"
+    "fmt": "dprint fmt"
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
@@ -63,11 +63,11 @@
     "@types/nodemailer": "^6.4.10",
     "@types/validator": "^13.7.14",
     "autoprefixer": "^10.4.16",
+    "dprint": "^0.41.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "pino-pretty": "^10.2.0",
     "postcss": "^8.4.30",
-    "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3"
   }
 }

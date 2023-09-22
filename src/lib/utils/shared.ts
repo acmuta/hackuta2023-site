@@ -62,12 +62,10 @@ export const doTSettings: doT.TemplateSettings = {
 /**
  * Convert all `Date` and `ObjectId` fields in an object to `string`s.
  */
-export type ToJsonValue<T> = T extends Date | ObjectId
-	? string
-	: T extends object
-	? {
+export type ToJsonValue<T> = T extends Date | ObjectId ? string
+	: T extends object ? {
 			[K in keyof T]: ToJsonValue<T[K]>
-	  }
+		}
 	: T
 
 export interface RenderContext {

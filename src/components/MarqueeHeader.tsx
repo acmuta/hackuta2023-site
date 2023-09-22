@@ -84,10 +84,12 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 						</a>
 					}
 
-					{/* <span className="text-center">
+					{
+						/* <span className="text-center">
 						Arlington&apos;s One and Only Hackathon
 					</span>
-					<span className="text-center">The Greatest Show Around</span> */}
+					<span className="text-center">The Greatest Show Around</span> */
+					}
 
 					<ul
 						className={twMerge(
@@ -98,13 +100,17 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 						{hasPermission(perms, { administration: {} }) && (
 							<HeaderLink href="/admin">Admin</HeaderLink>
 						)}
-						{!user?.application && <HeaderLink href="/apply">Apply</HeaderLink>}
+						{!user?.application && (
+							<HeaderLink href="/apply">Apply</HeaderLink>
+						)}
 						{user?.application && (
 							<HeaderLink href="/dashboard">Dashboard</HeaderLink>
 						)}
 						<HeaderLink href="/faq">FAQ</HeaderLink>
 						<HeaderLink href="/schedule">Schedule</HeaderLink>
-						<HeaderLink href={user ? '/api/auth/signout' : '/api/auth/signin'}>
+						<HeaderLink
+							href={user ? '/api/auth/signout' : '/api/auth/signin'}
+						>
 							{user ? 'Sign Out' : 'Sign In'}
 						</HeaderLink>
 					</ul>
@@ -122,13 +128,17 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 					{hasPermission(perms, { administration: {} }) && (
 						<HeaderLink href="/admin">Admin</HeaderLink>
 					)}
-					{!user?.application && <HeaderLink href="/apply">Apply</HeaderLink>}
+					{!user?.application && (
+						<HeaderLink href="/apply">Apply</HeaderLink>
+					)}
 					{user?.application && (
 						<HeaderLink href="/dashboard">Dashboard</HeaderLink>
 					)}
 					<HeaderLink href="/faq">FAQ</HeaderLink>
 					<HeaderLink href="/schedule">Schedule</HeaderLink>
-					<HeaderLink href={user ? '/api/auth/signout' : '/api/auth/signin'}>
+					<HeaderLink
+						href={user ? '/api/auth/signout' : '/api/auth/signin'}
+					>
 						{user ? 'Sign Out' : 'Sign In'}
 					</HeaderLink>
 				</ul>
@@ -178,25 +188,28 @@ interface HeaderLinkProps {
 
 const HeaderLink = ({ href, children }: HeaderLinkProps) => {
 	const pathname = usePathname()
-	const selected =
-		href === '/' ? !pathname || pathname === '/' : pathname?.startsWith(href)
+	const selected = href === '/'
+		? !pathname || pathname === '/'
+		: pathname?.startsWith(href)
 	return (
 		<li>
-			{selected ? (
-				<Link
-					href={href}
-					className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 bg-hackuta-beige rounded-lg border-hackuta-beige no-underline transition-all"
-				>
-					{children}
-				</Link>
-			) : (
-				<Link
-					href={href}
-					className="font-heading text-hackuta-beige hover:opacity-80 no-underline transition-all rounded-lg hover:underline"
-				>
-					{children}
-				</Link>
-			)}
+			{selected
+				? (
+					<Link
+						href={href}
+						className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 bg-hackuta-beige rounded-lg border-hackuta-beige no-underline transition-all"
+					>
+						{children}
+					</Link>
+				)
+				: (
+					<Link
+						href={href}
+						className="font-heading text-hackuta-beige hover:opacity-80 no-underline transition-all rounded-lg hover:underline"
+					>
+						{children}
+					</Link>
+				)}
 		</li>
 	)
 }

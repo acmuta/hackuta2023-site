@@ -25,11 +25,11 @@ const Countdown: React.FC = ({ className }: CountdownProps) => {
 			}
 
 			const weeks = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 7))
-			const days =
-				Math.floor(
-					(timeDifference % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24),
-				) +
-				weeks * 7
+			const days = Math.floor(
+				(timeDifference % (1000 * 60 * 60 * 24 * 7))
+					/ (1000 * 60 * 60 * 24),
+			)
+				+ weeks * 7
 			const hours = Math.floor(
 				(timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
 			)
@@ -48,17 +48,17 @@ const Countdown: React.FC = ({ className }: CountdownProps) => {
 		<div className={`inline-block gap-2 ${className}`}>
 			<div className="inline-block">
 				<span>{countdown.days}</span>
-				<span className="text-sm">d </span>
+				<span className="text-sm">d</span>
 				<span className="font-normal mx-2">·</span>
 			</div>
 			<div className="inline-block">
 				<span>{countdown.hours}</span>
-				<span className="text-sm">h </span>
+				<span className="text-sm">h</span>
 				<span className="font-normal mx-2">·</span>
 			</div>
 			<div className="inline-block">
 				<span>{countdown.minutes}</span>
-				<span className="text-sm">m </span>
+				<span className="text-sm">m</span>
 				<span className="font-normal mx-2">·</span>
 			</div>
 			<div className="inline-block">

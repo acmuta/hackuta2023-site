@@ -25,11 +25,9 @@ export function ToggleButton({
 			aria-labelledby={id}
 			{...props}
 		>
-			{selected ? (
-				<CheckCircle aria-hidden={true} />
-			) : (
-				<AddCircle aria-hidden={true} />
-			)}
+			{selected
+				? <CheckCircle aria-hidden={true} />
+				: <AddCircle aria-hidden={true} />}
 			{text}
 		</Button>
 	)

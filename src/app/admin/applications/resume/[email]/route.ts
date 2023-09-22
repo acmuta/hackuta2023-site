@@ -35,7 +35,8 @@ export async function GET(
 			Buffer.from(user.application.resume.replace(Regex, ''), 'base64'),
 			{
 				headers: {
-					'Content-Disposition': `attachment; filename=${user.application.firstName}%20${user.application.lastName}.zip`,
+					'Content-Disposition':
+						`attachment; filename=${user.application.firstName}%20${user.application.lastName}.zip`,
 					'Content-Type': 'application/pdf',
 				},
 			},
