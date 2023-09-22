@@ -7,8 +7,9 @@ import Countdown from '../Countdown'
 export type HackTicketProps = DivProps & {
 	applied: boolean
 	role?: string
-	id?: string
+	id?: string | number
 	fname?: string
+	profile_img_url?: string,
 }
 export const HackTicket = ({
 	className,
@@ -133,6 +134,7 @@ export const HackTicket = ({
 								>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									{applied && (
+										// eslint-disable-next-line @next/next/no-img-element
 										<img
 											src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
 											alt="QR code"

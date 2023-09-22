@@ -165,6 +165,8 @@ export default async function Landing() {
 		},
 	]
 
+	const { user } = getEnhancedSession(headers())
+
 	return (
 		<>
 			<Box
@@ -206,14 +208,11 @@ export default async function Landing() {
 							</div> */}
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
-								applied={
-									getEnhancedSession(headers()) !== null &&
-									getEnhancedSession(headers()).user?.applied === typeof Date
-								}
-								role={getEnhancedSession(headers()).user?.roles.join(' + ')}
-								id={getEnhancedSession(headers()).user?._id}
+								applied={!!user?.applied}
+								role={user?.roles.join(' + ')}
+								id={user?.checkInPin?.toString()}
 								fname={
-									getEnhancedSession(headers()).user?.application?.firstName
+									user?.application?.firstName
 								}
 							/>
 
