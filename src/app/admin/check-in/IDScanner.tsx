@@ -165,7 +165,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 						<QrReader
 							// @ts-expect-error whatever man.
 							delay={300}
-							// @ts-expect-error whatever man.
 							onError={() => setErrorMessage('Error scanning QR code')}
 							onResult={handleScan}
 							style={{
