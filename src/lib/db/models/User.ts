@@ -9,7 +9,7 @@ import type { ToJsonValue } from '@/lib/utils/shared'
 export default interface User {
 	email: string
 	image: string
-	roles: string[]
+	roles?: string[]
 	emailVerified: Date | null
 	applied?: Date
 	application?: Application

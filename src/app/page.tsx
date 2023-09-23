@@ -211,7 +211,7 @@ export default async function Landing() {
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
 								applied={!!user?.applied}
-								role={user?.roles.join(' + ')}
+								role={user?.roles?.join(' + ')}
 								id={user?.checkInPin?.toString()}
 								fname={user?.application?.firstName}
 							/>
