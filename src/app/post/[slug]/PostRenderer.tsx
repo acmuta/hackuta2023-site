@@ -5,7 +5,7 @@ import { Post } from '@/lib/db/models/Post'
 import { RenderContext, renderTemplate } from '@/lib/utils/shared'
 
 interface PostRendererProps {
-	context: RenderContext,
+	context: RenderContext
 	post: Post
 	sourceType: 'briefSource' | 'contentSource'
 }

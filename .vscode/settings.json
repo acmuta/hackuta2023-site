@@ -1,17 +1,22 @@
 {
 	"editor.formatOnSave": true,
+<<<<<<< HEAD
 	"[css]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[typescript]": {
 		"editor.defaultFormatter": "ms-vsliveshare.vsliveshare",
+=======
+	"[typescript]": {
+		"editor.defaultFormatter": "dprint.dprint",
+>>>>>>> main
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true,
 			"source.organizeImports": true
 		}
 	},
 	"[typescriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "dprint.dprint",
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true,
 			"source.organizeImports": true

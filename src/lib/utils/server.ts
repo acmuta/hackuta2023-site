@@ -144,7 +144,7 @@ export async function checkPermissions<TJSendResponse>(
 		throw new Error('Unauthenticated')
 	}
 
-	if (!user.roles.includes(role)) {
+	if (!user.roles?.includes(role)) {
 		throw new Error('Unauthorized')
 	}
 }
@@ -196,12 +196,12 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 	const client = await clientPromise
 	const discordAccount = user
 		? await client
-				.db()
-				.collection<Account>('accounts')
-				.findOne({
-					provider: 'discord',
-					userId: new ObjectId(user._id),
-				})
+			.db()
+			.collection<Account>('accounts')
+			.findOne({
+				provider: 'discord',
+				userId: new ObjectId(user._id),
+			})
 		: null
 
 	return {

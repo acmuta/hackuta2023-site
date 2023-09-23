@@ -3,8 +3,10 @@ import { InputProps } from 'react-html-props'
 import { Box } from '../Box'
 import { Label, LabelProps } from './Label'
 
-export type FileInputProps = InputProps &
-	LabelProps & {
+export type FileInputProps =
+	& InputProps
+	& LabelProps
+	& {
 		indeterminate?: boolean
 	}
 

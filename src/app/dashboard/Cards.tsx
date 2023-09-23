@@ -23,7 +23,8 @@ export default function Cards() {
 	} else if (error || data?.status !== 'success') {
 		return (
 			<div>
-				Error: {error ? stringifyError(error) : (data as JSendError)?.message}
+				Error:{' '}
+				{error ? stringifyError(error) : (data as JSendError)?.message}
 			</div>
 		)
 	}

@@ -10,36 +10,36 @@ export type AppPermissions =
 	| undefined
 	| true
 	| {
-			administration?:
-				| true
-				| {
-						application?:
-							| true
-							| {
-									basic?: true
-									/** Read access to full application */
-									sensitive?: true
-									/** Write access to blocklist */
-									blocklist?: true
-									decision?: true
-							  }
-						checkIn?:
-							| true
-							| {
-									[event: string]: true
-							  }
-						email?: true
-						faq?: true
-						post?: true
-						schedule?: true
-						user?: true
-				  }
-			application?: true
-			auth?: true
-			faq?: true
-			post?: true
-			schedule?: true
-	  }
+		administration?:
+			| true
+			| {
+				application?:
+					| true
+					| {
+						basic?: true
+						/** Read access to full application */
+						sensitive?: true
+						/** Write access to blocklist */
+						blocklist?: true
+						decision?: true
+					}
+				checkIn?:
+					| true
+					| {
+						[event: string]: true
+					}
+				email?: true
+				faq?: true
+				post?: true
+				schedule?: true
+				user?: true
+			}
+		application?: true
+		auth?: true
+		faq?: true
+		post?: true
+		schedule?: true
+	}
 
 export const RolePermissionMap = {
 	'@unauthenticated': {
@@ -89,7 +89,7 @@ export function hasPermission(
 		return false
 	} else {
 		return Object.entries(required).every(([k, v]) =>
-			hasPermission(granted[k], v),
+			hasPermission(granted[k], v)
 		)
 	}
 }

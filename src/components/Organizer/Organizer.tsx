@@ -9,7 +9,7 @@ import {
 } from 'iconoir-react'
 import Link, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
-//import Image from 'next/image'
+// import Image from 'next/image'
 import { DivProps } from 'react-html-props'
 
 import { Box } from '../Box'
@@ -67,7 +67,9 @@ export const Organizer = ({
 						{socials.instagram && (
 							<InstagramLink username={socials.instagram} />
 						)}
-						{socials.linkedIn && <LinkedInLink username={socials.linkedIn} />}
+						{socials.linkedIn && (
+							<LinkedInLink username={socials.linkedIn} />
+						)}
 					</Box>
 				</IconoirProvider>
 			)}

@@ -17,7 +17,11 @@ export default function PageSection({ heading, children }: PageSectionProps) {
 			gap="1rem"
 			className={styles.pageSection}
 		>
-			<Heading id={heading.toLowerCase()} level={2} className={'anchorOffset'}>
+			<Heading
+				id={heading.toLowerCase()}
+				level={2}
+				className={'anchorOffset'}
+			>
 				{heading}
 			</Heading>
 			{children}

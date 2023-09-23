@@ -1,6 +1,6 @@
 'use client'
 
-import Select, { createFilter,Props as SelectProps } from 'react-select'
+import Select, { createFilter, Props as SelectProps } from 'react-select'
 import Creatable from 'react-select/creatable'
 
 import { Box } from './../Box'
@@ -8,8 +8,10 @@ import ErrorMessage, { ErrorMessageProps } from './ErrorMessage'
 import { Label, LabelProps } from './Label'
 import styles from './styles.module.css'
 
-export type DropdownProps = ErrorMessageProps &
-	LabelProps & {
+export type DropdownProps =
+	& ErrorMessageProps
+	& LabelProps
+	& {
 		selectProps?: SelectProps<Option>
 		isClearable?: boolean
 		isCreatable?: boolean

@@ -71,7 +71,8 @@ export default function Form({ allEmails, existingTags }: Props) {
 				selectProps={{
 					required: true,
 					value: recipients,
-					onChange: (newValue) => setRecipients(newValue as MultiValue<Option>),
+					onChange: (newValue) =>
+						setRecipients(newValue as MultiValue<Option>),
 				}}
 				isMulti
 			/>

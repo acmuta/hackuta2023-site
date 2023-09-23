@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { headers } from 'next/headers'
 import { SVGProps } from 'react-html-props'
-import { twJoin } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { getEvents, HackathonCalendar } from '@/components/calendar'
-import { ClippedBadge } from '@/components/ClippedBadge'
-import { HackTicket } from '@/components/HackTicket'
-import { SponsorTicket, SponsorTicketKind } from '@/components/SponsorTicket'
+import { getEvents } from '@/components/calendar'
+import { HackTicket } from '@/components/Tickets/HackTicket'
+// import { ClippedBadge } from '@/components/ClippedBadge'
+import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
+import { dedupe, getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
 
@@ -33,7 +34,7 @@ const Separator = ({ ...props }: SeparatorProps) => {
 				y1="6"
 				x2="1572"
 				y2="6"
-				stroke="#8C1B16"
+				stroke="rgb(0,0,0,.3)"
 				strokeWidth="10"
 				strokeDasharray="24 24"
 			/>
@@ -105,15 +106,22 @@ export default async function Landing() {
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
-			companyName: 'StateFarm',
-			companyUrl: 'https://www.statefarm.com/',
-			imageUrl: '/images/Sponsors/statefarm.svg',
-			kind: 'Sponsor',
-		},
-		{
 			companyName: 'Mouser Electronics',
 			companyUrl: 'https://www.mouser.com/',
 			imageUrl: '/images/Sponsors/mouser-electronics.svg',
+			kind: 'Sponsor',
+		},
+		{
+			companyName: 'UTA CSE Department',
+			companyUrl:
+				'https://www.uta.edu/academics/schools-colleges/engineering/academics/departments/cse',
+			imageUrl: '/images/Sponsors/utacse.png',
+			kind: 'Sponsor',
+		},
+		{
+			companyName: 'StateFarm',
+			companyUrl: 'https://www.statefarm.com/',
+			imageUrl: '/images/Sponsors/statefarm.svg',
 			kind: 'Sponsor',
 		},
 		{
@@ -123,28 +131,44 @@ export default async function Landing() {
 			kind: 'Sponsor',
 		},
 		{
-			companyName: 'Major League Hacking',
+			companyName: 'UTA ISO',
+			companyUrl: 'https://www.uta.edu/security/',
+			imageUrl: '/images/Sponsors/utaiso.png',
+			kind: 'Sponsor',
+		},
+	]
+
+	const partners = [
+		{
+			companyName: 'Major\xa0League Hacking',
 			companyUrl: 'https://mlh.io/',
 			imageUrl: '/images/Partners/mlh-logo-color-dark.svg',
 			kind: 'Partner',
 		},
 		{
+			companyName: 'Mathworks',
+			companyUrl: 'https://www.mathworks.com/',
+			imageUrl: '/images/Partners/mathworks.png',
+			kind: 'Partner',
+		},
+		{
 			companyName: 'Rosenfeld',
 			companyUrl: 'https://rosenfeldmedia.com/',
-			imageUrl: '/images/Partners/rosenfeld.webp',
+			imageUrl: '/images/Partners/rosenfeld.png',
 			kind: 'Partner',
 		},
 		{
 			companyName: 'Standout Stickers',
 			companyUrl: 'https://www.standoutstickers.com/',
-			imageUrl: '/images/Partners/standout-stickers.jpg',
+			imageUrl: '/images/Partners/standout-stickers.png',
 			kind: 'Partner',
 		},
 	]
 
+	const { user } = getEnhancedSession(headers())
+
 	return (
 		<>
-		
 			<Box
 				direction="column"
 				alignItems="center"
@@ -152,17 +176,52 @@ export default async function Landing() {
 				gap=".5rem"
 				className="mb-2"
 			>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full min-h-max">
 					<div className="flex flex-col items-center justify-start gap-8">
-						<section className="flex flex-col items-center gap-4">
-							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-hackuta-yellow drop-shadow-hackuta">
+						<section className="flex flex-col items-center">
+							<h1 className="text-4xl sm:text-6xl md:text-8xl mx-[-8rem] font-heading text-white drop-shadow-hackuta">
 								HackUTA 2023
 							</h1>
-							<div className="sm:text-xl font-shrimp text-white tracking-wider uppercase">
-								Once in a year event
+							<div className="sm:text-lg font-rhd text-white font-semibold md:text-3xl tracking-wider uppercase gap-2 inline-block">
+								<span className="select-none mx-2">
+									⎯<span className="hidden md:inline-block">⎯⎯⎯</span>
+								</span>
+								<span>The Greatest Show</span>
+								<span className="select-none mx-2">
+									⎯<span className="hidden md:inline-block">⎯⎯⎯</span>
+								</span>
+							</div>
+							<div className="font-rhm text-2xl my-4 tracking-wider uppercase">
+								<span className="mr-2">📅</span>
+								<span className="text-white">October 7-8, 2023</span>
 							</div>
 						</section>
-						<div className="flex flex-col gap-3">
+						<div className="relative">
+							{
+								/* <div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
+								<div className="flex py-2 px-6 md:ml-12 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
+									Don&apos;t miss out!
+								</div>
+								<CTAArrow
+									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
+									aria-hidden
+								/>
+							</div> */
+							}
+							<HackTicket
+								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
+								applied={!!user?.applied}
+								role={dedupe(['hacker', ...user?.roles ?? []])
+									?.join(' + ')}
+								id={user?.checkInPin?.toString()}
+								fname={user?.application?.firstName}
+							/>
+
+							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
+							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby">
+							</div>
+						</div>
+						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
 							<LinkButton href="/apply" className="text-2xl">
 								Apply
 							</LinkButton>
@@ -173,60 +232,69 @@ export default async function Landing() {
 							>
 								Discord
 							</LinkButton>
-						</div>
-						<div className="relative">
-							<div className="sm:block hidden absolute left-0 top-0 mt-[-3rem] ml-[-10rem] rotate-[-15deg] z-10">
-								<div className="flex py-2 px-6 md:ml-12 bg-hackuta-darkblue text-white font-heading drop-shadow-hackuta">
-									Don&apos;t miss out!
-								</div>
-								<CTAArrow
-									className={'w-[50px] h-auto ml-24 mt-2 drop-shadow-hackuta'}
-									aria-hidden
-								/>
-							</div>
-							<HackTicket className="animate-[jump-shaking_0.5s_ease-in-out_1]" />
+							<LinkButton
+								href="https://docs.google.com/forms/d/e/1FAIpQLSfQ5gopSj69iT5josqR7u5ztnebidDRo9h9F3gL5qduCHCTag/viewform?usp=sf_link"
+								className="bg-hackuta-darkblue"
+								kind="secondary"
+							>
+								Volunteer/Mentor
+							</LinkButton>
 						</div>
 					</div>
-					<Separator className="h-[10px] w-full" />
+					{
+						/* <Separator className="h-[10px] w-full" />
 					<section className="flex flex-col self-start gap-8">
 						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 							Schedule
 							<WavyPattern className="w-32" />
 						</h2>
-						<div className="font-shrimp text-white tracking-wider uppercase">
-						<HackathonCalendar startDate={startDate} endDate={endDate} events={events}/>
+						<div className="font-rhd text-white tracking-wider uppercase">
+							<HackathonCalendar
+								startDate={startDate}
+								endDate={endDate}
+								events={events}
+							/>
 						</div>
 						<ClippedBadge
 							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
 							aria-hidden
 						/>
-					</section>
+					</section> */
+					}
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-yellow p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-hackuta-darkblue text-4xl">
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Sponsors & Partners
-						<WavyPattern className="w-32" strokeColor="rgb(14 48 76)" />
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div
-						className={twJoin(
-							'grid auto-rows-fr gap-4',
-							'grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3',
-						)}
-					>
+					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
 						{sponsors.map((company, index) => (
-							<SponsorTicket
+							<LogoTicket
 								key={`${company.companyName}-${index}`}
 								companyName={company.companyName}
 								companyUrl={company.companyUrl}
 								imageUrl={company.imageUrl}
-								kind={company.kind as SponsorTicketKind}
+								kind={company.kind as LogoTicketKind}
+							/>
+						))}
+					</div>
+
+					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
+						{partners.map((company, index) => (
+							<LogoTicket
+								key={`${company.companyName}-${index}`}
+								companyName={company.companyName}
+								companyUrl={company.companyUrl}
+								imageUrl={company.imageUrl}
+								kind={company.kind as LogoTicketKind}
 							/>
 						))}
 					</div>
 				</div>
 			</Box>
-			{/* <Box as="main" direction="column" className={styles.main}>
+			{
+				/* <Box as="main" direction="column" className={styles.main}>
 
 			<Box direction="column" className={styles.sectionContainer}>
 				<Box
@@ -257,7 +325,8 @@ export default async function Landing() {
 							</>
 						))}
 					</div>
-				</Box>*/}
+				</Box>*/
+			}
 		</>
 	)
 }

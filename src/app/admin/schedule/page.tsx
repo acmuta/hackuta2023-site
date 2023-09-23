@@ -1,20 +1,27 @@
-import { getEvents } from '../../schedule/utils'
+import { getEvents } from '@/components/calendar'
+
 import JsonEditor from '../JsonEditor'
 
 export default async function Events() {
 	const events = await getEvents()
 	return (
 		<>
-			<h2>Event Schedule</h2>
-			{events ? (
-				<JsonEditor
-					text={JSON.stringify(events, undefined, 4)}
-					postUrl="/api/admin/schedule"
-					schema="event"
-				/>
-			) : (
-				'Error.'
-			)}
+			<h2 className="text-3xl shadow-hackuta">Event Schedule</h2>
+			{events
+				? (
+					<JsonEditor
+						text={JSON.stringify(
+							events.map((e) => ({ ...e, _id: undefined })),
+							undefined,
+							4,
+						)}
+						postUrl="/api/admin/schedule"
+						schema="event"
+					/>
+				)
+				: (
+					'Error.'
+				)}
 		</>
 	)
 }

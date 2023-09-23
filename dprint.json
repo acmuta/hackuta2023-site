@@ -1,0 +1,23 @@
+{
+  "indentWidth": 3,
+  "lineWidth": 80,
+  "newLineKind": "lf",
+  "useTabs": true,
+  "typescript": {
+    "arrowFunction.useParentheses": "force",
+    "bracePosition": "sameLine",
+    "jsx.quoteStyle": "preferDouble",
+    "quoteProps": "asNeeded",
+    "quoteStyle": "preferSingle",
+    "semiColons": "asi",
+    "useBraces": "always"
+  },
+  "excludes": [
+    ".next",
+    "**/node_modules",
+    "**/*-lock.json"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.87.1.wasm"
+  ]
+}

@@ -2,8 +2,11 @@ import 'primereact/resources/primereact.min.css'
 import 'primereact/resources/themes/lara-light-teal/theme.css'
 import './globals.css'
 
-import { Atkinson_Hyperlegible, Bungee } from 'next/font/google'
-import localFont from 'next/font/local'
+import {
+	Atkinson_Hyperlegible,
+	Red_Hat_Display,
+	Red_Hat_Mono,
+} from 'next/font/google'
 import { twMerge } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
@@ -13,23 +16,25 @@ import { siteName } from '@/lib/utils/server'
 import SiteFooter from './SiteFooter'
 
 /** fonts **/
-const bungee = Bungee({
+// const bungee = Bungee({
+// 	subsets: ['latin-ext'],
+// 	weight: ['400'],
+// 	variable: '--font-bungee',
+// })
+const rhd = Red_Hat_Display({
 	subsets: ['latin-ext'],
-	weight: ['400'],
-	variable: '--font-bungee',
+	weight: ['900'],
+	variable: '--font-rhd',
 })
 const atkinson = Atkinson_Hyperlegible({
 	subsets: ['latin-ext'],
 	weight: ['400', '700'],
 	variable: '--font-atkinson',
 })
-const saoTorpes = localFont({
-	src: '../../public/fonts/SaoTorpes.otf',
-	variable: '--font-sao-torpes',
-})
-const shrimp = localFont({
-	src: '../../public/fonts/Shrimp.ttf',
-	variable: '--font-shrimp',
+const rhm = Red_Hat_Mono({
+	subsets: ['latin-ext'],
+	weight: ['400', '700'],
+	variable: '--font-rhm',
 })
 
 export const metadata = {
@@ -64,12 +69,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={twMerge(
-				bungee.variable,
-				atkinson.variable,
-				saoTorpes.variable,
-				shrimp.variable,
-			)}
+			className={twMerge(rhd.variable, atkinson.variable, rhm.variable)}
 		>
 			<Box as="body" direction="column" className="p-2">
 				<MarqueeHeader />

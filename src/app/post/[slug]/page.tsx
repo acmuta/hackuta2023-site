@@ -23,7 +23,11 @@ export default async function Post({ params: { slug } }: PageProps) {
 
 		return (
 			<div className="pagePadding">
-				<PostRenderer post={post} sourceType="contentSource" context={ctx} />
+				<PostRenderer
+					post={post}
+					sourceType="contentSource"
+					context={ctx}
+				/>
 			</div>
 		)
 	} catch (e) {

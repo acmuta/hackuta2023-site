@@ -88,11 +88,13 @@ export default function FaqEditor({ faqs }: FaqEditorProps) {
 								Accept: 'application/json',
 								'Content-Type': 'application/json',
 							},
-							body: JSON.stringify({
-								q,
-								a,
-								next: next.value === 'null' ? null : next.value,
-							} satisfies FaqRoute),
+							body: JSON.stringify(
+								{
+									q,
+									a,
+									next: next.value === 'null' ? null : next.value,
+								} satisfies FaqRoute,
+							),
 						})
 						window.location.reload()
 					} catch (e) {
@@ -133,33 +135,39 @@ export default function FaqEditor({ faqs }: FaqEditorProps) {
 					}}
 				/>
 				<div className={'flex flex-row gap-2'}>
-					<Button type="submit">{editingId ? 'Save' : 'Create New'}</Button>
-					{editingId ? (
-						<>
-							<Button kind="secondary" onClick={cancelEdit}>
-								Cancel
-							</Button>
-							<Button
-								kind="secondary"
-								className="bg-hackuta-red"
-								onClick={async () => {
-									const confirmed = confirm(`Confirm: delete FAQ - ${q}`)
-									if (confirmed) {
-										try {
-											await fetch(`/admin/faq/${editingId}`, {
-												method: 'DELETE',
-											})
-											window.location.reload()
-										} catch (e) {
-											alert(`Error: ${stringifyError(e)}`)
+					<Button type="submit">
+						{editingId ? 'Save' : 'Create New'}
+					</Button>
+					{editingId
+						? (
+							<>
+								<Button kind="secondary" onClick={cancelEdit}>
+									Cancel
+								</Button>
+								<Button
+									kind="secondary"
+									className="bg-hackuta-red"
+									onClick={async () => {
+										const confirmed = confirm(
+											`Confirm: delete FAQ - ${q}`,
+										)
+										if (confirmed) {
+											try {
+												await fetch(`/admin/faq/${editingId}`, {
+													method: 'DELETE',
+												})
+												window.location.reload()
+											} catch (e) {
+												alert(`Error: ${stringifyError(e)}`)
+											}
 										}
-									}
-								}}
-							>
-								Delete
-							</Button>
-						</>
-					) : undefined}
+									}}
+								>
+									Delete
+								</Button>
+							</>
+						)
+						: undefined}
 				</div>
 			</form>
 		</article>

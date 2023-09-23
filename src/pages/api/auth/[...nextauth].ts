@@ -70,16 +70,16 @@ export const authOptions: AuthOptions = {
 		...(disableEmail === 'true'
 			? []
 			: [
-					EmailProvider({
-						async sendVerificationRequest(params) {
-							const { identifier, url } = params
-							try {
-								await sendEmail({
-									to: [{ email: identifier }],
+				EmailProvider({
+					async sendVerificationRequest(params) {
+						const { identifier, url } = params
+						try {
+							await sendEmail({
+								to: [{ email: identifier }],
 
-									subject: `Sign in to your ${siteName} account`,
+								subject: `Sign in to your ${siteName} account`,
 
-									html: `<body>
+								html: `<body>
 <p>Hello,</p>
 <p>Follow this link to sign in to your ${siteName} account.</p>
 <p><a href="${url}">${url}</a></p>
@@ -88,7 +88,7 @@ Thanks,<br>
 ${siteName} Team
 </p>
 </body>`,
-									text: `Hello,
+								text: `Hello,
 
 Follow this link to sign in to your ${siteName} account.
 
@@ -96,13 +96,13 @@ ${url}
 
 Thanks,
 ${siteName} Team`,
-								})
-							} catch (e) {
-								logger.error(e, '[NextAuth] send email')
-							}
-						},
-					}),
-			  ]),
+							})
+						} catch (e) {
+							logger.error(e, '[NextAuth] send email')
+						}
+					},
+				}),
+			]),
 	],
 	secret,
 }
@@ -136,7 +136,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 	}
 
 	const routeName = 'enhanced-session'
-	if (req.query.nextauth?.length === 1 && req.query.nextauth[0] === routeName) {
+	if (
+		req.query.nextauth?.length === 1 && req.query.nextauth[0] === routeName
+	) {
 		try {
 			const client = await clientPromise
 			const user = await getServerUser(client, req, res)
@@ -150,10 +152,12 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 			})
 		} catch (e) {
 			logger.error(e, `[/api/auth/${routeName}]`)
-			return res.status(200).json({
-				user: null,
-				perms: RolePermissionMap['@unauthenticated'],
-			} satisfies EnhancedSession)
+			return res.status(200).json(
+				{
+					user: null,
+					perms: RolePermissionMap['@unauthenticated'],
+				} satisfies EnhancedSession,
+			)
 		}
 	}
 

@@ -1,34 +1,34 @@
 module.exports = {
-	'env': {
-		'browser': true,
-		'es2022': true,
-		'node': true,
+	env: {
+		browser: true,
+		es2022: true,
+		node: true,
 	},
-	'extends': [
+	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'next',
 		'prettier',
 	],
-	'parser': '@typescript-eslint/parser',
-	'parserOptions': {
-		'ecmaVersion': 2022,
-		'sourceType': 'module',
+	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		ecmaVersion: 2022,
+		sourceType: 'module',
 	},
-	'plugins': [
+	plugins: [
 		'@typescript-eslint/eslint-plugin',
 		'simple-import-sort',
 	],
-	'ignorePatterns': [
+	ignorePatterns: [
 		'dist/**/*.ts',
 	],
-	'rules': {
+	rules: {
 		'@typescript-eslint/adjacent-overload-signatures': ['error'],
 		'@typescript-eslint/default-param-last': ['error'],
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-inferrable-types': ['error', {
-			'ignoreParameters': true,
-			'ignoreProperties': true,
+			ignoreParameters: true,
+			ignoreProperties: true,
 		}],
 		'@typescript-eslint/no-unused-vars': ['error'],
 		'@typescript-eslint/no-non-null-assertion': 'off',

@@ -28,10 +28,12 @@ export async function POST(request: NextRequest) {
 
 		const body = BodySchema.parse(await request.json())
 		const client = await clientPromise
-		const account = await client.db().collection<Account>('accounts').findOne({
-			provider: 'discord',
-			providerAccountId: body.member,
-		})
+		const account = await client.db().collection<Account>('accounts').findOne(
+			{
+				provider: 'discord',
+				providerAccountId: body.member,
+			},
+		)
 		if (!account) {
 			throw new Error(
 				`Please link your Discord account on the ${siteName} website before creating a team:
@@ -57,10 +59,12 @@ export async function POST(request: NextRequest) {
 			.toArray()
 
 		return NextResponse.json(
-			jsend.success({
-				team_name: team.name,
-				members: memberAccounts.map((a) => a.providerAccountId),
-			} satisfies ResultData),
+			jsend.success(
+				{
+					team_name: team.name,
+					members: memberAccounts.map((a) => a.providerAccountId),
+				} satisfies ResultData,
+			),
 		)
 	} catch (e) {
 		logger.error(e, '[/team/create]')

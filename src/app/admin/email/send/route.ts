@@ -1,3 +1,4 @@
+import { PromisePool } from '@supercharge/promise-pool'
 import doT from 'dot'
 import { WithId } from 'mongodb'
 import { NextResponse } from 'next/server'
@@ -53,33 +54,44 @@ export async function POST(request: Request) {
 		const htmlRenderer = doT.template(body.html, doTSettings)
 		const textRenderer = doT.template(body.text, doTSettings)
 
-		for (const user of users) {
-			const renderContext = {
-				user: {
-					name: `${user.application?.firstName} ${user.application?.lastName}`,
-				},
-			}
-			await sendEmail({
-				to: [{ email: user.email }],
-				subject: body.subject,
-				html: htmlRenderer(renderContext),
-				text: textRenderer(renderContext),
+		await PromisePool
+			.withConcurrency(8)
+			.for(users)
+			.handleError((e, u, p) => {
+				p.stop()
+				logger.error(e, `[/admin/email/send] on ${u.email}`)
+				throw e
 			})
-
-			// Add the tag of this email to the user.
-			await client
-				.db()
-				.collection<User>('users')
-				.updateOne(user, {
-					$addToSet: {
-						receivedEmailTags: body.tag,
+			.process(async (user) => {
+				const renderContext = {
+					user: {
+						name:
+							`${user.application?.firstName} ${user.application?.lastName}`,
 					},
+				}
+				await sendEmail({
+					to: [{ email: user.email }],
+					subject: body.subject,
+					html: htmlRenderer(renderContext),
+					text: textRenderer(renderContext),
 				})
 
-			await delay(CooldownMs)
-		}
+				// Add the tag of this email to the user.
+				await client
+					.db()
+					.collection<User>('users')
+					.updateOne(user, {
+						$addToSet: {
+							receivedEmailTags: body.tag,
+						},
+					})
 
-		return NextResponse.json(jsend.success({ number_recipients: users.length }))
+				await delay(CooldownMs)
+			})
+
+		return NextResponse.json(
+			jsend.success({ number_recipients: users.length }),
+		)
 	} catch (e) {
 		logger.error(e, '[/admin/email/send]')
 		return NextResponse.json(

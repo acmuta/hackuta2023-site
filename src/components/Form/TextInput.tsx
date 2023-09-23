@@ -5,21 +5,29 @@ import ErrorMessage, { ErrorMessageProps } from './ErrorMessage'
 import { Label, LabelProps } from './Label'
 import styles from './styles.module.css'
 
-type CommonProps = {
-	boxProps?: BoxProps<DivProps>
-	suggestions?: string[]
-} & ErrorMessageProps &
-	LabelProps
+type CommonProps =
+	& {
+		boxProps?: BoxProps<DivProps>
+		suggestions?: string[]
+	}
+	& ErrorMessageProps
+	& LabelProps
 
 export type TextInputProps =
-	| ({
+	| (
+		& {
 			isMultiline?: false
-	  } & CommonProps &
-			InputProps)
-	| ({
+		}
+		& CommonProps
+		& InputProps
+	)
+	| (
+		& {
 			isMultiline: true
-	  } & CommonProps &
-			TextAreaProps)
+		}
+		& CommonProps
+		& TextAreaProps
+	)
 
 export const TextInput = ({
 	errors,
@@ -47,29 +55,31 @@ export const TextInput = ({
 				className={styles.input}
 				style={style}
 				list={suggestions?.length ? `${id}-list` : undefined}
-				// TODO: a more elegant way to pass props
-				{...{
-					defaultValue: props.defaultValue,
-					maxLength: props.maxLength,
-					minLength: props.minLength,
-					onChange: props.onChange as never,
-					onKeyDown: props.onKeyDown as never,
-					onKeyUp: props.onKeyUp as never,
-					pattern: (props as InputProps).pattern,
-					readOnly: props.readOnly,
-					required: props.required,
-					spellCheck: props.spellCheck,
-					value: props.value,
-				}}
+				{
+					// TODO: a more elegant way to pass props
+					...{
+						defaultValue: props.defaultValue,
+						maxLength: props.maxLength,
+						minLength: props.minLength,
+						onChange: props.onChange as never,
+						onKeyDown: props.onKeyDown as never,
+						onKeyUp: props.onKeyUp as never,
+						pattern: (props as InputProps).pattern,
+						readOnly: props.readOnly,
+						required: props.required,
+						spellCheck: props.spellCheck,
+						value: props.value,
+					}
+				}
 			/>
 			<ErrorMessage errors={errors} />
-			{suggestions?.length ? (
-				<datalist id={`${id}-list`}>
-					{suggestions.map((s) => (
-						<option key={s} value={s}></option>
-					))}
-				</datalist>
-			) : undefined}
+			{suggestions?.length
+				? (
+					<datalist id={`${id}-list`}>
+						{suggestions.map((s) => <option key={s} value={s}></option>)}
+					</datalist>
+				)
+				: undefined}
 		</Box>
 	)
 }
