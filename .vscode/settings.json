@@ -1,22 +1,22 @@
 {
 	"editor.formatOnSave": true,
 	"[css]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "ms-vsliveshare.vsliveshare",
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true,
-			"source.organizeImports": true,
-		},
+			"source.organizeImports": true
+		}
 	},
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode",
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true,
-			"source.organizeImports": true,
-		},
+			"source.organizeImports": true
+		}
 	},
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"typescript.enablePromptUseWorkspaceTsdk": true
 }

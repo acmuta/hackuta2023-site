@@ -6,9 +6,7 @@ import { redirect } from 'next/navigation'
 import { Box } from '@/components/Box'
 import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
-import {
-	getEnhancedSession
-} from '@/lib/utils/server'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import Cards from './Cards'
 
@@ -28,7 +26,7 @@ export default async function Dashboard() {
 
 	// Generate check-in PIN
 	if (user.checkInPin === undefined) {
-		const pin = randomInt(1000, 9999)
+		const pin = randomInt(100_000, 999_999)
 		await client
 			.db()
 			.collection<User>('users')
@@ -41,7 +39,7 @@ export default async function Dashboard() {
 	let kid: JSX.Element
 
 	if (user.applicationStatus === 'accepted') {
-		kid =<Cards />
+		kid = <Cards />
 	} else if (user.applicationStatus) {
 		kid = (
 			<p className="flex-1">

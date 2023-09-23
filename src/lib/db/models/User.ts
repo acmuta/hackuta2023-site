@@ -17,6 +17,8 @@ export default interface User {
 	receivedEmailTags?: string[]
 	checkInPin?: number
 	checkedIn?: Date
+	/** In the form of `A00` */
+	hexId?: string
 }
 
 export type JsonUser = ToJsonValue<WithId<User>>

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 		const users = await client
 			.db()
 			.collection<User>('users')
-			.find({ checkInPin: pin, checkedIn: { $exists: false } })
+			.find({ checkInPin: pin })
 			.toArray()
 		return NextResponse.json(users)
 	} catch (e) {
