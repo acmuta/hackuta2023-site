@@ -1,6 +1,7 @@
 'use client'
 
 import { stringifyError } from '@/lib/utils/client'
+
 import IDScanner from './IDScanner'
 
 export default function CheckIn() {
