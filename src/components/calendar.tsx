@@ -30,25 +30,27 @@ interface HackathonCalendarProps {
 export function HackathonCalendar(
 	{ startDate, endDate, events }: HackathonCalendarProps,
 ) {
-	const eventsForBothDays = events?.filter((event) =>
-		isSameDay(new Date(event.date), startDate)
-		|| isSameDay(new Date(event.date), endDate)
-	)
 	return (
 		<div className="container mx-auto p-8">
 			<div className="grid md:grid-cols-2 grid-cols-1 gap-16">
 				<div>
 					<h2 className="text-xl font-semibold">
+						Pre-Events
+					</h2>
+					{events?.map((event) => (
+						!(isSameDay(new Date(event.date), startDate)
+							|| isSameDay(new Date(event.date), endDate)) && (
+							<Event key={event.title + event.date} event={event} />
+						)
+					))}
+				</div>
+				<div>
+					<h2 className="text-xl font-semibold">
 						{format(startDate, 'MMMM d, yyyy')}
 					</h2>
-					{eventsForBothDays?.map((event, index) => (
+					{events?.map((event) => (
 						isSameDay(new Date(event.date), startDate) && (
-							<div key={index} className="border rounded p-4 mb-2">
-								<h3 className="text-sm break-words">{event.title}</h3>
-								<p className="text-white-600">
-									{format(new Date(event.date), 'h:mm a')}
-								</p>
-							</div>
+							<Event key={event.title + event.date} event={event} />
 						)
 					))}
 				</div>
@@ -56,18 +58,30 @@ export function HackathonCalendar(
 					<h2 className="text-xl font-semibold">
 						{format(endDate, 'MMMM d, yyyy')}
 					</h2>
-					{eventsForBothDays?.map((event, index) => (
+					{events?.map((event) => (
 						isSameDay(new Date(event.date), endDate) && (
-							<div key={index} className="border rounded p-4 mb-2">
-								<h3 className="text-sm break-words">{event.title}</h3>
-								<p className="text-white-600">
-									{format(new Date(event.date), 'h:mm a')}
-								</p>
-							</div>
+							<Event key={event.title + event.date} event={event} />
 						)
 					))}
 				</div>
 			</div>
+		</div>
+	)
+}
+
+function Event({ event }: { event: EventModel }) {
+	return (
+		<div className="border rounded p-4 mb-2">
+			<h3 className="text-sm break-words font-bold">{event.title}</h3>
+			<p className="text-white-600">
+				{format(new Date(event.date), 'h:mm a')} — {format(
+					new Date(
+						new Date(event.date).getTime()
+							+ event.durationMins * 60_000,
+					),
+					'h:mm a',
+				)}
+			</p>
 		</div>
 	)
 }
