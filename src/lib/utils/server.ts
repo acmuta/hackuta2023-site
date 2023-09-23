@@ -144,7 +144,7 @@ export async function checkPermissions<TJSendResponse>(
 		throw new Error('Unauthenticated')
 	}
 
-	if (!user.roles.includes(role)) {
+	if (!user.roles?.includes(role)) {
 		throw new Error('Unauthorized')
 	}
 }
