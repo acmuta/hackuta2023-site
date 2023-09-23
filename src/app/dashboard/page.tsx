@@ -26,7 +26,7 @@ export default async function Dashboard() {
 
 	// Generate check-in PIN
 	if (user.checkInPin === undefined) {
-		const pin = randomInt(1000, 9999)
+		const pin = randomInt(100_000, 999_999)
 		await client
 			.db()
 			.collection<User>('users')
