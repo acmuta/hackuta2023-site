@@ -13,6 +13,7 @@
     "useBraces": "always"
   },
   "excludes": [
+    ".next",
     "**/node_modules",
     "**/*-lock.json"
   ],

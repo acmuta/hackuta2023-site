@@ -1,4 +1,3 @@
-// components/HackathonCalendar.tsx
 import { format, isSameDay } from 'date-fns'
 import { WithId } from 'mongodb'
 
@@ -9,10 +8,12 @@ import logger from '@/lib/logger'
 export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
 	try {
 		const client = await clientPromise
-		const events = await client.db()
+		const events = (await client.db()
 			.collection<EventModel>('events')
 			.find()
-			.toArray()
+			.toArray()).sort((a, b) =>
+				new Date(a.date).getTime() - new Date(b.date).getTime()
+			)
 
 		return events
 	} catch (error) {

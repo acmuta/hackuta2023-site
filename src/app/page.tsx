@@ -10,7 +10,7 @@ import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
-import { getEnhancedSession } from '@/lib/utils/server'
+import { dedupe, getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
 
@@ -211,7 +211,8 @@ export default async function Landing() {
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
 								applied={!!user?.applied}
-								role={user?.roles?.join(' + ')}
+								role={dedupe(['hacker', ...user?.roles ?? []])
+									?.join(' + ')}
 								id={user?.checkInPin?.toString()}
 								fname={user?.application?.firstName}
 							/>
