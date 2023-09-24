@@ -136,7 +136,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								marginTop: '20px',
 							}}
 						>
-							<Button kind='secondary' onClick={backToForm}>Back</Button>
+							<Button kind="secondary" onClick={backToForm}>Back</Button>
 							<Button onClick={handleConfirmCheckIn}>Submit</Button>
 						</div>
 					</div>
