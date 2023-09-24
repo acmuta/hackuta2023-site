@@ -1,11 +1,8 @@
 import classNames from 'classnames'
-import { randomInt } from 'crypto'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { Box } from '@/components/Box'
-import clientPromise from '@/lib/db'
-import User from '@/lib/db/models/User'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import Cards from './Cards'
@@ -20,20 +17,6 @@ export default async function Dashboard() {
 		redirect('/api/auth/signin?callbackUrl=%2Fdashboard')
 	} else if (!user.application) {
 		redirect('/apply')
-	}
-
-	const client = await clientPromise
-
-	// Generate check-in PIN
-	if (user.checkInPin === undefined) {
-		const pin = randomInt(100_000, 999_999)
-		await client
-			.db()
-			.collection<User>('users')
-			.updateOne(
-				{ email: user.email, checkInPin: { $exists: false } },
-				{ $set: { checkInPin: pin } },
-			)
 	}
 
 	return (

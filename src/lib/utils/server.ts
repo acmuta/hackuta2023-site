@@ -125,9 +125,7 @@ export function getEnhancedSession(
 		sessionHeader = Array.isArray(value) ? value[0] : value
 	}
 
-	sessionHeader = sessionHeader
-		? decodeURIComponent(sessionHeader)
-		: sessionHeader
+	sessionHeader = sessionHeader && decodeURIComponent(sessionHeader)
 
 	return sessionHeader
 		? JSON.parse(sessionHeader)
