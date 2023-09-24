@@ -65,7 +65,7 @@ export default function PostEditor({
 				<TextInput
 					id="visibleCondition"
 					text="Visible Condition"
-					description="Visible iff evaluates to true. DoT Template enabled"
+					description="JavaScript code expected. Visible iff evaluates to true."
 					defaultValue={visibleCondition}
 					required
 				/>

@@ -5,7 +5,7 @@ import useSWR from 'swr'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/Form'
 import { JsonUser } from '@/lib/db/models/User'
-import { jsonFetcher } from '@/lib/utils/client'
+import { getGroupName, jsonFetcher } from '@/lib/utils/client'
 
 export interface IDScannerProps {
 	onSubmit?: (params: { checkInPin?: string; hexId?: string }) => void
@@ -37,23 +37,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		}
 	}
 
-	const assignGroupName = (hexId: string): string => {
-		const firstLetter = hexId.charAt(0).toUpperCase()
-
-		switch (firstLetter) {
-			case 'A':
-				return 'Alpha Group'
-			case 'B':
-				return 'Bravo Group'
-			case 'C':
-				return 'Charlie Group'
-			case 'D':
-				return 'Delta Group'
-			default:
-				return 'Unknown Group' // Handle other cases if needed
-		}
-	}
-
 	useEffect(() => {
 		setIsFormValid(isValidHexID(hexIdValue) && isValidPin(checkInPinValue))
 	}, [hexIdValue, checkInPinValue])
@@ -77,22 +60,20 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		const data: JsonUser[] = await response.json()
 		if (data.length === 0) {
 			alert('No user found with the provided check-in PIN.')
-			clearInputs()
 		} else if (data[0].checkedIn) {
 			alert(
 				`The user has already checked in with the hexID ${data[0].hexId}`,
 			)
-			clearInputs()
 		} else {
 			setUserData({
 				firstName: data[0].application?.firstName ?? 'undefined',
-				lastName: data[0].application?.lastName ?? 'undefined', // Fixed typo here
+				lastName: data[0].application?.lastName ?? 'undefined',
 				fullName: `${data[0].application?.firstName ?? 'undefined'} ${
 					data[0].application?.lastName ?? 'undefined'
-				}`, // Added this line
+				}`,
 				school: data[0].application?.school ?? 'undefined',
 				age: data[0].application?.age ?? NaN,
-				group: assignGroupName(hexIdValue), // <--- Assign the group name here
+				group: getGroupName(hexIdValue),
 			})
 		}
 	}
@@ -102,7 +83,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		setCheckInPinValue('') // clear PIN input
 	}
 
-	const handleConfirmCheckin = () => {
+	const handleConfirmCheckIn = () => {
 		onSubmit?.({ checkInPin: checkInPinValue, hexId: hexIdValue })
 		clearInputs()
 		setUserData(null) // clear user data
@@ -155,8 +136,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								marginTop: '20px',
 							}}
 						>
-							<Button onClick={backToForm}>Back</Button>
-							<Button onClick={handleConfirmCheckin}>Submit</Button>
+							<Button kind='secondary' onClick={backToForm}>Back</Button>
+							<Button onClick={handleConfirmCheckIn}>Submit</Button>
 						</div>
 					</div>
 				)

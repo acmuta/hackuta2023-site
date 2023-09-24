@@ -7,6 +7,8 @@ export const EventSchema = z.object({
 		'Expected MM/DD/YYYY HH:mm:SS',
 	),
 	durationMins: z.number().int(),
+	details: z.string(),
+	location: z.string(),
 })
 
 export type EventModel = z.infer<typeof EventSchema>

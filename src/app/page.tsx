@@ -210,11 +210,7 @@ export default async function Landing() {
 							}
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
-								applied={!!user?.applied}
-								role={dedupe(['hacker', ...user?.roles ?? []])
-									?.join(' + ')}
-								id={user?.checkInPin?.toString()}
-								fname={user?.application?.firstName}
+								user={user}
 							/>
 
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
@@ -241,26 +237,6 @@ export default async function Landing() {
 							</LinkButton>
 						</div>
 					</div>
-					{
-						/* <Separator className="h-[10px] w-full" />
-					<section className="flex flex-col self-start gap-8">
-						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
-							Schedule
-							<WavyPattern className="w-32" />
-						</h2>
-						<div className="font-rhd text-white tracking-wider uppercase">
-							<HackathonCalendar
-								startDate={startDate}
-								endDate={endDate}
-								events={events}
-							/>
-						</div>
-						<ClippedBadge
-							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
-							aria-hidden
-						/>
-					</section> */
-					}
 				</div>
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">

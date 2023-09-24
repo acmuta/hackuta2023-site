@@ -18,7 +18,7 @@ import logger from '@/lib/logger'
 import { EnhancedSession, RolePermissionMap } from '../auth/shared'
 import clientPromise from '../db'
 import Account from '../db/models/Account'
-import { RenderContext } from './shared'
+import { getGroupName,RenderContext } from './shared'
 
 export * from './shared'
 
@@ -206,6 +206,7 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 
 	return {
 		user,
+		group: user?.hexId && getGroupName(user.hexId),
 		linkedDiscordAccount: !!discordAccount,
 	}
 }
