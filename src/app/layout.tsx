@@ -72,7 +72,8 @@ export default function RootLayout({
 			className={twMerge(rhd.variable, atkinson.variable, rhm.variable)}
 		>
 			<head>
-				<script type='application/ld+json'>{`
+				<script type="application/ld+json">
+					{`
 					{
 							"@context": "https://schema.org",
 							"@type": "Event",
@@ -81,7 +82,8 @@ export default function RootLayout({
 							"startDate": "2023-10-07",
 							"endDate": "2023-10-07"
 					}
-				`}</script>
+				`}
+				</script>
 			</head>
 			<Box as="body" direction="column" className="p-2">
 				<MarqueeHeader />
