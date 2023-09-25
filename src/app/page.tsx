@@ -152,6 +152,12 @@ export default async function Landing() {
 			kind: 'Partner',
 		},
 		{
+			companyName: 'Wolfram',
+			companyUrl: 'https://www.wolfram.com/',
+			imageUrl: '/images/Partners/wolfram.png',
+			kind: 'Partner',
+		},
+		{
 			companyName: 'Rosenfeld',
 			companyUrl: 'https://rosenfeldmedia.com/',
 			imageUrl: '/images/Partners/rosenfeld.png',
