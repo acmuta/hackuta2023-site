@@ -71,6 +71,18 @@ export default function RootLayout({
 			lang="en"
 			className={twMerge(rhd.variable, atkinson.variable, rhm.variable)}
 		>
+			<head>
+				<script type='application/ld+json'>{`
+					{
+							"@context": "https://schema.org",
+							"@type": "Event",
+							"name": "HackUTA 2023",
+							"image": "https://hackuta.org/android-chrome-512x512.png",
+							"startDate": "2023-10-07",
+							"endDate": "2023-10-07"
+					}
+				`}</script>
+			</head>
 			<Box as="body" direction="column" className="p-2">
 				<MarqueeHeader />
 				<main className="flex-[1]">{children}</main>
