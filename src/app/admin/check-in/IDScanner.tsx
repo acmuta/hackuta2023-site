@@ -22,35 +22,35 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		'user' | 'environment'
 	>('environment')
 
-	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
-		useState(true)
+	// const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
+	// 	useState(true)
 
-	useEffect(() => {
-		navigator.mediaDevices.enumerateDevices()
-			.then((devices) => {
-				const environmentCamera = devices.find((device) =>
-					device.kind === 'videoinput' && device.label.includes('back')
-				)
-				if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
-			})
-	}, [])
+	// useEffect(() => {
+	// 	navigator.mediaDevices.enumerateDevices()
+	// 		.then((devices) => {
+	// 			const environmentCamera = devices.find((device) =>
+	// 				device.kind === 'videoinput' && device.label.includes('back')
+	// 			)
+	// 			if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
+	// 		})
+	// }, [])
 
 	const toggleCamera = () => {
 		setCameraFacingMode(
 			(prev) => (prev === 'environment' ? 'user' : 'environment'),
 		)
 
-		// Optionally recheck environment camera availability.
-		navigator.mediaDevices.enumerateDevices()
-			.then((devices) => {
-				const environmentCamera = devices.find((device) =>
-					device.kind === 'videoinput' && device.label.includes('back')
-				)
-				setIsEnvironmentCameraAvailable(!!environmentCamera)
-			})
+		// // Optionally recheck environment camera availability.
+		// navigator.mediaDevices.enumerateDevices()
+		// 	.then((devices) => {
+		// 		const environmentCamera = devices.find((device) =>
+		// 			device.kind === 'videoinput' && device.label.includes('back')
+		// 		)
+		// 		setIsEnvironmentCameraAvailable(!!environmentCamera)
+		// 	})
 
-		// Clear any existing error message.
-		setErrorMessage('')
+		// // Clear any existing error message.
+		// setErrorMessage('')
 	}
 
 	const handleScan = (data: any) => {
@@ -208,24 +208,24 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							}}
 							facingMode={cameraFacingMode}
 						/>
-						{isEnvironmentCameraAvailable && (
-							<button
-								onClick={toggleCamera}
-								style={{
-									position: 'absolute',
-									top: '92px',
-									right: '20px',
-									backgroundColor: 'white',
-									border: 'none',
-									borderRadius: '40%',
-									padding: '5px',
-									cursor: 'pointer',
-									boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-								}}
-							>
-								🔄
-							</button>
-						)}
+
+						<button
+							onClick={toggleCamera}
+							type="button"
+							style={{
+								position: 'absolute',
+								top: '90px',
+								right: '20px',
+								backgroundColor: 'white',
+								border: 'none',
+								borderRadius: '5%',
+								padding: '5px',
+								cursor: 'pointer',
+								boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+							}}
+						>
+							Switch Camera
+						</button>
 						<div style={{ marginTop: '10px' }}>
 							<TextInput
 								type="text"
