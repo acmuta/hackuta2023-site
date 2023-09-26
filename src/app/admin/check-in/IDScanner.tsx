@@ -22,6 +22,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		'user' | 'environment'
 	>('environment')
 
+	// HEAD
 	// const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
 	// 	useState(true)
 
@@ -34,12 +35,26 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	// 			if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
 	// 		})
 	// }, [])
+	//
+	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
+		useState(true)
 
+	useEffect(() => {
+		navigator.mediaDevices.enumerateDevices()
+			.then((devices) => {
+				const environmentCamera = devices.find((device) =>
+					device.kind === 'videoinput' && device.label.includes('back')
+				)
+				if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
+			})
+	}, [])
+	// main
 	const toggleCamera = () => {
 		setCameraFacingMode(
 			(prev) => (prev === 'environment' ? 'user' : 'environment'),
 		)
 
+		// HEAD
 		// // Optionally recheck environment camera availability.
 		// navigator.mediaDevices.enumerateDevices()
 		// 	.then((devices) => {
@@ -51,6 +66,19 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 
 		// // Clear any existing error message.
 		// setErrorMessage('')
+		//
+		// Optionally recheck environment camera availability.
+		navigator.mediaDevices.enumerateDevices()
+			.then((devices) => {
+				const environmentCamera = devices.find((device) =>
+					device.kind === 'videoinput' && device.label.includes('back')
+				)
+				setIsEnvironmentCameraAvailable(!!environmentCamera)
+			})
+
+		// Clear any existing error message.
+		setErrorMessage('')
+		// main
 	}
 
 	const handleScan = (data: any) => {
