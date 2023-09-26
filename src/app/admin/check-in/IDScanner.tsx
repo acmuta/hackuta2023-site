@@ -1,5 +1,7 @@
+'use client'
+
 import { FormEvent, useEffect, useState } from 'react'
-import { QrReader } from 'react-qr-reader'
+import { useZxing } from 'react-zxing'
 import useSWR from 'swr'
 
 import { Button } from '@/components/Button'
@@ -22,6 +24,15 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		'user' | 'environment'
 	>('environment')
 
+	const { ref: qrReaderRef } = useZxing({
+		constraints: {
+			video: {
+				facingMode: { ideal: cameraFacingMode },
+			},
+		},
+		onDecodeResult: (res) => handleScan(res.getText()),
+	})
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
 		useState(true)
@@ -35,7 +46,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
 			})
 	}, [])
-	// main
+
 	const toggleCamera = () => {
 		setCameraFacingMode(
 			(prev) => (prev === 'environment' ? 'user' : 'environment'),
@@ -55,21 +66,19 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		// main
 	}
 
-	const handleScan = (data: any) => {
+	const handleScan = (data: string) => {
 		setErrorMessage('')
-		if (data && data.text) {
-			const hexMatch = data.text.match(/hackuta2023:[0-9a-f]{3}/i)
-			const pinMatch = data.text.match(/^\d{4,6}$/)
-			if (hexMatch) {
-				const id = hexMatch[0].slice('hackuta2023:'.length)
-				setHexIdValue(id)
-			} else if (pinMatch) {
-				setCheckInPinValue(pinMatch[0])
-			} else {
-				setErrorMessage(
-					'Scanned QR code is not a valid HackUTA ID hex or 6-digit PIN.',
-				)
-			}
+		const hexMatch = data.match(/hackuta2023:[0-9a-f]{3}/i)
+		const pinMatch = data.match(/^\d{4,6}$/)
+		if (hexMatch) {
+			const id = hexMatch[0].slice('hackuta2023:'.length)
+			setHexIdValue(id)
+		} else if (pinMatch) {
+			setCheckInPinValue(pinMatch[0])
+		} else {
+			setErrorMessage(
+				'Scanned QR code is not a valid HackUTA ID hex or 6-digit PIN.',
+			)
 		}
 	}
 
@@ -179,30 +188,19 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				)
 				: (
 					<form onSubmit={handleVerifyInput}>
-						<QrReader
-							onResult={handleScan}
-							constraints={{
-								facingMode: { exact: cameraFacingMode },
-							}}
-						/>
-
-						<button
-							onClick={toggleCamera}
-							type="button"
-							style={{
-								position: 'absolute',
-								top: '90px',
-								right: '20px',
-								backgroundColor: 'white',
-								border: 'none',
-								borderRadius: '5%',
-								padding: '5px',
-								cursor: 'pointer',
-								boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-							}}
-						>
-							Switch Camera
-						</button>
+						<div className="relative w-full aspect-square border-2 border-[black]">
+							<video
+								ref={qrReaderRef}
+								className="w-full"
+							/>
+							<button
+								onClick={toggleCamera}
+								type="button"
+								className="absolute top-1 right-1 bg-[white] p-1 cursor-pointer"
+							>
+								Switch Camera
+							</button>
+						</div>
 						<div style={{ marginTop: '10px' }}>
 							<TextInput
 								type="text"
