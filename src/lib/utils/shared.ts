@@ -87,13 +87,13 @@ export function getGroupName(hexId: string): string {
 
 	switch (firstLetter) {
 		case 'A':
-			return 'Alpha'
+			return 'Hearts'
 		case 'B':
-			return 'Bravo'
+			return 'Spades'
 		case 'C':
-			return 'Charlie'
+			return 'Clubs'
 		case 'D':
-			return 'Delta'
+			return 'Diamonds'
 		default:
 			return 'Unknown' // Handle other cases if needed
 	}

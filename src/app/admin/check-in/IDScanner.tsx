@@ -71,22 +71,22 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		}
 	}
 
-	const assignGroupName = (hexId: string): string => {
-		const firstLetter = hexId.charAt(0).toUpperCase()
+	// const assignGroupName = (hexId: string): string => {
+	// 	const firstLetter = hexId.charAt(0).toUpperCase()
 
-		switch (firstLetter) {
-			case 'A':
-				return 'Hearts'
-			case 'B':
-				return 'Spades'
-			case 'C':
-				return 'Clubs'
-			case 'D':
-				return 'Diamonds'
-			default:
-				return 'Unknown Group' // Handle other cases if needed
-		}
-	}
+	// 	switch (firstLetter) {
+	// 		case 'A':
+	// 			return 'Hearts'
+	// 		case 'B':
+	// 			return 'Spades'
+	// 		case 'C':
+	// 			return 'Clubs'
+	// 		case 'D':
+	// 			return 'Diamonds'
+	// 		default:
+	// 			return 'Unknown Group' // Handle other cases if needed
+	// 	}
+	// }
 
 	useEffect(() => {
 		setIsFormValid(isValidHexID(hexIdValue) && isValidPin(checkInPinValue))
