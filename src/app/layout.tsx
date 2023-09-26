@@ -72,29 +72,31 @@ export default function RootLayout({
 			className={twMerge(rhd.variable, atkinson.variable, rhm.variable)}
 		>
 			<head>
-				<script type="application/ld+json">
-					{`
-					{
-							"@context": "https://schema.org",
-							"@type": "Event",
-							"name": "HackUTA 2023",
-							"image": "https://hackuta.org/android-chrome-512x512.png",
-							"location": {
-								"type": "Place",
-								"address": "501 W. Mitchell, Arlington, TX 76010",
-								"name": "SWSH"
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							'@context': 'https://schema.org',
+							'@type': 'Event',
+							name: 'HackUTA 2023',
+							image: 'https://hackuta.org/android-chrome-512x512.png',
+							location: {
+								type: 'Place',
+								address: '501 W. Mitchell, Arlington, TX 76010',
+								name: 'SWSH',
 							},
-							"description": "HackUTA, one of North Texas' largest hackathons, is a 24-hour marathon for students to design, develop, and pitch a project from scratch.",
-							"organizer": {
-								"type": "Organization",
-								"name": "The Association for Computing Machinery at UTA",
-								"url": "https://acm.uta.edu"
+							description:
+								"HackUTA, one of North Texas' largest hackathons, is a 24-hour marathon for students to design, develop, and pitch a project from scratch.",
+							organizer: {
+								type: 'Organization',
+								name: 'The Association for Computing Machinery at UTA',
+								url: 'https://acm.uta.edu',
 							},
-							"startDate": "2023-10-07",
-							"endDate": "2023-10-07"
-					}
-				`}
-				</script>
+							startDate: '2023-10-07',
+							endDate: '2023-10-07',
+						}),
+					}}
+				/>
 			</head>
 			<Box as="body" direction="column" className="p-2">
 				<MarqueeHeader />
