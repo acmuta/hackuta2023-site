@@ -250,13 +250,13 @@ export default async function Landing() {
 							Schedule
 							<WavyPattern className="w-32" />
 						</h2>
-					<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
-						<HackathonCalendar
-							startDate={startDate}
-							endDate={endDate}
-							events={events}
-						/>
-					</div>
+						<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
+							<HackathonCalendar
+								startDate={startDate}
+								endDate={endDate}
+								events={events}
+							/>
+						</div>
 					</section>
 				</div>
 
