@@ -10,7 +10,7 @@ import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
-import { dedupe, getEnhancedSession } from '@/lib/utils/server'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
 
