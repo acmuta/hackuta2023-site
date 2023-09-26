@@ -18,6 +18,40 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const [userData, setUserData] = useState<any>(null)
 	const [isFormValid, setIsFormValid] = useState<boolean>(false)
 	const { data: stats } = useSWR('/admin/check-in/stats', jsonFetcher)
+	const [cameraFacingMode, setCameraFacingMode] = useState<
+		'user' | 'environment'
+	>('environment')
+
+	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
+		useState(true)
+
+	useEffect(() => {
+		navigator.mediaDevices.enumerateDevices()
+			.then((devices) => {
+				const environmentCamera = devices.find((device) =>
+					device.kind === 'videoinput' && device.label.includes('back')
+				)
+				if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
+			})
+	}, [])
+
+	const toggleCamera = () => {
+		setCameraFacingMode(
+			(prev) => (prev === 'environment' ? 'user' : 'environment'),
+		)
+
+		// Optionally recheck environment camera availability.
+		navigator.mediaDevices.enumerateDevices()
+			.then((devices) => {
+				const environmentCamera = devices.find((device) =>
+					device.kind === 'videoinput' && device.label.includes('back')
+				)
+				setIsEnvironmentCameraAvailable(!!environmentCamera)
+			})
+
+		// Clear any existing error message.
+		setErrorMessage('')
+	}
 
 	const handleScan = (data: any) => {
 		setErrorMessage('')
@@ -42,13 +76,13 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 
 		switch (firstLetter) {
 			case 'A':
-				return 'Alpha Group'
+				return 'Hearts'
 			case 'B':
-				return 'Bravo Group'
+				return 'Spades'
 			case 'C':
-				return 'Charlie Group'
+				return 'Clubs'
 			case 'D':
-				return 'Delta Group'
+				return 'Diamonds'
 			default:
 				return 'Unknown Group' // Handle other cases if needed
 		}
@@ -117,6 +151,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				margin: 'auto',
 				padding: '16px',
 				border: '2px dashed black',
+				position: 'relative', // Important for positioning child elements
 			}}
 		>
 			<div
@@ -173,7 +208,26 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								margin: 'auto',
 								boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
 							}}
+							facingMode={cameraFacingMode}
 						/>
+						{isEnvironmentCameraAvailable && (
+							<button
+								onClick={toggleCamera}
+								style={{
+									position: 'absolute',
+									top: '92px',
+									right: '20px',
+									backgroundColor: 'white',
+									border: 'none',
+									borderRadius: '40%',
+									padding: '5px',
+									cursor: 'pointer',
+									boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+								}}
+							>
+								🔄
+							</button>
+						)}
 						<div style={{ marginTop: '10px' }}>
 							<TextInput
 								type="text"
