@@ -2,22 +2,24 @@
 
 import { DivProps } from 'react-html-props'
 
+import { JsonUser } from '@/lib/db/models/User'
+import { dedupe } from '@/lib/utils/shared'
 import Countdown from '../Countdown'
 
 export type HackTicketProps = DivProps & {
-	applied: boolean
-	role?: string
-	id?: string | number
-	fname?: string
-	profile_img_url?: string
+	user: JsonUser | null
 }
 export const HackTicket = ({
 	className,
-	applied = false,
-	role = 'Unregistered',
-	id = 'APPLY FOR ID',
-	fname = '',
+	user,
 }: HackTicketProps) => {
+	const id = user?.hexId ?? user?.checkInPin ?? 'APPLY'
+	const qrcodePath = user?.hexId
+		? '/qrcode/hex'
+		: user?.checkInPin
+		? '/qrcode/check-in'
+		: '/images/noqrcode.svg'
+
 	return (
 		<>
 			<div className="flex flex-col md:hidden justify-center items-center bg-hackuta-darkred">
@@ -32,14 +34,14 @@ export const HackTicket = ({
 				{/* Left */}
 				<div
 					className={`flex items-end w-64 bg-cover bg-center opacity-85 ${
-						applied
+						user?.applied
 							? 'bg-hackuta-sqrbg-ruby'
 							: 'bg-hackuta-sqrbg-unregistered'
 					} bg-opacity-90`}
 				>
 					<p className="flex text-red-700 -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3 opacity-50">
 						{/* if registered, show admit one */}
-						{applied && (
+						{user?.applied && (
 							<>
 								<span>ADMIT&nbsp;ONE</span>
 								<span className="text-red-500">ADMIT&nbsp;ONE</span>
@@ -47,7 +49,7 @@ export const HackTicket = ({
 							</>
 						)}
 						{/* if unregistered, show apply now */}
-						{!applied && (
+						{!user?.applied && (
 							<>
 								<span className="text-xs">APPLY&nbsp;NOW</span>
 								<span>&nbsp;</span>
@@ -100,32 +102,32 @@ export const HackTicket = ({
 				<div className="flex justify-between items-end gap-0 w-64">
 					{/* admit one strip */}
 					<p className="flex text-darkgray -rotate-90 w-1 text-sm font-bold gap-1 pt-4 translate-y-3">
-						{/* if applied, show admit one */}
-						{applied && (
-							<>
-								<span>ADMIT&nbsp;ONE</span>
-								<span className="text-gray-600">ADMIT&nbsp;ONE</span>
-								<span>ADMIT&nbsp;ONE</span>
-							</>
-						)}
-						{/* if unregistered, show apply now */}
-						{!applied && (
-							<>
-								<span className="text-xs">APPLY&nbsp;NOW</span>
-								<span>&nbsp;</span>
-								<span className="text-gray-600 text-xs">
-									APPLY&nbsp;NOW
-								</span>
-								<span>&nbsp;</span>
-								<span className="text-xs">APPLY&nbsp;NOW</span>
-							</>
-						)}
+						{user?.applied
+							? (
+								<>
+									<span>ADMIT&nbsp;ONE</span>
+									<span className="text-gray-600">ADMIT&nbsp;ONE</span>
+									<span>ADMIT&nbsp;ONE</span>
+								</>
+							)
+							: (
+								<>
+									<span className="text-xs">APPLY&nbsp;NOW</span>
+									<span>&nbsp;</span>
+									<span className="text-gray-600 text-xs">
+										APPLY&nbsp;NOW
+									</span>
+									<span>&nbsp;</span>
+									<span className="text-xs">APPLY&nbsp;NOW</span>
+								</>
+							)}
 					</p>
 					{/* info area */}
 					<div className="w-64">
 						<div className="p-2 flex flex-col justify-center items-center text-center">
 							<h1 className="text-lg capitalize">
-								{fname} [{role}]
+								{user?.application?.firstName ?? ''}{' '}
+								[{dedupe(['hacker', ...user?.roles ?? []]).join(' + ')}]
 							</h1>
 							<div className="flex flex-col font-normal text-sm">
 								<p className="m-0 text-sm">
@@ -143,15 +145,14 @@ export const HackTicket = ({
 							<div className="h-32 mt-2">
 								<div
 									className={`w-32 h-32 ${
-										!applied ? 'bg-hackuta-noqrcode' : ''
+										!user?.applied ? 'bg-hackuta-noqrcode' : ''
 									}`}
 								>
-									{/* eslint-disable-next-line @next/next/no-img-element */}
-									{applied && (
+									{user?.applied && (
 										// eslint-disable-next-line @next/next/no-img-element
 										<img
-											src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
-											alt="QR code"
+											src={qrcodePath}
+											alt="ID QR code"
 											className="h-full"
 										/>
 									)}
@@ -164,71 +165,4 @@ export const HackTicket = ({
 			</div>
 		</>
 	)
-
-	// return (
-	// 	<div
-	// 		className={twMerge(
-	// 			'flex flex-row items-center justify-between',
-	// 			'bg-hackuta-black drop-shadow-hackuta',
-	// 			className,
-	// 		)}
-	// 		{...props}
-	// 	>
-	// 		<HackTicketSide childClassName="hidden sm:flex">081023</HackTicketSide>
-	// 		{/* bg-[url(../../public/images/sunburst.svg)] */}
-	// 		<div className="flex flex-col gap-10 md:gap-16 px-3 md:px-6 py-3 w-68 md:w-96 mr-[-1rem] bg-hackuta-yellow">
-	// 			<h1 className="font-heading border-b border-black border-dashed">
-	// 				Hackathon Ticket
-	// 			</h1>
-	// 			<div className="flex flex-row gap-4 md:gap-8">
-	// 				<HackTicketKeyVal label="Date" val="Oct 7-8" />
-	// 				<HackTicketKeyVal label="Time" val="12PM" />
-	// 				<HackTicketKeyVal label="Location" val="SWSH" />
-	// 			</div>
-	// 		</div>
-	// 		<HackTicketSide childClassName="mr-[-1rem]">Admit one</HackTicketSide>
-	// 	</div>
-	// )
 }
-
-// type HackTicketSideProps = DivProps & {
-// 	childClassName?: string
-// }
-// const HackTicketSide = ({
-// 	children,
-// 	className,
-// 	childClassName,
-// }: HackTicketSideProps) => {
-// 	return (
-// 		<div
-// 			className={twMerge(
-// 				'flex items-center justify-center h-full font-heading text-md md:text-xl tracking-wide',
-// 				className,
-// 			)}
-// 		>
-// 			<span
-// 				className={twMerge(
-// 					'uppercaseflex text-white text-center uppercase -rotate-90',
-// 					'py-2 border-y border-y-white border-dashed',
-// 					childClassName,
-// 				)}
-// 			>
-// 				{children}
-// 			</span>
-// 		</div>
-// 	)
-// }
-
-// type HackTicketKeyValProps = {
-// 	label: React.ReactNode
-// 	val: React.ReactNode
-// }
-
-// const HackTicketKeyVal = ({ label, val }: HackTicketKeyValProps) => {
-// 	return (
-// 		<div className="text-hackuta-black flex flex-col">
-// 			<span className="font-heading text-xs md:text-base">{label}</span>
-// 			<span className="font-body text-xs md:text-base">{val}</span>
-// 		</div>
-// 	)
-// }

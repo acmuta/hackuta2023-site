@@ -5,12 +5,12 @@ import { SVGProps } from 'react-html-props'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { getEvents } from '@/components/calendar'
+import { getEvents, HackathonCalendar } from '@/components/calendar'
 import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
-import { dedupe, getEnhancedSession } from '@/lib/utils/server'
+import { getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
 
@@ -152,6 +152,12 @@ export default async function Landing() {
 			kind: 'Partner',
 		},
 		{
+			companyName: 'Wolfram',
+			companyUrl: 'https://www.wolfram.com/',
+			imageUrl: '/images/Partners/wolfram.png',
+			kind: 'Partner',
+		},
+		{
 			companyName: 'Rosenfeld',
 			companyUrl: 'https://rosenfeldmedia.com/',
 			imageUrl: '/images/Partners/rosenfeld.png',
@@ -210,11 +216,7 @@ export default async function Landing() {
 							}
 							<HackTicket
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
-								applied={!!user?.applied}
-								role={dedupe(['hacker', ...user?.roles ?? []])
-									?.join(' + ')}
-								id={user?.checkInPin?.toString()}
-								fname={user?.application?.firstName}
+								user={user}
 							/>
 
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
@@ -241,27 +243,23 @@ export default async function Landing() {
 							</LinkButton>
 						</div>
 					</div>
-					{
-						/* <Separator className="h-[10px] w-full" />
-					<section className="flex flex-col self-start gap-8">
+				</div>
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<section className="flex flex-col self-start gap-2">
 						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 							Schedule
 							<WavyPattern className="w-32" />
 						</h2>
-						<div className="font-rhd text-white tracking-wider uppercase">
+						<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
 							<HackathonCalendar
 								startDate={startDate}
 								endDate={endDate}
 								events={events}
 							/>
 						</div>
-						<ClippedBadge
-							className="md:block hidden w-[150px] h-[150px] absolute right-[10%] rotate-[15deg] mt-[-5rem]"
-							aria-hidden
-						/>
-					</section> */
-					}
+					</section>
 				</div>
+
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">

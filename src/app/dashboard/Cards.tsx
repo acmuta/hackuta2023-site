@@ -29,7 +29,7 @@ export default function Cards() {
 		)
 	}
 	return (
-		<div className="flex flex-row flex-wrap items-start flex-1">
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 			{data.data.posts.map((post) => (
 				<Card
 					key={post.slug}

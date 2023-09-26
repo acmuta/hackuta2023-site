@@ -17,7 +17,6 @@ module.exports = {
 	},
 	plugins: [
 		'@typescript-eslint/eslint-plugin',
-		'simple-import-sort',
 	],
 	ignorePatterns: [
 		'dist/**/*.ts',
@@ -36,7 +35,5 @@ module.exports = {
 		'default-param-last': 'off',
 		'no-unused-vars': 'off',
 		'linebreak-style': ['error', 'unix'],
-		'simple-import-sort/imports': 'error',
-		'simple-import-sort/exports': 'error',
 	},
 }

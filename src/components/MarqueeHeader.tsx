@@ -3,7 +3,7 @@
 import { Menu } from 'iconoir-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactFragment, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { SVGProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
@@ -50,6 +50,8 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen)
 	}
+
+	const closeMenu = () => setMenuOpen(false)
 
 	return (
 		<div
@@ -124,20 +126,29 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 						'flex flex-col md:flex-row gap-4 pt-2 pb-4 bg-hackuta-black px-8 md:hidden',
 					)}
 				>
-					<HeaderLink href="/">Home</HeaderLink>
+					<HeaderLink href="/" onClick={closeMenu}>Home</HeaderLink>
 					{hasPermission(perms, { administration: {} }) && (
-						<HeaderLink href="/admin">Admin</HeaderLink>
+						<HeaderLink href="/admin" onClick={closeMenu}>
+							Admin
+						</HeaderLink>
 					)}
 					{!user?.application && (
-						<HeaderLink href="/apply">Apply</HeaderLink>
+						<HeaderLink href="/apply" onClick={closeMenu}>
+							Apply
+						</HeaderLink>
 					)}
 					{user?.application && (
-						<HeaderLink href="/dashboard">Dashboard</HeaderLink>
+						<HeaderLink href="/dashboard" onClick={closeMenu}>
+							Dashboard
+						</HeaderLink>
 					)}
-					<HeaderLink href="/faq">FAQ</HeaderLink>
-					<HeaderLink href="/schedule">Schedule</HeaderLink>
+					<HeaderLink href="/faq" onClick={closeMenu}>FAQ</HeaderLink>
+					<HeaderLink href="/schedule" onClick={closeMenu}>
+						Schedule
+					</HeaderLink>
 					<HeaderLink
 						href={user ? '/api/auth/signout' : '/api/auth/signin'}
+						onClick={closeMenu}
 					>
 						{user ? 'Sign Out' : 'Sign In'}
 					</HeaderLink>
@@ -183,10 +194,11 @@ export const MLHTrustBadge = ({
 
 interface HeaderLinkProps {
 	href: string
-	children: ReactFragment
+	children: ReactNode
+	onClick?: () => void
 }
 
-const HeaderLink = ({ href, children }: HeaderLinkProps) => {
+const HeaderLink = ({ href, children, onClick }: HeaderLinkProps) => {
 	const pathname = usePathname()
 	const selected = href === '/'
 		? !pathname || pathname === '/'
@@ -198,6 +210,7 @@ const HeaderLink = ({ href, children }: HeaderLinkProps) => {
 					<Link
 						href={href}
 						className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 bg-hackuta-beige rounded-lg border-hackuta-beige no-underline transition-all"
+						onClick={onClick}
 					>
 						{children}
 					</Link>
@@ -206,6 +219,7 @@ const HeaderLink = ({ href, children }: HeaderLinkProps) => {
 					<Link
 						href={href}
 						className="font-heading text-hackuta-beige hover:opacity-80 no-underline transition-all rounded-lg hover:underline"
+						onClick={onClick}
 					>
 						{children}
 					</Link>

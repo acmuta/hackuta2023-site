@@ -13,7 +13,13 @@ export interface CardProps {
 
 export default function Card({ cardStyle, children, href }: CardProps) {
 	const card = (
-		<div className={classNames(styles.card, styles[cardStyle ?? 'blue'])}>
+		<div
+			className={classNames(
+				styles.card,
+				styles[cardStyle ?? 'blue'],
+				'p-4 w-full',
+			)}
+		>
 			{children}
 		</div>
 	)

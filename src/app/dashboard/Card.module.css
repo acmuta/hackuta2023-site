@@ -4,11 +4,8 @@
 }
 
 .card {
-	padding: 1rem;
 	background-color: var(--card-bg);
 	box-shadow: 0.5rem 0.5rem var(--card-shadow);
-	max-width: 24rem;
-	max-height: 28rem;
 }
 
 .cardLink:focus-visible {
@@ -21,9 +18,9 @@
 }
 
 .blue {
-	--card-bg: var(--color-primary-lighter);
-	--card-shadow: var(--color-primary);
-	--card-shadow-hover: var(--color-primary-darker);
+	--card-bg: #bdd6e6;
+	--card-shadow: #0064b1;
+	--card-shadow-hover: #003865;
 }
 
 .green {
@@ -49,10 +46,4 @@
 	--card-bg: white;
 	--card-shadow: var(--color-gray-2);
 	--card-shadow-hover: var(--color-gray-3);
-}
-
-@media screen and (max-width: 768px) {
-	.card {
-		padding: 0.5rem;
-	}
 }

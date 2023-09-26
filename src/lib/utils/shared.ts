@@ -70,6 +70,7 @@ export type ToJsonValue<T> = T extends Date | ObjectId ? string
 
 export interface RenderContext {
 	user: JsonUser | null
+	group?: string | undefined
 	linkedDiscordAccount: boolean
 }
 
@@ -79,4 +80,21 @@ export function renderTemplate(
 ) {
 	const renderer = doT.template(template ?? '', doTSettings)
 	return renderer(ctx)
+}
+
+export function getGroupName(hexId: string): string {
+	const firstLetter = hexId.charAt(0).toUpperCase()
+
+	switch (firstLetter) {
+		case 'A':
+			return 'Alpha'
+		case 'B':
+			return 'Bravo'
+		case 'C':
+			return 'Charlie'
+		case 'D':
+			return 'Delta'
+		default:
+			return 'Unknown' // Handle other cases if needed
+	}
 }

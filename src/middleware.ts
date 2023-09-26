@@ -45,6 +45,10 @@ export async function middleware(request: NextRequest) {
 		'x-middleware-session',
 		encodeURIComponent(JSON.stringify(session)),
 	)
+	newRequestHeaders.set(
+		'x-middleware-pathname',
+		encodeURIComponent(request.nextUrl.pathname),
+	)
 	const middlewareInit = {
 		request: {
 			headers: newRequestHeaders,

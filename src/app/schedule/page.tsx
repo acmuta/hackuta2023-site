@@ -8,13 +8,13 @@ export default async function calendar() {
 	const events = await getEvents()
 
 	return (
-		<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red p-8 md:p-16 w-full">
-			<section className="flex flex-col self-start gap-8">
+		<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+			<section className="flex flex-col self-start gap-2">
 				<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 					Schedule
 					<WavyPattern className="w-32" />
 				</h2>
-				<div className="font-rhd text-white tracking-wider uppercase">
+				<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
 					<HackathonCalendar
 						startDate={startDate}
 						endDate={endDate}

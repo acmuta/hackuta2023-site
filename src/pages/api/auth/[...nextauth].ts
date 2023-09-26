@@ -20,6 +20,7 @@ import User from '@/lib/db/models/User'
 import sendEmail from '@/lib/email'
 import logger from '@/lib/logger'
 import { getUser, siteName } from '@/lib/utils/server'
+import { randomInt } from 'crypto'
 
 const { NEXTAUTH_SECRET: secret, NEXTAUTH_DISABLE_EMAIL: disableEmail } =
 	process.env
@@ -141,10 +142,32 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 	) {
 		try {
 			const client = await clientPromise
+			// This is the only place where getServerUser should be used
+			// All other instances of getServerUser should be replaced by getEnhancedSession
 			const user = await getServerUser(client, req, res)
 			const perms = await getUserPerms(user)
 			if (user?.application) {
 				user.application.resume = user.application.resume ? 'exists' : ''
+			}
+			if (user && (!user.checkInPin || user.checkInPin < 100_000)) {
+				// Generate check-in PIN
+				for (let i = 0; i < 3; i++) {
+					// Retry at most two times.
+					try {
+						const pin = randomInt(100_000, 999_999)
+						await client
+							.db()
+							.collection<User>('users')
+							.updateOne(
+								{ email: user.email },
+								{ $set: { checkInPin: pin } },
+							)
+						user.checkInPin = pin
+						break
+					} catch (_ignored) {
+						// Ignore
+					}
+				}
 			}
 			return res.status(200).json({
 				user,

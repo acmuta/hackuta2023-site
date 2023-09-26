@@ -33,7 +33,7 @@ export const PostSchema = z.object({
 	visibleCondition: z
 		.string({
 			description:
-				'The visible condition using doT template; visible iff evaluate to true',
+				'The visible condition using JavaScript expression; visible iff evaluates to true',
 		})
 		.optional(),
 })

@@ -32,7 +32,7 @@ export function HackathonCalendar(
 ) {
 	return (
 		<div className="container mx-auto p-8">
-			<div className="grid md:grid-cols-2 grid-cols-1 gap-16">
+			<div className="grid lg:grid-cols-3 grid-cols-1 gap-16">
 				<div>
 					<h2 className="text-xl font-semibold">
 						Pre-Events
