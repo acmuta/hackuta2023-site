@@ -22,20 +22,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		'user' | 'environment'
 	>('environment')
 
-	// HEAD
-	// const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
-	// 	useState(true)
-
-	// useEffect(() => {
-	// 	navigator.mediaDevices.enumerateDevices()
-	// 		.then((devices) => {
-	// 			const environmentCamera = devices.find((device) =>
-	// 				device.kind === 'videoinput' && device.label.includes('back')
-	// 			)
-	// 			if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
-	// 		})
-	// }, [])
-	//
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
 		useState(true)
 
@@ -54,19 +41,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 			(prev) => (prev === 'environment' ? 'user' : 'environment'),
 		)
 
-		// HEAD
-		// // Optionally recheck environment camera availability.
-		// navigator.mediaDevices.enumerateDevices()
-		// 	.then((devices) => {
-		// 		const environmentCamera = devices.find((device) =>
-		// 			device.kind === 'videoinput' && device.label.includes('back')
-		// 		)
-		// 		setIsEnvironmentCameraAvailable(!!environmentCamera)
-		// 	})
-
-		// // Clear any existing error message.
-		// setErrorMessage('')
-		//
 		// Optionally recheck environment camera availability.
 		navigator.mediaDevices.enumerateDevices()
 			.then((devices) => {
@@ -98,23 +72,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 			}
 		}
 	}
-
-	// const assignGroupName = (hexId: string): string => {
-	// 	const firstLetter = hexId.charAt(0).toUpperCase()
-
-	// 	switch (firstLetter) {
-	// 		case 'A':
-	// 			return 'Hearts'
-	// 		case 'B':
-	// 			return 'Spades'
-	// 		case 'C':
-	// 			return 'Clubs'
-	// 		case 'D':
-	// 			return 'Diamonds'
-	// 		default:
-	// 			return 'Unknown Group' // Handle other cases if needed
-	// 	}
-	// }
 
 	useEffect(() => {
 		setIsFormValid(isValidHexID(hexIdValue) && isValidPin(checkInPinValue))
@@ -205,8 +162,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							<strong>Age:</strong> {userData.age}
 						</p>
 						<p>
-							<strong>Group:</strong> {userData.group}{' '}
-							{/* <-- Display the group name here */}
+							<strong>Group:</strong> {userData.group}
 						</p>
 						<div
 							style={{
@@ -224,17 +180,10 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				: (
 					<form onSubmit={handleVerifyInput}>
 						<QrReader
-							// @ts-expect-error whatever man.
-							delay={300}
-							onError={() => setErrorMessage('Error scanning QR code')}
 							onResult={handleScan}
-							style={{
-								maxWidth: '85%',
-								borderRadius: '8px',
-								margin: 'auto',
-								boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+							constraints={{
+								facingMode: { exact: cameraFacingMode },
 							}}
-							facingMode={cameraFacingMode}
 						/>
 
 						<button
