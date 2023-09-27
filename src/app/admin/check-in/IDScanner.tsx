@@ -8,6 +8,7 @@ import { Button } from '@/components/Button'
 import { TextInput } from '@/components/Form'
 import { JsonUser } from '@/lib/db/models/User'
 import { getGroupName, jsonFetcher } from '@/lib/utils/client'
+import { twJoin } from 'tailwind-merge'
 
 export interface IDScannerProps {
 	onSubmit?: (params: { checkInPin?: string; hexId?: string }) => void
@@ -23,6 +24,9 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const [cameraFacingMode, setCameraFacingMode] = useState<
 		'user' | 'environment'
 	>('environment')
+	const [flashesCamera, setFlashesCamera] = useState<
+		'no' | 'success' | 'error'
+	>('no')
 
 	const { ref: qrReaderRef } = useZxing({
 		constraints: {
@@ -30,55 +34,40 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				facingMode: { ideal: cameraFacingMode },
 			},
 		},
+		timeBetweenDecodingAttempts: 1000,
 		onDecodeResult: (res) => handleScan(res.getText()),
 	})
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [isEnvironmentCameraAvailable, setIsEnvironmentCameraAvailable] =
-		useState(true)
-
-	useEffect(() => {
-		navigator.mediaDevices.enumerateDevices()
-			.then((devices) => {
-				const environmentCamera = devices.find((device) =>
-					device.kind === 'videoinput' && device.label.includes('back')
-				)
-				if (!environmentCamera) { setIsEnvironmentCameraAvailable(false) }
-			})
-	}, [])
 
 	const toggleCamera = () => {
 		setCameraFacingMode(
 			(prev) => (prev === 'environment' ? 'user' : 'environment'),
 		)
 
-		// Optionally recheck environment camera availability.
-		navigator.mediaDevices.enumerateDevices()
-			.then((devices) => {
-				const environmentCamera = devices.find((device) =>
-					device.kind === 'videoinput' && device.label.includes('back')
-				)
-				setIsEnvironmentCameraAvailable(!!environmentCamera)
-			})
-
 		// Clear any existing error message.
 		setErrorMessage('')
-		// main
 	}
 
 	const handleScan = (data: string) => {
 		setErrorMessage('')
+		const showFlashAnimation = (status: typeof flashesCamera = 'success') => {
+			setFlashesCamera(status)
+			setTimeout(() => setFlashesCamera('no'), 150)
+		}
+
 		const hexMatch = data.match(/hackuta2023:[0-9a-f]{3}/i)
 		const pinMatch = data.match(/^\d{4,6}$/)
 		if (hexMatch) {
 			const id = hexMatch[0].slice('hackuta2023:'.length)
 			setHexIdValue(id)
+			showFlashAnimation()
 		} else if (pinMatch) {
 			setCheckInPinValue(pinMatch[0])
+			showFlashAnimation()
 		} else {
 			setErrorMessage(
-				'Scanned QR code is not a valid HackUTA ID hex or 6-digit PIN.',
+				'Scanned QR code is not a valid hex ID or 6-digit check-in PIN.',
 			)
+			showFlashAnimation('error')
 		}
 	}
 
@@ -137,15 +126,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const backToForm = () => setUserData(null)
 
 	return (
-		<div
-			style={{
-				maxWidth: '600px',
-				margin: 'auto',
-				padding: '16px',
-				border: '2px dashed black',
-				position: 'relative', // Important for positioning child elements
-			}}
-		>
+		<div className="max-w-[282px] m-auto p-4 border-2 border-dashed border-black">
 			<div
 				style={{
 					textAlign: 'center',
@@ -188,15 +169,30 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				)
 				: (
 					<form onSubmit={handleVerifyInput}>
-						<div className="relative w-full aspect-square border-2 border-[black]">
+						<div
+							className={twJoin(
+								'relative w-[250px] h-[250px]',
+								'flex flex-col justify-center items-center',
+								'border-2 border-[black] bg-[black] overflow-hidden',
+							)}
+						>
 							<video
 								ref={qrReaderRef}
 								className="w-full"
 							/>
+							<div
+								className={twJoin(
+									'absolute top-0 left-0 w-full h-full transition-opacity',
+									flashesCamera !== 'no' ? 'opacity-50' : 'opacity-0',
+									flashesCamera === 'error'
+										? 'bg-hackuta-error'
+										: 'bg-white',
+								)}
+							/>
 							<button
 								onClick={toggleCamera}
 								type="button"
-								className="absolute top-1 right-1 bg-[white] p-1 cursor-pointer"
+								className="absolute top-1 right-1 bg-white p-1 cursor-pointer"
 							>
 								Switch Camera
 							</button>

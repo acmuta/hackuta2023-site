@@ -50,6 +50,7 @@ module.exports = {
 				'hackuta-darkred': '#7A1D18',
 				'hackuta-yellow': '#F8B92A',
 				'hackuta-black-60': 'rgba(19, 13, 8, 0.6)',
+				'hackuta-error': '#D50032',
 			},
 			dropShadow: {
 				hackuta: shadow,
