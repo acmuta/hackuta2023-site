@@ -88,15 +88,17 @@ function Event({ event }: { event: EventModel }) {
 
 	return (
 		<div className={eventClassNames}>
-			<h3 className="text-sm break-words font-bold">{event.title}</h3>
+			<h3 className="normal-case text-sm break-words font-bold">
+				{event.title}
+			</h3>
 			<p className="text-white-600">
 				{format(new Date(event.date), 'h:mm a')} — {format(
 					eventEndDate,
 					'h:mm a, MMM dd',
 				)}
 			</p>
-			<p className="text-white-600">{event.details}</p>
-			<p className="text-white-600">{event.location}</p>
+			<p className="normal-case text-white-600">{event.details}</p>
+			<p className="normal-case text-white-600">{event.location}</p>
 		</div>
 	)
 }
