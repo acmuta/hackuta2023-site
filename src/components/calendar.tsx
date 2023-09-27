@@ -69,19 +69,19 @@ export function HackathonCalendar(
 	)
 }
 
+
 function Event({ event }: { event: EventModel }) {
 	return (
-		<div className="border rounded p-4 mb-2">
-			<h3 className="text-sm break-words font-bold">{event.title}</h3>
-			<p className="text-white-600">
-				{format(new Date(event.date), 'h:mm a')} — {format(
-					new Date(
-						new Date(event.date).getTime()
-							+ event.durationMins * 60_000,
-					),
-					'h:mm a',
-				)}
-			</p>
-		</div>
-	)
-}
+	  <div className="border rounded p-4 mb-2">
+		<h3 className="text-sm break-words font-bold">{event.title}</h3>
+		<p className="text-white-600">
+		  {format(new Date(event.date), 'h:mm a')} — {format(
+			new Date(
+			  new Date(event.date).getTime() + event.durationMins * 60_000
+			),
+			'h:mm a, MMM dd'
+		  )}
+		</p>
+	  </div>
+	);
+  }
