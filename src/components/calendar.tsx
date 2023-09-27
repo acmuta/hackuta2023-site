@@ -1,4 +1,4 @@
-import { format, isSameDay } from 'date-fns'
+import { format, isPast, isSameDay } from 'date-fns'
 import { WithId } from 'mongodb'
 
 import clientPromise from '@/lib/db'
@@ -69,12 +69,19 @@ export function HackathonCalendar(
 	)
 }
 
-
 function Event({ event }: { event: EventModel }) {
+	const now = new Date();
+	const eventDate = new Date(event.date);
+	const isEventPast = isPast(eventDate);
+	const isEventCurrent = !isEventPast && now >= eventDate;
+	const eventClassNames = `border rounded p-4 mb-2 ${
+	  isEventPast ? 'bg-gray-600 text-white-500' : isEventCurrent ? 'bg-green-500 text-white' : 'bg-black-500 text-white'
+	}`;
+  
 	return (
-	  <div className="border rounded p-4 mb-2">
-		<h3 className="text-sm break-words font-bold">{event.title}</h3>
-		<p className="text-white-600">
+	  <div className={eventClassNames}>
+		<h3 className="normal-case text-sm break-words font-bold">{event.title}</h3>
+		<p className="normal-case text-white-600">
 		  {format(new Date(event.date), 'h:mm a')} — {format(
 			new Date(
 			  new Date(event.date).getTime() + event.durationMins * 60_000
@@ -82,6 +89,8 @@ function Event({ event }: { event: EventModel }) {
 			'h:mm a, MMM dd'
 		  )}
 		</p>
+		<p className="normal-case text-white-600">{event.details}</p>
+		<p className="normal-case text-white-600">{event.location}</p>
 	  </div>
 	);
   }
