@@ -72,8 +72,12 @@ export function HackathonCalendar(
 function Event({ event }: { event: EventModel }) {
 	const now = new Date()
 	const eventDate = new Date(event.date)
-	const isEventPast = isPast(eventDate)
+	const eventEndDate = new Date(
+		eventDate.getTime() + event.durationMins * 60_000,
+	)
+	const isEventPast = isPast(eventEndDate)
 	const isEventCurrent = !isEventPast && now >= eventDate
+		&& now <= eventEndDate
 	const eventClassNames = `border rounded p-4 mb-2 ${
 		isEventPast
 			? 'bg-gray-600 text-white-500'
@@ -84,19 +88,15 @@ function Event({ event }: { event: EventModel }) {
 
 	return (
 		<div className={eventClassNames}>
-			<h3 className="normal-case text-sm break-words font-bold">
-				{event.title}
-			</h3>
-			<p className="normal-case text-white-600">
+			<h3 className="text-sm break-words font-bold">{event.title}</h3>
+			<p className="text-white-600">
 				{format(new Date(event.date), 'h:mm a')} — {format(
-					new Date(
-						new Date(event.date).getTime() + event.durationMins * 60_000,
-					),
+					eventEndDate,
 					'h:mm a, MMM dd',
 				)}
 			</p>
-			<p className="normal-case text-white-600">{event.details}</p>
-			<p className="normal-case text-white-600">{event.location}</p>
+			<p className="text-white-600">{event.details}</p>
+			<p className="text-white-600">{event.location}</p>
 		</div>
 	)
 }
