@@ -5,6 +5,7 @@ import clientPromise from '@/lib/db'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 import { stringifyError } from '@/lib/utils/shared'
+import { Readable } from 'stream'
 
 // Database query
 export const dynamic = 'force-dynamic'
@@ -38,13 +39,21 @@ export async function GET() {
 		})
 
 		// send the zip file
-		const zip = await jzip.generateAsync({ type: 'nodebuffer' })
-		const res = new NextResponse(zip, {
-			headers: {
-				'Content-Disposition': 'attachment; filename=resumes.zip',
-				'Content-Type': 'application/zip',
+		const nodeLegacyStream = jzip.generateNodeStream({ type: 'nodebuffer' })
+		const res = new NextResponse(
+			// typescript lib/lib.dom.d.ts and @types/node stream/web.d.ts have
+			// incompatible type definitions for Web Streams API's `ReadableStream`
+			// interface.
+			Readable.toWeb(
+				new Readable().wrap(nodeLegacyStream),
+			) as ReadableStream<any>,
+			{
+				headers: {
+					'Content-Disposition': 'attachment; filename=resumes.zip',
+					'Content-Type': 'application/zip',
+				},
 			},
-		})
+		)
 
 		return res
 	} catch (e) {
