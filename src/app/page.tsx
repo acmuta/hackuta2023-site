@@ -165,7 +165,7 @@ export default async function Landing() {
 		},
 		{
 			companyName: 'Standout Stickers',
-			companyUrl: 'https://www.standoutstickers.com/',
+			companyUrl: 'http://hackp.ac/mlh-StandOutStickers-hackathons',
 			imageUrl: '/images/Partners/standout-stickers.png',
 			kind: 'Partner',
 		},
