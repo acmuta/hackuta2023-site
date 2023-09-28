@@ -17,13 +17,10 @@ export async function middleware(request: NextRequest) {
 	for (const [regex, target] of Redirects) {
 		if (regex.test(request.nextUrl.pathname)) {
 			return NextResponse.redirect(target, {
-				// See Other
+				// See Other, which uses GET
 				status: 303,
 			})
 		}
-	}
-	if (request.nextUrl.pathname.match(/^\/devpost\/?/)) {
-		return NextResponse.redirect('https://hackuta2023.devpost.com/')
 	}
 
 	// Middleware can only run on the Edge runtime which cannot import from @/lib/utils/server.
