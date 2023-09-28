@@ -71,13 +71,24 @@ export function HackathonCalendar(
 
 function Event({ event }: { event: EventModel }) {
 	const now = new Date()
+	const centralTimeZone = 'America/Chicago' // Central Time Zone (American Central Time)
+
+	// Convert event date and end date to Central Time
 	const eventDate = new Date(event.date)
 	const eventEndDate = new Date(
 		eventDate.getTime() + event.durationMins * 60_000,
 	)
-	const isEventPast = isPast(eventEndDate)
-	const isEventCurrent = !isEventPast && now >= eventDate
-		&& now <= eventEndDate
+	const eventDateCentral = new Date(
+		eventDate.toLocaleString('en-US', { timeZone: centralTimeZone }),
+	)
+	const eventEndDateCentral = new Date(
+		eventEndDate.toLocaleString('en-US', { timeZone: centralTimeZone }),
+	)
+
+	const isEventPast = isPast(eventEndDateCentral)
+	const isEventCurrent = !isEventPast && now >= eventDateCentral
+		&& now <= eventEndDateCentral
+
 	const eventClassNames = `border rounded p-4 mb-2 ${
 		isEventPast
 			? 'bg-gray-600 text-white-500'
@@ -86,19 +97,31 @@ function Event({ event }: { event: EventModel }) {
 			: 'bg-black-500 text-white'
 	}`
 
+	const locationEmoji = '📍⛯'
+	const timeEmoji = '⏰'
+	const calendarEmoji = '📅'
+
 	return (
 		<div className={eventClassNames}>
 			<h3 className="normal-case text-sm break-words font-bold">
 				{event.title}
 			</h3>
-			<p className="text-white-600">
-				{format(new Date(event.date), 'h:mm a')} — {format(
-					eventEndDate,
-					'h:mm a, MMM dd',
-				)}
+			<p className="font-bold text-white-600">
+				{`${timeEmoji} ${format(eventDateCentral, 'h:mm a')} — ${
+					format(eventEndDateCentral, 'h:mm a')
+				}`}
 			</p>
-			<p className="normal-case text-white-600">{event.details}</p>
-			<p className="normal-case text-white-600">{event.location}</p>
+			<p className="font-bold normal-case text-white-600">
+				{`${calendarEmoji} ${format(eventDateCentral, 'MMM dd')}`}
+			</p>
+			<p className="normal-case text-white-600">
+				{`${event.details}`}
+			</p>
+			<p className="font-bold normal-case text-white-600">
+				{`${locationEmoji} ${event.location}`}
+			</p>
 		</div>
 	)
 }
+
+export default Event
