@@ -5,7 +5,7 @@ import { SVGProps } from 'react-html-props'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { getEvents, HackathonCalendar } from '@/components/calendar'
+import { getEvents } from '@/components/calendar'
 import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
@@ -13,7 +13,7 @@ import { WavyPattern } from '@/components/WavyPattern'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import { FaqSection, getFaqs } from './faq/utils'
-
+import { Calendar } from './schedule/utils'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -244,22 +244,7 @@ export default async function Landing() {
 						</div>
 					</div>
 				</div>
-				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-					<section className="flex flex-col self-start gap-2">
-						<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
-							Schedule
-							<WavyPattern className="w-32" />
-						</h2>
-						<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
-							<HackathonCalendar
-								startDate={startDate}
-								endDate={endDate}
-								events={events}
-							/>
-						</div>
-					</section>
-				</div>
-
+				<Calendar events={events} />
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
