@@ -4,6 +4,7 @@ import { WithId } from 'mongodb'
 import clientPromise from '@/lib/db'
 import { EventModel } from '@/lib/db/models/Event'
 import logger from '@/lib/logger'
+import { Calendar, Clock, PinAlt } from 'iconoir-react'
 import { twJoin } from 'tailwind-merge'
 
 export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
@@ -72,15 +73,17 @@ export function HackathonCalendar(
 
 function Event({ event }: { event: EventModel }) {
 	const centralTimeZone = 'America/Chicago' // Central Time Zone (American Central Time)
-	const now = new Date(new Date().toLocaleString('en-US', {timeZone: centralTimeZone}))
+	const now = new Date(
+		new Date().toLocaleString('en-US', { timeZone: centralTimeZone }),
+	)
 
 	// Convert event date and end date to Central Time
 	const eventDate = new Date(event.date)
 	const eventEndDate = new Date(
 		eventDate.getTime() + event.durationMins * 60_000,
 	)
-	const eventDateCentral = new Date(		eventDate	)
-	const eventEndDateCentral = new Date(		eventEndDate	)
+	const eventDateCentral = new Date(eventDate)
+	const eventEndDateCentral = new Date(eventEndDate)
 
 	const isEventPast = isBefore(eventEndDateCentral, now)
 	const isEventCurrent = !isEventPast
@@ -99,9 +102,9 @@ function Event({ event }: { event: EventModel }) {
 		shadow,
 	)
 
-	const locationEmoji = '📍'
-	const timeEmoji = '⏰'
-	const calendarEmoji = '📅'
+	// const locationEmoji = '📍'
+	// const timeEmoji = '⏰'
+	// const calendarEmoji = '📅'
 
 	return (
 		<details className={twJoin(eventClassNames, 'cursor-pointer')}>
@@ -111,21 +114,28 @@ function Event({ event }: { event: EventModel }) {
 				</span>
 				<p className="flex flex-row text-white-600">
 					<span className="flex-1">
-						{`${timeEmoji} ${format(eventDateCentral, 'h:mm a')} — ${
+						<Clock className="inline" />
+						{` ${format(eventDateCentral, 'h:mm a')} — ${
 							format(eventEndDateCentral, 'h:mm a')
 						}`}
 					</span>
 					<span className="normal-case">
-						{`${calendarEmoji} ${format(eventDateCentral, 'MMM dd')}`}
+						<Calendar className="inline" />
+						{` ${format(eventDateCentral, 'MMM dd')}`}
 					</span>
 				</p>
 				{event.location && (
-					<p className="normal-case text-white-600">
-						{`${locationEmoji} ${event.location}`}
-					</p>
+					<>
+						<PinAlt className="inline" />
+						<span className="normal-case text-white-600">
+							{` ${event.location}`}
+						</span>
+					</>
 				)}
 			</summary>
-			<p className="normal-case text-white-600">{event.details || 'No details provided.'}</p>
+			<p className="normal-case text-white-600">
+				{event.details || 'No details provided.'}
+			</p>
 		</details>
 	)
 }

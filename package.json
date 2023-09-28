@@ -12,7 +12,7 @@
   },
   "pre-commit": {
     "run": [
-      "lint:fix"
+      "lint"
     ]
   },
   "dependencies": {
