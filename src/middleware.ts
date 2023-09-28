@@ -8,6 +8,11 @@ import {
 } from './lib/auth/shared'
 
 export async function middleware(request: NextRequest) {
+	// Redirects
+	if (request.nextUrl.pathname.match(/^\/discord\/?/)) {
+		return NextResponse.redirect('https://discord.gg/4e64SfjmWS')
+	}
+
 	// Middleware can only run on the Edge runtime which cannot import from @/lib/utils/server.
 	// So we duplicated the SITE_URL code here.
 	// See also https://github.com/vercel/next.js/discussions/46722
