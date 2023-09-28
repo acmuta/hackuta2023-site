@@ -10,6 +10,11 @@
     "lint:fix": "next lint --fix && dprint fmt",
     "fmt": "dprint fmt"
   },
+  "pre-commit": {
+    "run": [
+      "lint:fix"
+    ]
+  },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@mailchimp/mailchimp_transactional": "^1.0.50",
@@ -69,6 +74,7 @@
     "eslint-config-prettier": "^9.0.0",
     "pino-pretty": "^10.2.0",
     "postcss": "^8.4.30",
+    "pre-commit": "^1.2.2",
     "tailwindcss": "^3.3.3"
   }
 }
