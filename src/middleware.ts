@@ -7,10 +7,20 @@ import {
 	RolePermissionMap,
 } from './lib/auth/shared'
 
+const Redirects = new Map([
+	[/^\/discord\/?$/, 'https://discord.gg/4e64SfjmWS'],
+	[/^\/devpost\/?$/, 'https://hackuta2023.devpost.com/'],
+])
+
 export async function middleware(request: NextRequest) {
 	// Redirects
-	if (request.nextUrl.pathname.match(/^\/discord\/?/)) {
-		return NextResponse.redirect('https://discord.gg/4e64SfjmWS')
+	for (const [regex, target] of Redirects) {
+		if (regex.test(request.nextUrl.pathname)) {
+			return NextResponse.redirect(target, {
+				// See Other
+				status: 303,
+			})
+		}
 	}
 	if (request.nextUrl.pathname.match(/^\/devpost\/?/)) {
 		return NextResponse.redirect('https://hackuta2023.devpost.com/')
