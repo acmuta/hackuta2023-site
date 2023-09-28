@@ -4,7 +4,6 @@ import { WithId } from 'mongodb'
 import clientPromise from '@/lib/db'
 import { EventModel } from '@/lib/db/models/Event'
 import logger from '@/lib/logger'
-import { Calendar, Clock, PinAlt } from 'iconoir-react'
 import { twJoin } from 'tailwind-merge'
 
 export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
@@ -102,10 +101,6 @@ function Event({ event }: { event: EventModel }) {
 		shadow,
 	)
 
-	// const locationEmoji = '📍'
-	// const timeEmoji = '⏰'
-	// const calendarEmoji = '📅'
-
 	return (
 		<details className={twJoin(eventClassNames, 'cursor-pointer')}>
 			<summary className="normal-case break-words">
@@ -114,20 +109,17 @@ function Event({ event }: { event: EventModel }) {
 				</span>
 				<p className="flex flex-row text-white-600">
 					<span className="flex-1">
-						<Clock className="inline" />
-						{` ${format(eventDateCentral, 'h:mm a')} — ${
+						⏰{` ${format(eventDateCentral, 'h:mm a')} — ${
 							format(eventEndDateCentral, 'h:mm a')
 						}`}
 					</span>
 					<span className="normal-case">
-						<Calendar className="inline" />
-						{` ${format(eventDateCentral, 'MMM dd')}`}
+						📅{` ${format(eventDateCentral, 'MMM dd')}`}
 					</span>
 				</p>
 				{event.location && (
 					<>
-						<PinAlt className="inline" />
-						<span className="normal-case text-white-600">
+						📍<span className="normal-case text-white-600">
 							{` ${event.location}`}
 						</span>
 					</>
