@@ -4,6 +4,7 @@ import { WithId } from 'mongodb'
 import clientPromise from '@/lib/db'
 import { EventModel } from '@/lib/db/models/Event'
 import logger from '@/lib/logger'
+import { twJoin } from 'tailwind-merge'
 
 export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
 	try {
@@ -86,16 +87,21 @@ function Event({ event }: { event: EventModel }) {
 	)
 
 	const isEventPast = isPast(eventEndDateCentral)
-	const isEventCurrent = !isEventPast && now >= eventDateCentral
+	const isEventCurrent = !isEventPast
+		&& now >= eventDateCentral
 		&& now <= eventEndDateCentral
 
-	const eventClassNames = `border rounded p-4 mb-2 ${
+	const shadow = `shadow hover:shadow-lg`
+
+	const eventClassNames = twJoin(
+		'border-2 rounded p-4 mb-2',
 		isEventPast
 			? 'bg-gray-600 text-white-500'
 			: isEventCurrent
-			? 'bg-green-500 text-white'
-			: 'bg-black-500 text-white'
-	}`
+			? 'bg-green-600 text-white'
+			: 'bg-yellow-700 text-white',
+		shadow,
+	)
 
 	const locationEmoji = '📍⛯'
 	const timeEmoji = '⏰'
@@ -114,14 +120,10 @@ function Event({ event }: { event: EventModel }) {
 			<p className="font-bold normal-case text-white-600">
 				{`${calendarEmoji} ${format(eventDateCentral, 'MMM dd')}`}
 			</p>
-			<p className="normal-case text-white-600">
-				{`${event.details}`}
-			</p>
+			<p className="normal-case text-white-600">{`${event.details}`}</p>
 			<p className="font-bold normal-case text-white-600">
 				{`${locationEmoji} ${event.location}`}
 			</p>
 		</div>
 	)
 }
-
-export default Event
