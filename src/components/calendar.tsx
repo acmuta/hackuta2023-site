@@ -1,4 +1,4 @@
-import { format, isPast, isSameDay } from 'date-fns'
+import { format, isBefore, isSameDay } from 'date-fns'
 import { WithId } from 'mongodb'
 
 import clientPromise from '@/lib/db'
@@ -71,22 +71,18 @@ export function HackathonCalendar(
 }
 
 function Event({ event }: { event: EventModel }) {
-	const now = new Date()
 	const centralTimeZone = 'America/Chicago' // Central Time Zone (American Central Time)
+	const now = new Date(new Date().toLocaleString('en-US', {timeZone: centralTimeZone}))
 
 	// Convert event date and end date to Central Time
 	const eventDate = new Date(event.date)
 	const eventEndDate = new Date(
 		eventDate.getTime() + event.durationMins * 60_000,
 	)
-	const eventDateCentral = new Date(
-		eventDate.toLocaleString('en-US', { timeZone: centralTimeZone }),
-	)
-	const eventEndDateCentral = new Date(
-		eventEndDate.toLocaleString('en-US', { timeZone: centralTimeZone }),
-	)
+	const eventDateCentral = new Date(		eventDate	)
+	const eventEndDateCentral = new Date(		eventEndDate	)
 
-	const isEventPast = isPast(eventEndDateCentral)
+	const isEventPast = isBefore(eventEndDateCentral, now)
 	const isEventCurrent = !isEventPast
 		&& now >= eventDateCentral
 		&& now <= eventEndDateCentral
@@ -96,34 +92,40 @@ function Event({ event }: { event: EventModel }) {
 	const eventClassNames = twJoin(
 		'border-2 rounded p-4 mb-2',
 		isEventPast
-			? 'bg-gray-600 text-white-500'
+			? 'bg-event-past text-white-500'
 			: isEventCurrent
-			? 'bg-green-600 text-white'
-			: 'bg-yellow-700 text-white',
+			? 'bg-event-current text-white'
+			: 'bg-event-future	 text-white',
 		shadow,
 	)
 
-	const locationEmoji = '📍⛯'
+	const locationEmoji = '📍'
 	const timeEmoji = '⏰'
 	const calendarEmoji = '📅'
 
 	return (
-		<div className={eventClassNames}>
-			<h3 className="normal-case text-sm break-words font-bold">
-				{event.title}
-			</h3>
-			<p className="font-bold text-white-600">
-				{`${timeEmoji} ${format(eventDateCentral, 'h:mm a')} — ${
-					format(eventEndDateCentral, 'h:mm a')
-				}`}
-			</p>
-			<p className="font-bold normal-case text-white-600">
-				{`${calendarEmoji} ${format(eventDateCentral, 'MMM dd')}`}
-			</p>
-			<p className="normal-case text-white-600">{`${event.details}`}</p>
-			<p className="font-bold normal-case text-white-600">
-				{`${locationEmoji} ${event.location}`}
-			</p>
-		</div>
+		<details className={twJoin(eventClassNames, 'cursor-pointer')}>
+			<summary className="normal-case break-words">
+				<span className="text-lg font-bold">
+					{event.title}
+				</span>
+				<p className="flex flex-row text-white-600">
+					<span className="flex-1">
+						{`${timeEmoji} ${format(eventDateCentral, 'h:mm a')} — ${
+							format(eventEndDateCentral, 'h:mm a')
+						}`}
+					</span>
+					<span className="normal-case">
+						{`${calendarEmoji} ${format(eventDateCentral, 'MMM dd')}`}
+					</span>
+				</p>
+				{event.location && (
+					<p className="normal-case text-white-600">
+						{`${locationEmoji} ${event.location}`}
+					</p>
+				)}
+			</summary>
+			<p className="normal-case text-white-600">{event.details || 'No details provided.'}</p>
+		</details>
 	)
 }
