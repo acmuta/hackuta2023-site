@@ -1,9 +1,9 @@
-import { headers } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
-import QRCode from 'qrcode'
+import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
+import QRCode from 'qrcode';
 
-import { getEnhancedSession, siteUrl } from '@/lib/utils/server'
-import { notFound } from 'next/navigation'
+import { getEnhancedSession, siteUrl } from '@/lib/utils/server';
+import { notFound } from 'next/navigation';
 
 interface QRCodeRouteProps {
 	params: {
@@ -21,11 +21,12 @@ export async function GET(
 	}
 
 	const content = type === 'check-in'
-		? user?.checkInPin
-		: user?.hexId && `hackuta2023:${user?.hexId}`
+		? user?.checkInPin && `https://hackuta.org/dashboard?id=${user?.checkInPin}` //digital ID
+		: user?.hexId && `https://hackuta.org/dashboard?id=${user?.hexId}` //physical ID
 	if (!content) {
 		return NextResponse.redirect(`${siteUrl}/images/noqrcode.svg`)
 	}
+
 
 	const qrcode = await QRCode.toString(content.toString(), {
 		type: 'svg',

@@ -1,14 +1,14 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
-import { useZxing } from 'react-zxing'
-import useSWR from 'swr'
+import { FormEvent, useEffect, useState } from 'react';
+import { useZxing } from 'react-zxing';
+import useSWR from 'swr';
 
-import { Button } from '@/components/Button'
-import { TextInput } from '@/components/Form'
-import { JsonUser } from '@/lib/db/models/User'
-import { getGroupName, jsonFetcher } from '@/lib/utils/client'
-import { twJoin } from 'tailwind-merge'
+import { Button } from '@/components/Button';
+import { TextInput } from '@/components/Form';
+import { JsonUser } from '@/lib/db/models/User';
+import { getGroupName, jsonFetcher } from '@/lib/utils/client';
+import { twJoin } from 'tailwind-merge';
 
 export interface IDScannerProps {
 	onSubmit?: (params: { checkInPin?: string; hexId?: string }) => void
@@ -54,14 +54,14 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 			setTimeout(() => setFlashesCamera('no'), 150)
 		}
 
-		const hexMatch = data.match(/hackuta2023:[0-9a-f]{3}/i)
-		const pinMatch = data.match(/^\d{4,6}$/)
+		const hexMatch = data.match(/^https:\/\/hackuta.org\/dashboard\?id=[ABCD]\d{3}$/i) // phys id ie: A000
+		const pinMatch = data.match(/^https:\/\/hackuta.org\/dashboard\?id=\d{6}$/i) // idig id: 123456
 		if (hexMatch) {
-			const id = hexMatch[0].slice('hackuta2023:'.length)
+			const id = hexMatch[0].slice('https://hackuta.org/dashboard?id='.length)
 			setHexIdValue(id)
 			showFlashAnimation()
 		} else if (pinMatch) {
-			setCheckInPinValue(pinMatch[0])
+			setCheckInPinValue(pinMatch[0].slice('https://hackuta.org/dashboard?id='.length))
 			showFlashAnimation()
 		} else {
 			setErrorMessage(
@@ -76,7 +76,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	}, [hexIdValue, checkInPinValue])
 
 	const isValidHexID = (id: string) =>
-		id.length === 3 && !!id.match(/[0-9a-f]{3}/i)
+		id.length === 4 && !!id.match(/^[ABCD]\d{3}$/i)
 	const isValidPin = (pin: string) =>
 		pin.length === 6 && !!pin.match(/^\d{6}$/)
 
