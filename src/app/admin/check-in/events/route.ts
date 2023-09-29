@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
-import clientPromise from '@/lib/db';
-import Event from '@/lib/db/models/Event';
-import logger from '@/lib/logger';
+import clientPromise from '@/lib/db'
+import Event from '@/lib/db/models/Event'
+import logger from '@/lib/logger'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
 	try {
-
 		const client = await clientPromise
 		const events = await client
 			.db()

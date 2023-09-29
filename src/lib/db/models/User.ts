@@ -1,10 +1,10 @@
-import { ObjectId, WithId } from 'mongodb';
-import validator from 'validator';
-import z from 'zod';
+import { ObjectId, WithId } from 'mongodb'
+import validator from 'validator'
+import z from 'zod'
 
-import countries from '@/data/countries.json';
-import universities from '@/data/universities.json';
-import type { ToJsonValue } from '@/lib/utils/shared';
+import countries from '@/data/countries.json'
+import universities from '@/data/universities.json'
+import type { ToJsonValue } from '@/lib/utils/shared'
 
 export default interface User {
 	email: string

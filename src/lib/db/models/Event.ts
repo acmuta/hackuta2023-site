@@ -1,6 +1,6 @@
-import type { ToJsonValue } from '@/lib/utils/shared';
-import { WithId } from 'mongodb';
-import z from 'zod';
+import type { ToJsonValue } from '@/lib/utils/shared'
+import { WithId } from 'mongodb'
+import z from 'zod'
 
 export const EventSchema = z.object({
 	title: z.string(),
