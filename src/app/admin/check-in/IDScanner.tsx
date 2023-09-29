@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 import { Button } from '@/components/Button'
@@ -12,7 +12,12 @@ import { useZxing } from 'react-zxing'
 import { twJoin } from 'tailwind-merge'
 
 export interface IDScannerProps {
-	onSubmit?: (params: { checkInPin?: string; hexId?: string }) => void
+	onSubmit?: (params: {
+		checkInPin?: string
+		hexId?: string
+		eventName?: string
+		id?: string
+	}) => void
 }
 
 type checkInType = 'checkin' | 'event' | 'meal'
@@ -20,9 +25,12 @@ type checkInType = 'checkin' | 'event' | 'meal'
 const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const [hexIdValue, setHexIdValue] = useState<string>('')
 	const [checkInPinValue, setCheckInPinValue] = useState<string>('')
+	const [generalIdValue, setGeneralIdValue] = useState<string>('') // could be hex or pin
+	const [eventNameValue, setEventNameValue] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [userData, setUserData] = useState<any>(null)
 	const [isFormValid, setIsFormValid] = useState<boolean>(false)
+	const [isEventFormValid, setIsEventFormValid] = useState<boolean>(false)
 	const { data: stats } = useSWR('/admin/check-in/stats', jsonFetcher)
 	const [cameraFacingMode, setCameraFacingMode] = useState<
 		'user' | 'environment'
@@ -117,6 +125,11 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	// set currentEvent default value
+	useEffect(() => {
+		setEventNameValue(currEvents[0])
+	}, [currEvents])
+
 	const { ref: qrReaderRef } = useZxing({
 		constraints: {
 			video: {
@@ -174,6 +187,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		setIsFormValid(isValidHexID(hexIdValue) && isValidPin(checkInPinValue))
 	}, [hexIdValue, checkInPinValue])
 
+	// reset is valid field when switching modes
+	useEffect(() => {
+		setIsEventFormValid(
+			(isValidHexID(generalIdValue) || isValidPin(generalIdValue))
+				&& ((currEvents[0] ?? currMeal) !== null
+					&& (currEvents[0] ?? currMeal) !== ''),
+		)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [generalIdValue, checkinMode])
+
 	const isValidHexID = (id: string) =>
 		id.length === 6 && !!id.match(/^[ABCD][a-f0-9]{5}$/i)
 	const isValidPin = (pin: string) =>
@@ -214,11 +237,19 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const clearInputs = () => {
 		setHexIdValue('') // clear HexID input
 		setCheckInPinValue('') // clear PIN input
+		setGeneralIdValue('')
+		setEventNameValue(currEvents[0] ?? currMeal)
 	}
 
 	const handleConfirmCheckIn = () => {
 		onSubmit?.({ checkInPin: checkInPinValue, hexId: hexIdValue })
 		clearInputs()
+		setUserData(null) // clear user data
+	}
+
+	const handleEventCheckIn = (genidVal: string, eName: string) => {
+		onSubmit?.({ id: genidVal, eventName: eName })
+		clearInputs() // clear inputs doesnt work
 		setUserData(null) // clear user data
 	}
 
@@ -388,7 +419,12 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							<>
 								{/* Dropdown for selecting events */}
 								<div className="text-center mt-3">
-									<select>
+									<select
+										className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white"
+										onChange={(e) => {
+											setEventNameValue(e.target.value)
+										}}
+									>
 										{currEvents.map((event) => (
 											<option key={event} value={event}>
 												{event}
@@ -399,28 +435,14 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								<div style={{ marginTop: '10px' }}>
 									<TextInput
 										type="text"
-										placeholder="Enter your ID"
-										value={hexIdValue}
+										placeholder="Attendee ID"
+										value={generalIdValue}
 										onChange={(e) =>
-											setHexIdValue(
+											setGeneralIdValue(
 												(e.target as HTMLInputElement).value,
 											)}
 									/>
 								</div>
-								{
-									/* <div style={{ marginTop: '10px' }}>
-								<TextInput
-									type="text"
-									placeholder="Digital ID"
-									value={checkInPinValue}
-									errors={[errorMessage]}
-									onChange={(e) =>
-										setCheckInPinValue(
-											(e.target as HTMLInputElement).value,
-										)}
-								/>
-							</div> */
-								}
 								<div
 									style={{
 										marginTop: '20px',
@@ -428,7 +450,15 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 										justifyContent: 'center',
 									}}
 								>
-									<Button type="submit" disabled={!isFormValid}>
+									<Button
+										onClick={() => {
+											handleEventCheckIn(
+												generalIdValue,
+												eventNameValue,
+											)
+										}}
+										disabled={!isEventFormValid}
+									>
 										Submit
 									</Button>
 								</div>
@@ -443,28 +473,14 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								<div style={{ marginTop: '10px' }}>
 									<TextInput
 										type="text"
-										placeholder="Enter Attendee ID"
-										value={hexIdValue}
+										placeholder="Attendee ID"
+										value={generalIdValue}
 										onChange={(e) =>
-											setHexIdValue(
+											setGeneralIdValue(
 												(e.target as HTMLInputElement).value,
 											)}
 									/>
 								</div>
-								{
-									/* <div style={{ marginTop: '10px' }}>
-								<TextInput
-									type="text"
-									placeholder="Digital ID"
-									value={checkInPinValue}
-									errors={[errorMessage]}
-									onChange={(e) =>
-										setCheckInPinValue(
-											(e.target as HTMLInputElement).value,
-										)}
-								/>
-							</div> */
-								}
 								<div
 									style={{
 										marginTop: '20px',
@@ -472,7 +488,15 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 										justifyContent: 'center',
 									}}
 								>
-									<Button type="submit" disabled={!isFormValid}>
+									<Button
+										onClick={() => {
+											handleEventCheckIn(
+												generalIdValue,
+												currMeal ?? '',
+											)
+										}}
+										disabled={!isEventFormValid}
+									>
 										Submit
 									</Button>
 								</div>
