@@ -37,7 +37,7 @@ def main():
 
     for msd in ['A', 'B', 'C', 'D']:
         for lsd in range(0xFFF + 1):  # 0xFFF = 4095 in decimal
-            hex_num = format(lsd, '03X')  # 3-digit hexadecimal number
+            hex_num = format(lsd, '05X')  # 5-digit hexadecimal number
             data = f'https://hackuta.org/dashboard?id={msd}{hex_num}'
             filename = os.path.join(
                 output_directory, f'qr_{msd}_{hex_num}.png')

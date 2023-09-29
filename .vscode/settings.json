@@ -8,11 +8,11 @@
     }
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dprint.dprint",
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true
-    }
+		"editor.defaultFormatter": "ms-vsliveshare.vsliveshare",
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true,
+			"source.organizeImports": true
+		}
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true
