@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import useSWR from 'swr'
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-import { Button } from '@/components/Button'
-import { TextInput } from '@/components/Form'
-import { JsonEvents } from '@/lib/db/models/Event'
-import { JsonUser } from '@/lib/db/models/User'
-import { getGroupName, jsonFetcher } from '@/lib/utils/client'
-import { useZxing } from 'react-zxing'
-import { twJoin } from 'tailwind-merge'
+import { Button } from '@/components/Button';
+import { TextInput } from '@/components/Form';
+import { JsonEvents } from '@/lib/db/models/Event';
+import { JsonUser } from '@/lib/db/models/User';
+import { getGroupName, jsonFetcher } from '@/lib/utils/client';
+import { useZxing } from 'react-zxing';
+import { twJoin } from 'tailwind-merge';
 
 export interface IDScannerProps {
 	onSubmit?: (params: { checkInPin?: string; hexId?: string }) => void
@@ -105,7 +105,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							+ event.durationMins * 60000
 							+ 600000
 				) {
-					console.log(event.title)
 					setCurrEvents((prev) => [...(prev ?? ''), event.title])
 				}
 			})
