@@ -40,11 +40,26 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	>('no')
 	const [checkinMode, setCheckinMode] = useState<checkInType>('event')
 	const [enabledMealBtn, setEnabledMealBtn] = useState<boolean>(false)
-	const [currDateTime] = useState(
-		/*new Date().getTime()*/ new Date(1696775700000).getTime(),
+	const [currDateTime, setCurrDateTime] = useState(
+		new Date().getTime(), /*new Date(1696775700000).getTime()*/
 	)
 	const [currMeal, setCurrMeal] = useState<string>()
 	const [currEvents, setCurrEvents] = useState<string[]>([''])
+	const [minsAgo, setMinsAgo] = useState(0)
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const currentTime = new Date()
+			const pastTime = new Date(currDateTime)
+			const diffInMinutes = Math.floor(
+				Math.abs(currentTime.getTime() - pastTime.getTime()) / 60000,
+			)
+			setMinsAgo(diffInMinutes)
+		}, 60000)
+
+		// Clean up the interval when the component unmounts
+		return () => clearInterval(interval)
+	}, [currDateTime, minsAgo])
 
 	// if saturday morning, default to checkin between 7 and 11:30 Saturday October 7th, 2023
 	useEffect(() => {
@@ -130,6 +145,11 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		setEventNameValue(currEvents[0])
 	}, [currEvents])
 
+	// set generalIdValue to hexIdValue or checkInPinValue
+	useEffect(() => {
+		setGeneralIdValue(hexIdValue ? hexIdValue : checkInPinValue)
+	}, [hexIdValue, checkInPinValue])
+
 	const { ref: qrReaderRef } = useZxing({
 		constraints: {
 			video: {
@@ -155,7 +175,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 			setFlashesCamera(status)
 			setTimeout(() => setFlashesCamera('no'), 150)
 		}
-		// phys id ie: A000
+		// phys id ie: A00000
 		// dig id: 123456
 		const hexMatch = data.match(
 			/^https:\/\/hackuta.org\/dashboard\?id=[ABCD][a-f0-9]{5}$/i,
@@ -190,12 +210,14 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	// reset is valid field when switching modes
 	useEffect(() => {
 		setIsEventFormValid(
-			(isValidHexID(generalIdValue) || isValidPin(generalIdValue))
-				&& ((currEvents[0] ?? currMeal) !== null
-					&& (currEvents[0] ?? currMeal) !== ''),
+			(isValidHexID(generalIdValue) || isValidPin(generalIdValue)) && !(
+				(currEvents[0] ?? currMeal) === null
+				|| (currEvents[0] ?? currMeal) === ''
+				|| (currEvents[0] ?? currMeal) === undefined
+			),
 		)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [generalIdValue, checkinMode])
+	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue])
 
 	const isValidHexID = (id: string) =>
 		id.length === 6 && !!id.match(/^[ABCD][a-f0-9]{5}$/i)
@@ -256,13 +278,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const backToForm = () => setUserData(null)
 
 	return (
-		<div className="max-w-[282px] m-auto p-4 border-2 border-dashed border-black">
+		<div className="max-w-xs m-auto p-4 border-2 border-dashed border-black flex justify-center items-center flex-col">
 			<div className="flex items-center justify-center gap-4 pb-4">
-				{
-					/* <button className="font-heading text-hackuta-beige border-2 p-2 opacity-95 hover:opacity-85 bg-hackuta-black rounded-lg border-hackuta-black no-underline transition-all">Checkin</button>
-				<button className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all">Events</button>
-				<button className="font-heading text-hackuta-black border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all">Meal</button> */
-				}
 				<button
 					className={`${
 						checkinMode === 'checkin'
@@ -336,10 +353,13 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 					</div>
 				)
 				: (
-					<form onSubmit={handleVerifyInput}>
+					<form
+						onSubmit={handleVerifyInput}
+						className="flex flex-col justify-center items-center"
+					>
 						<div
 							className={twJoin(
-								'relative w-[250px] h-[250px]',
+								'relative w-[250px]',
 								'flex flex-col justify-center items-center',
 								'border-2 border-[black] bg-[black] overflow-hidden',
 							)}
@@ -357,10 +377,22 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							<button
 								onClick={toggleCamera}
 								type="button"
-								className="absolute top-1 right-1 bg-white p-1 cursor-pointer"
+								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all"
 							>
 								Switch Camera
 							</button>
+							<span className="text-white flex justify-between items-center inherit gap-4 py-1 px-1 text-sm">
+								{`Last updated: ${minsAgo} mins ago `}
+								<div
+									onClick={() => {
+										setCurrDateTime(new Date().getTime())
+										setMinsAgo(0)
+									}}
+									className="bg-hackuta-blue text-white font-heading hover:opacity-80 rounded text-lg text-center px-3 pb-1 cursor-pointer z-10"
+								>
+									{`⟳`}
+								</div>
+							</span>
 						</div>
 
 						{/* START OF DAY CHECKIN MODE */}
@@ -420,7 +452,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								{/* Dropdown for selecting events */}
 								<div className="text-center mt-3">
 									<select
-										className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white"
+										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white"
 										onChange={(e) => {
 											setEventNameValue(e.target.value)
 										}}

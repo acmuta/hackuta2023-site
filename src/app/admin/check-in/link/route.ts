@@ -42,6 +42,10 @@ export async function POST(request: NextRequest) {
 
 		// FOR ADDING EVENTS TO USER
 		if (eventName && generalId) {
+			if (eventName == '' || eventName == undefined || eventName == null) {
+				throw new Error(`No event selected`)
+			}
+
 			if (generalId.match(/^[ABCD][a-f0-9]{5}$/i)) {
 				// if phys id
 
@@ -49,6 +53,11 @@ export async function POST(request: NextRequest) {
 				const existingUser = await users.findOne({
 					hexId: { $eq: generalId },
 				})
+
+				// throw error if user not found
+				if (!existingUser) {
+					throw new Error(`No user found with Physical ID: "${generalId}"`)
+				}
 
 				if (existingUser?.attendedEvents?.includes(eventName)) {
 					throw new Error(`User already checked into "${eventName}"`)
@@ -62,6 +71,12 @@ export async function POST(request: NextRequest) {
 						},
 					},
 				)
+
+				throw new Error(
+					`${existingUser.application?.firstName ?? ''} ${
+						existingUser.application?.lastName ?? ''
+					} checked into "${eventName}"`,
+				)
 			} else if (generalId.match(/^\d{6}$/i)) {
 				// if dig id
 
@@ -74,6 +89,11 @@ export async function POST(request: NextRequest) {
 					throw new Error(`User already checked into "${eventName}"`)
 				}
 
+				// throw error if user not found
+				if (!existingUser) {
+					throw new Error(`No user found with Digital ID: "${generalId}"`)
+				}
+
 				await users.updateOne(
 					{ checkInPin: { $eq: parseInt(generalId) } },
 					{
@@ -81,6 +101,12 @@ export async function POST(request: NextRequest) {
 							attendedEvents: eventName,
 						},
 					},
+				)
+
+				throw new Error(
+					`${existingUser.application?.firstName ?? ''} ${
+						existingUser.application?.lastName ?? ''
+					} checked into "${eventName}"`,
 				)
 			}
 		}
