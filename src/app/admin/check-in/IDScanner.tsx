@@ -46,6 +46,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const [currMeal, setCurrMeal] = useState<string>()
 	const [currEvents, setCurrEvents] = useState<string[]>([''])
 	const [minsAgo, setMinsAgo] = useState(0)
+	const [eventSelected, setEventSelected] = useState<boolean>(false)
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -210,14 +211,17 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	// reset is valid field when switching modes
 	useEffect(() => {
 		setIsEventFormValid(
-			(isValidHexID(generalIdValue) || isValidPin(generalIdValue)) && !(
-				(currEvents[0] ?? currMeal) === null
-				|| (currEvents[0] ?? currMeal) === ''
-				|| (currEvents[0] ?? currMeal) === undefined
-			),
+			(isValidHexID(generalIdValue) || isValidPin(generalIdValue))
+				&& !(
+					(currEvents[0] ?? currMeal) === null
+					|| (currEvents[0] ?? currMeal) === ''
+					|| (currEvents[0] ?? currMeal) === undefined
+				)
+				&& eventSelected,
 		)
+		console.log(currEvents)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue])
+	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue, eventSelected])
 
 	const isValidHexID = (id: string) =>
 		id.length === 6 && !!id.match(/^[ABCD][a-f0-9]{5}$/i)
@@ -381,8 +385,28 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							>
 								Switch Camera
 							</button>
-							<span className="text-white flex justify-between items-center inherit gap-4 py-1 px-1 text-sm">
-								{`Last updated: ${minsAgo} mins ago `}
+							<span
+								className={`${
+									minsAgo >= 10 ? 'text-red-600' : 'text-white'
+								} flex justify-between items-center inherit gap-4 py-1 px-1 text-sm`}
+							>
+								<div className="flex flex-col gap-0 items-center justify-center">
+									<p>{`Last updated: ${minsAgo} mins ago `}</p>
+									<p>
+										{`(${
+											new Date(currDateTime).toLocaleTimeString(
+												'en-US',
+												{
+													month: 'short',
+													day: 'numeric',
+													hour12: true,
+													hour: 'numeric',
+													minute: '2-digit',
+												},
+											)
+										})`}
+									</p>
+								</div>
 								<div
 									onClick={() => {
 										setCurrDateTime(new Date().getTime())
@@ -455,8 +479,22 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white"
 										onChange={(e) => {
 											setEventNameValue(e.target.value)
+											setEventSelected(true)
 										}}
+										defaultValue={'unselected'}
+										defaultChecked={true}
 									>
+										{!eventSelected
+											&& (
+												<option
+													key={'unselected'}
+													value={'unselected'}
+													disabled
+													defaultValue={' '}
+												>
+													{'— SELECT EVENT —'}
+												</option>
+											)}
 										{currEvents.map((event) => (
 											<option key={event} value={event}>
 												{event}
