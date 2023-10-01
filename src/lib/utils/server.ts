@@ -1,26 +1,26 @@
-import '@/node-only';
+import '@/node-only'
 
 import {
-	MongoClient,
 	Document as MongoDocument,
+	MongoClient,
 	ObjectId,
 	WithId,
-} from 'mongodb';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
-import { headers } from 'next/headers';
-import z from 'zod';
+} from 'mongodb'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers'
+import { headers } from 'next/headers'
+import z from 'zod'
 
-import jsend, { NextJSendResponse } from '@/lib/api/jsend';
-import User from '@/lib/db/models/User';
-import logger from '@/lib/logger';
+import jsend, { NextJSendResponse } from '@/lib/api/jsend'
+import User from '@/lib/db/models/User'
+import logger from '@/lib/logger'
 
-import { EnhancedSession, RolePermissionMap } from '../auth/shared';
-import clientPromise from '../db';
-import Account from '../db/models/Account';
-import { RenderContext, getGroupName } from './shared';
+import { EnhancedSession, RolePermissionMap } from '../auth/shared'
+import clientPromise from '../db'
+import Account from '../db/models/Account'
+import { getGroupName, RenderContext } from './shared'
 
-export * from './shared';
+export * from './shared'
 
 export function isDevelopment() {
 	return process.env.NODE_ENV === 'development'
@@ -86,7 +86,10 @@ export async function getAllDocuments<T extends MongoDocument>(
 	return (await client
 		.db()
 		.collection<T>(collection)
-		.find({}, withId ? undefined : { projection: { _id: 0 }, maxTimeMS: 60000 })
+		.find(
+			{},
+			withId ? undefined : { projection: { _id: 0 }, maxTimeMS: 60000 },
+		)
 		.toArray()) as T[]
 }
 
