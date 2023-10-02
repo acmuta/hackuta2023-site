@@ -7,10 +7,10 @@ import IDScanner from './IDScanner'
 export default function CheckIn() {
 	return (
 		<IDScanner
-			onSubmit={async ({ checkInPin, hexId }) => {
+			onSubmit={async ({ checkInPin, hexId, id, eventName }) => {
 				try {
 					const response = await fetch(
-						`/admin/check-in/link?checkInPin=${checkInPin}&hexId=${hexId}`,
+						`/admin/check-in/link?checkInPin=${checkInPin}&hexId=${hexId}&eventName=${eventName}&id=${id}`,
 						{
 							method: 'POST',
 							headers: {

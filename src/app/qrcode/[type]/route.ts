@@ -22,7 +22,8 @@ export async function GET(
 
 	const content = type === 'check-in'
 		? user?.checkInPin
-		: user?.hexId && `hackuta2023:${user?.hexId}`
+			&& `https://hackuta.org/dashboard?id=${user?.checkInPin}`
+		: user?.hexId && `https://hackuta.org/dashboard?id=${user?.hexId}`
 	if (!content) {
 		return NextResponse.redirect(`${siteUrl}/images/noqrcode.svg`)
 	}

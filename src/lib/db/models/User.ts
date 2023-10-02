@@ -20,6 +20,7 @@ export default interface User {
 	checkedIn?: Date
 	/** In the form of `A00` */
 	hexId?: string
+	attendedEvents?: string[]
 }
 
 export type JsonUser = ToJsonValue<WithId<User>>

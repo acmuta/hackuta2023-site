@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
 		const body = PostBodySchema.parse(await request.json())
 
-		const users: User[] = (
+		const users: WithId<User>[] = (
 			await Promise.all(
 				body.recipients.map(async (recipient) => {
 					if (recipient.startsWith('{')) {
@@ -31,14 +31,16 @@ export async function POST(request: Request) {
 								// Skip users that have already received this email.
 								receivedEmailTags: { $nin: [body.tag] },
 								...filter,
-							})
+							}, { projection: { 'application.resume': 0 } })
 							.toArray()
 					} else {
 						// This is an email address.
 						return client
 							.db()
 							.collection<User>('users')
-							.findOne({ email: recipient })
+							.findOne({ email: recipient }, {
+								projection: { 'application.resume': 0 },
+							})
 					}
 				}),
 			)
@@ -80,7 +82,9 @@ export async function POST(request: Request) {
 				await client
 					.db()
 					.collection<User>('users')
-					.updateOne(user, {
+					.updateOne({
+						_id: user._id,
+					}, {
 						$addToSet: {
 							receivedEmailTags: body.tag,
 						},
