@@ -1,15 +1,15 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
-import useSWR from 'swr'
+import { FormEvent, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-import { Button } from '@/components/Button'
-import { TextInput } from '@/components/Form'
-import { JsonEvents } from '@/lib/db/models/Event'
-import { JsonUser } from '@/lib/db/models/User'
-import { getGroupName, jsonFetcher } from '@/lib/utils/client'
-import { useZxing } from 'react-zxing'
-import { twJoin } from 'tailwind-merge'
+import { Button } from '@/components/Button';
+import { TextInput } from '@/components/Form';
+import { JsonEvents } from '@/lib/db/models/Event';
+import { JsonUser } from '@/lib/db/models/User';
+import { getGroupName, jsonFetcher } from '@/lib/utils/client';
+import { useZxing } from 'react-zxing';
+import { twJoin } from 'tailwind-merge';
 
 export interface IDScannerProps {
 	onSubmit?: (params: {
@@ -217,7 +217,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 					|| (currEvents[0] ?? currMeal) === ''
 					|| (currEvents[0] ?? currMeal) === undefined
 				)
-				&& eventSelected,
+				&& (eventSelected && checkinMode === 'event'),
 		)
 		console.log(currEvents)
 		// eslint-disable-next-line react-hooks/exhaustive-deps

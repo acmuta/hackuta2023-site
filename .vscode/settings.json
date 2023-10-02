@@ -8,7 +8,7 @@
     }
   },
   "[typescriptreact]": {
-		"editor.defaultFormatter": "ms-vsliveshare.vsliveshare",
+		"editor.defaultFormatter": "dprint.dprint",
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true,
 			"source.organizeImports": true
