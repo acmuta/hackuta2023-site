@@ -31,14 +31,16 @@ export async function POST(request: Request) {
 								// Skip users that have already received this email.
 								receivedEmailTags: { $nin: [body.tag] },
 								...filter,
-							})
+							}, { projection: { 'application.resume': 0 } })
 							.toArray()
 					} else {
 						// This is an email address.
 						return client
 							.db()
 							.collection<User>('users')
-							.findOne({ email: recipient })
+							.findOne({ email: recipient }, {
+								projection: { 'application.resume': 0 },
+							})
 					}
 				}),
 			)
