@@ -28,7 +28,9 @@ export default async function Applications() {
 						$cond: {
 							if: {
 								$regexMatch: {
-									input: '$application.resume',
+									input: {
+										$substrCP: ['$application.resume', 0, 32],
+									},
 									regex: '^data:application/pdf;base64,.',
 								},
 							},
