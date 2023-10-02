@@ -7,22 +7,51 @@ import {
 } from '@/lib/db/models/BlockedHacker'
 import { getEnhancedSession } from '@/lib/utils/server'
 
-import ApplicantDataTable from './ApplicantDataTable'
-import { getUsers } from './utils'
+import User from '@/lib/db/models/User'
+import ApplicantDataTable, { Row } from './ApplicantDataTable'
 
 export default async function Applications() {
 	const { perms } = getEnhancedSession(headers())
 	const client = await clientPromise
-	const applications = ((await getUsers()) ?? [])
-		.filter((u) => u.application)
-		.map((u) => ({
-			...u.application!,
-			email: u.email,
-			status: u.applicationStatus ?? ('undecided' as const),
-			resume: /^data:application\/pdf;base64,./.test(
-				u.application!.resume ?? '',
-			),
-		}))
+	const applications = await client.db()
+		.collection<User>('users')
+		.aggregate([
+			{
+				$match: {
+					application: { $exists: true },
+				},
+			},
+			{
+				$set: {
+					'application.email': '$email',
+					'application.resume': {
+						$cond: {
+							if: {
+								$regexMatch: {
+									input: '$application.resume',
+									regex: '^data:application/pdf;base64,.',
+								},
+							},
+							then: true,
+							else: false,
+						},
+					},
+					'application.status': {
+						$cond: {
+							if: '$applicationStatus',
+							then: '$applicationStatus',
+							else: 'undecided',
+						},
+					},
+				},
+			},
+			{
+				$replaceRoot: {
+					newRoot: '$application',
+				},
+			},
+		])
+		.toArray() as Row[]
 	const blockedHackers = await client
 		.db()
 		.collection<BlockedHacker>(BlockedHackerCollection)
