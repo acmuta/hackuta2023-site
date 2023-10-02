@@ -7,7 +7,7 @@ import { Button } from '@/components/Button'
 import { TextInput } from '@/components/Form'
 import { JsonEvents } from '@/lib/db/models/Event'
 import { JsonUser } from '@/lib/db/models/User'
-import { getGroupName, jsonFetcher } from '@/lib/utils/client'
+import { getGroupName, jsonFetcher, stringifyError } from '@/lib/utils/client'
 import { useZxing } from 'react-zxing'
 import { twJoin } from 'tailwind-merge'
 
@@ -21,6 +21,84 @@ export interface IDScannerProps {
 }
 
 type checkInType = 'checkin' | 'event' | 'meal'
+
+const useEvents = (): {
+	currEvents: string[]
+	currMeal?: string | undefined
+	isLoading: boolean
+	error?: unknown
+} => {
+	const { data, error, isLoading } = useSWR<JsonEvents[]>(
+		'/admin/check-in/events',
+		jsonFetcher,
+		{
+			refreshInterval: 20_000,
+		},
+	)
+	const currDateTime = new Date().getTime()
+
+	if (isLoading) {
+		return { isLoading: true, currEvents: [] }
+	} else if (error || !data) {
+		return { isLoading: false, error, currEvents: [] }
+	}
+
+	let currMeal: string | undefined
+	const currEvents: string[] = []
+
+	if (data.length === 0) {
+		return {
+			isLoading: false,
+			error: new Error('No events found'),
+			currEvents: [],
+		}
+	}
+	const filterEvents = (type: checkInType) => {
+		if (type !== 'event') {
+			return data.filter((event: any) => event.eventType === type)
+		} else {
+			return data.filter(
+				(event: any) =>
+					event.eventType === 'workshop'
+					|| event.eventType === 'minievent'
+					|| event.eventType === 'sponsor'
+					|| event.eventType === 'event',
+			)
+		}
+	}
+
+	// MEALS: only allow meals during meal time (30 mins before — 1 hour after)
+	filterEvents('meal').forEach((event: any) => {
+		const eventTime = new Date(new Date(event.date).toLocaleString())
+			.getTime()
+		const eventEndTime = eventTime + event.durationMins * 60_000
+		if (
+			currDateTime > eventTime - 1800000
+			&& currDateTime < eventEndTime + 3600000
+		) {
+			currMeal = event.title
+		}
+	})
+
+	// EVENTS: only allow events during event time (10 mins before — 10 mins after)
+	filterEvents('event').forEach((event: any) => {
+		const eventTime = new Date(new Date(event.date).toLocaleString())
+			.getTime()
+		const eventEndTime = eventTime + event.durationMins * 60_000
+		if (
+			currDateTime > eventTime - 600000
+			&& currDateTime < eventEndTime + 600000
+		) {
+			currEvents.push(event.title)
+		}
+	})
+
+	return {
+		isLoading: false,
+		currMeal,
+		currEvents,
+	}
+}
 
 const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	const [hexIdValue, setHexIdValue] = useState<string>('')
@@ -39,28 +117,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		'no' | 'success' | 'error'
 	>('no')
 	const [checkinMode, setCheckinMode] = useState<checkInType>('event')
-	const [enabledMealBtn, setEnabledMealBtn] = useState<boolean>(false)
-	const [currDateTime, setCurrDateTime] = useState(
-		new Date().getTime(), /*new Date(1696775700000).getTime()*/
-	)
-	const [currMeal, setCurrMeal] = useState<string>()
-	const [currEvents, setCurrEvents] = useState<string[]>([''])
-	const [minsAgo, setMinsAgo] = useState(0)
 	const [eventSelected, setEventSelected] = useState<boolean>(false)
+	const { currMeal, currEvents, error: eventsError } = useEvents()
+
+	const currDateTime = new Date().getTime()
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			const currentTime = new Date()
-			const pastTime = new Date(currDateTime)
-			const diffInMinutes = Math.floor(
-				Math.abs(currentTime.getTime() - pastTime.getTime()) / 60000,
-			)
-			setMinsAgo(diffInMinutes)
-		}, 60000)
-
-		// Clean up the interval when the component unmounts
-		return () => clearInterval(interval)
-	}, [currDateTime, minsAgo])
+		if (eventsError) {
+			alert(stringifyError(eventsError))
+		}
+	}, [eventsError])
 
 	// if saturday morning, default to checkin between 7 and 11:30 Saturday October 7th, 2023
 	useEffect(() => {
@@ -68,78 +134,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 			setCheckinMode('checkin')
 		}
 	}, [currDateTime])
-
-	const handleEvents = async () => {
-		const response = await fetch(`/admin/check-in/events`, {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-			},
-		})
-
-		if (!response.ok) {
-			alert('Network response was not ok')
-		}
-
-		const data: JsonEvents[] = await response.json()
-
-		if (data.length === 0) {
-			alert('No events found')
-		} else {
-			const filterEvents = (type: checkInType) => {
-				if (type !== 'event') {
-					return data.filter((event: any) => event.eventType === type)
-				} else {
-					return data.filter(
-						(event: any) =>
-							event.eventType === 'workshop'
-							|| event.eventType === 'minievent'
-							|| event.eventType === 'sponsor'
-							|| event.eventType === 'event',
-					)
-				}
-			}
-
-			// MEALS: only allow meals during meal time (30 mins before — 1 hour after)
-			setEnabledMealBtn(false)
-			filterEvents('meal').forEach((event: any) => {
-				if (
-					currDateTime
-						> new Date(new Date(event.date).toLocaleString()).getTime()
-							- 1800000
-					&& currDateTime
-						< new Date(new Date(event.date).toLocaleString()).getTime()
-							+ event.durationMins * 60000
-							+ 3600000
-				) {
-					setEnabledMealBtn(true)
-					setCurrMeal(event.title)
-				}
-			})
-
-			setCurrEvents([])
-			// EVENTS: only allow events during event time (10 mins before — 10 mins after)
-			filterEvents('event').forEach((event: any) => {
-				if (
-					currDateTime
-						> new Date(new Date(event.date).toLocaleString()).getTime()
-							- 600000
-					&& currDateTime
-						< new Date(new Date(event.date).toLocaleString()).getTime()
-							+ event.durationMins * 60000
-							+ 600000
-				) {
-					setCurrEvents((prev) => [...(prev ?? ''), event.title])
-				}
-			})
-		}
-	}
-
-	// load events then print
-	useEffect(() => {
-		handleEvents()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
 
 	// set currentEvent default value
 	useEffect(() => {
@@ -174,7 +168,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		setErrorMessage('')
 		const showFlashAnimation = (status: typeof flashesCamera = 'success') => {
 			setFlashesCamera(status)
-			setTimeout(() => setFlashesCamera('no'), 150)
+			setTimeout(() => setFlashesCamera('no'), 300)
 		}
 		// phys id ie: A00000
 		// dig id: 123456
@@ -212,12 +206,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	useEffect(() => {
 		setIsEventFormValid(
 			(isValidHexID(generalIdValue) || isValidPin(generalIdValue))
-				&& !(
-					(currEvents[0] ?? currMeal) === null
-					|| (currEvents[0] ?? currMeal) === ''
-					|| (currEvents[0] ?? currMeal) === undefined
-				)
-				&& (eventSelected && checkinMode === 'event'),
+				&& !!(currEvents[0] ?? currMeal)
+				&& (eventSelected || checkinMode !== 'event'),
 		)
 		console.log(currEvents)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,12 +304,12 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							? 'text-hackuta-beige bg-hackuta-black'
 							: 'text-hackuta-black bg-hackuta-beige'
 					} ${
-						enabledMealBtn ? '' : 'border-opacity-40 text-opacity-40'
+						currMeal ? '' : 'border-opacity-40 text-opacity-40'
 					} disabled font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all`}
 					onClick={() => {
 						setCheckinMode('meal')
 					}}
-					disabled={!enabledMealBtn}
+					disabled={!currMeal}
 				>
 					Meals
 				</button>
@@ -385,38 +375,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							>
 								Switch Camera
 							</button>
-							<span
-								className={`${
-									minsAgo >= 10 ? 'text-red-600' : 'text-white'
-								} flex justify-between items-center inherit gap-4 py-1 px-1 text-sm`}
-							>
-								<div className="flex flex-col gap-0 items-center justify-center">
-									<p>{`Last updated: ${minsAgo} mins ago `}</p>
-									<p>
-										{`(${
-											new Date(currDateTime).toLocaleTimeString(
-												'en-US',
-												{
-													month: 'short',
-													day: 'numeric',
-													hour12: true,
-													hour: 'numeric',
-													minute: '2-digit',
-												},
-											)
-										})`}
-									</p>
-								</div>
-								<div
-									onClick={() => {
-										setCurrDateTime(new Date().getTime())
-										setMinsAgo(0)
-									}}
-									className="bg-hackuta-blue text-white font-heading hover:opacity-80 rounded text-lg text-center px-3 pb-1 cursor-pointer z-10"
-								>
-									{`⟳`}
-								</div>
-							</span>
 						</div>
 
 						{/* START OF DAY CHECKIN MODE */}
@@ -476,7 +434,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 								{/* Dropdown for selecting events */}
 								<div className="text-center mt-3">
 									<select
-										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white"
+										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white w-full"
 										onChange={(e) => {
 											setEventNameValue(e.target.value)
 											setEventSelected(true)
