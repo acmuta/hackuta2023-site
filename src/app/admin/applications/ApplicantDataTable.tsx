@@ -8,15 +8,16 @@ import {
 	DataTableExpandedRows,
 	DataTableValueArray,
 } from 'primereact/datatable'
-import { ReactFragment, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 import { Button } from '@/components/Button'
-import { AppPermissions, hasPermission } from '@/lib/auth/shared'
+import { hasPermission } from '@/lib/auth/shared'
 import { BlockedHacker } from '@/lib/db/models/BlockedHacker'
 import User, { Application } from '@/lib/db/models/User'
 import { stringifyError } from '@/lib/utils/shared'
 
+import { AppPermissions } from '@/lib/db/models/Role'
 import JsonEditor from '../JsonEditor'
 import { ApplicationDecideRequestBody } from './decide/route'
 
@@ -59,7 +60,7 @@ export default function ApplicantDataTable({
 		)
 
 	interface DisqualifierFieldProps {
-		children: ReactFragment | number
+		children: Iterable<ReactNode> | number
 		criterionName?: string
 		disqualified: boolean
 	}
