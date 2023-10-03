@@ -1,3 +1,4 @@
+import { AppPermissions } from '../db/models/Role'
 import type { JsonUser } from '../db/models/User'
 
 export type PermissionShape = undefined | true | PermissionShapeObject
@@ -6,68 +7,12 @@ export type PermissionShapeObject = {
 	[key: string]: PermissionShape
 }
 
-export type AppPermissions =
-	| undefined
-	| true
-	| {
-		administration?:
-			| true
-			| {
-				application?:
-					| true
-					| {
-						basic?: true
-						/** Read access to full application */
-						sensitive?: true
-						/** Write access to blocklist */
-						blocklist?: true
-						decision?: true
-					}
-				checkIn?:
-					| true
-					| {
-						[event: string]: true
-					}
-				email?: true
-				faq?: true
-				post?: true
-				schedule?: true
-				user?: true
-			}
-		application?: true
-		auth?: true
-		faq?: true
-		post?: true
-		schedule?: true
-	}
-
-export const RolePermissionMap = {
-	'@unauthenticated': {
-		auth: true,
-		faq: true,
-		schedule: true,
-		post: true,
-	},
-	'@authenticated': {
-		application: true,
-	},
-	organizer: {
-		administration: {
-			application: {
-				basic: true,
-			},
-			checkIn: true,
-		},
-	},
-	information: {
-		administration: {
-			faq: true,
-			post: true,
-			schedule: true,
-		},
-	},
-	admin: true,
-} satisfies Record<string, AppPermissions>
+export const UnauthedPerms: AppPermissions = {
+	auth: true,
+	faq: true,
+	schedule: true,
+	post: true,
+}
 
 export function hasPermission(
 	granted: AppPermissions,

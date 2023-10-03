@@ -15,7 +15,7 @@ import jsend, { NextJSendResponse } from '@/lib/api/jsend'
 import User from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 
-import { EnhancedSession, RolePermissionMap } from '../auth/shared'
+import { EnhancedSession, UnauthedPerms } from '../auth/shared'
 import clientPromise from '../db'
 import Account from '../db/models/Account'
 import { getGroupName, RenderContext } from './shared'
@@ -132,7 +132,7 @@ export function getEnhancedSession(
 
 	return sessionHeader
 		? JSON.parse(sessionHeader)
-		: { user: null, perms: RolePermissionMap['@unauthenticated'] }
+		: { user: null, perms: UnauthedPerms }
 }
 
 export async function checkPermissions<TJSendResponse>(
