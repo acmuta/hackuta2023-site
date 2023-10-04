@@ -1,6 +1,6 @@
 // components/Countdown.tsx
-import React, { useEffect, useState } from 'react';
-import { DivProps } from 'react-html-props';
+import React, { useEffect, useState } from 'react'
+import { DivProps } from 'react-html-props'
 
 const targetDate = new Date('2023-10-07T09:00:00-05:00') // October 7, 2023, 9:00 AM CST
 
