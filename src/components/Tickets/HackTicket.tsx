@@ -1,10 +1,10 @@
 'use client'
 
-import { DivProps } from 'react-html-props'
+import { DivProps } from 'react-html-props';
 
-import { JsonUser } from '@/lib/db/models/User'
-import { dedupe, getGroupName } from '@/lib/utils/shared'
-import Countdown from '../Countdown'
+import { JsonUser } from '@/lib/db/models/User';
+import { dedupe, getGroupName } from '@/lib/utils/shared';
+import Countdown, { isCountdownOver } from '../Countdown';
 
 export type HackTicketProps = DivProps & {
 	user: JsonUser | null
@@ -44,10 +44,18 @@ export const HackTicket = ({
 
 	return (
 		<>
-			<div className="flex flex-col md:hidden justify-center items-center bg-hackuta-darkred">
-				<h2 className="text-white text-3xl mt-2 font-bold">Countdown</h2>
-				<div className="my-2.5 px-8 gap-0.5 flex flex-col font-semibold text-3xl text-white">
-					<Countdown />
+			<div className="flex flex-col md:hidden justify-center items-center bg-hackuta-darkred p-2">
+				<h2 className="text-white text-3xl mt-2 font-bold">{`${isCountdownOver() ? "Hacker ID" : "Countdown"}`}</h2>
+				<div className="my-2.5 px-4 gap-0.5 flex flex-col font-semibold text-3xl text-white">
+					{!isCountdownOver() && (<Countdown />)}
+					{(user?.applied && isCountdownOver()) && (
+										// eslint-disable-next-line @next/next/no-img-element
+										<img
+											src={qrcodePath}
+											alt="ID QR code"
+											className="h-40"
+										/>
+									)}
 				</div>
 			</div>
 			<div
