@@ -174,6 +174,14 @@ export default async function Landing() {
 
 	const { user } = getEnhancedSession(headers())
 
+	const hackingDeadline = new Date('2023-10-08T12:00:00-05:00')
+	const isHackingTimeOver = () => {
+		const currentTime = new Date()
+		const timeDifference = hackingDeadline.getTime() - currentTime.getTime()
+
+		return timeDifference <= 0
+	}
+
 	return (
 		<>
 			<Box
@@ -225,9 +233,21 @@ export default async function Landing() {
 							</div>
 						</div>
 						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
-							<LinkButton href="/apply" className="text-2xl">
-								Apply
-							</LinkButton>
+							{!user?.applied && (
+								<LinkButton href="/apply" className="text-2xl">
+									Apply
+								</LinkButton>
+							)}
+							{(user?.applied && !isHackingTimeOver()) && (
+								<LinkButton href="/dashboard" className="text-2xl">
+									Dashboard
+								</LinkButton>
+							)}
+							{(user?.applied && isHackingTimeOver()) && (
+								<LinkButton href="/devpost" className="text-2xl">
+									Submit to Devpost
+								</LinkButton>
+							)}
 							<LinkButton
 								href="https://discord.gg/4e64SfjmWS"
 								className="bg-hackuta-darkblue"
