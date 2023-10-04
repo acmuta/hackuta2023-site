@@ -35,6 +35,7 @@ module.exports = {
 					"url('/images/backgrounds/hackuta2022.png')",
 				'hackuta-sqrbg-unregistered':
 					"url('/images/backgrounds/unregistered.png')",
+				'hackuta-sqrbg-red': "url('/images/backgrounds/red.png')",
 
 				'hackuta-noqrcode': "url('/images/noqrcode.svg')",
 			},

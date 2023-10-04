@@ -6,19 +6,18 @@ import {
 	Instagram,
 	LinkedIn,
 	VerifiedBadge,
-} from 'iconoir-react'
-import Link, { LinkProps } from 'next/link'
-import { ReactNode } from 'react'
+} from 'iconoir-react';
+import Link, { LinkProps } from 'next/link';
+import { ReactNode } from 'react';
 // import Image from 'next/image'
-import { DivProps } from 'react-html-props'
+import { DivProps } from 'react-html-props';
 
-import { Box } from '../Box'
-import styles from './Organizer.module.css'
+import { Box } from '../Box';
 
 export type OrganizerProps = DivProps & {
 	avatar: string
 	name: string
-	major: string
+	role: string
 	isDirector?: boolean
 	socials?: {
 		github?: string
@@ -30,25 +29,25 @@ export type OrganizerProps = DivProps & {
 export const Organizer = ({
 	avatar,
 	name,
-	major,
+	role,
 	isDirector = false,
 	socials,
 }: OrganizerProps) => {
 	return (
-		<Box alignItems="center" direction="column" gap=".625rem" class>
-			<div className={styles.avatarCunt}>
+		<Box alignItems="center" direction="column" justifyContent="space-between" gap=".625rem" className="bg-hackuta-darkred drop-shadow-hackuta py-4 m-2 max-w-xl w-40 h-56 text-center rounded-lg flex flex-col justify-between transition-all hover:opacity-90">
+			<div>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					src={avatar}
 					alt={`${name}`}
 					// height={100}
 					// width={100}
-					className={styles.avatar}
+					className="bg-hackuta-sqrbg-red w-28 h-28 overflow-hidden rounded-full  hover:animate-spin transition-all"
 				/>
 			</div>
 			<Box alignItems="center" direction="column" gap=".125rem">
-				{name}
-				<span>{major}</span>
+				<span className="font-heading text-white">{name}</span>
+				<span className="font-medium text-xs text-gray-300">{role}</span>
 				{isDirector && (
 					<Box direction="row" gap=".125rem">
 						Director <VerifiedBadge aria-hidden="true" />
@@ -99,6 +98,8 @@ export const OrganizerSocial = ({
 			href={`${baseUrl}${username}`}
 			id={`organizer-${username}-${platform.toLowerCase()}`}
 			aria-label={`@${username} on ${platform}`}
+			target='_blank'
+			className="text-white"
 		>
 			{icon}
 		</Link>

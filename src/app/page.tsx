@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { headers } from 'next/headers'
-import { SVGProps } from 'react-html-props'
+import { headers } from 'next/headers';
+import { SVGProps } from 'react-html-props';
 
-import { Box } from '@/components/Box'
-import { LinkButton } from '@/components/Button'
-import { getEvents } from '@/components/calendar'
-import { HackTicket } from '@/components/Tickets/HackTicket'
+import { Box } from '@/components/Box';
+import { LinkButton } from '@/components/Button';
+import { getEvents } from '@/components/calendar';
+import { HackTicket } from '@/components/Tickets/HackTicket';
 // import { ClippedBadge } from '@/components/ClippedBadge'
-import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
-import { WavyPattern } from '@/components/WavyPattern'
-import { getEnhancedSession } from '@/lib/utils/server'
+import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket';
+import { WavyPattern } from '@/components/WavyPattern';
+import { getEnhancedSession } from '@/lib/utils/server';
 
-import { FaqSection, getFaqs } from './faq/utils'
-import { Calendar } from './schedule/utils'
+import { Organizer, OrganizerProps } from '@/components/Organizer';
+import { AllTeams } from './admin/organizers/OrganizerData';
+import { FaqSection, getFaqs } from './faq/utils';
+import { Calendar } from './schedule/utils';
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -248,6 +250,24 @@ export default async function Landing() {
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+						Meet the Team
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
+					</h2>
+					<div className="flex flex-row justify-start items-center flex-wrap flex-auto">
+						{AllTeams.map((organizer: OrganizerProps) => (
+							<Organizer
+								key={`${organizer.name}`}
+								name={organizer.name}
+								role={organizer.role}
+								avatar={organizer.avatar}
+								socials={organizer.socials}
+								isDirector={organizer.isDirector}
+							/>
+						))}
+					</div>
+				</div>
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
@@ -276,40 +296,6 @@ export default async function Landing() {
 					</div>
 				</div>
 			</Box>
-			{
-				/* <Box as="main" direction="column" className={styles.main}>
-
-			<Box direction="column" className={styles.sectionContainer}>
-				<Box
-					as="section"
-					direction="column"
-					className={classNames(styles.titleSection)}
-				>
-					<Heading id="organizers" level={2} className={'anchorOffset'}>
-						Organizers
-					</Heading>
-					<div className='flex flex-col items-center justify-center'>
-						{Object.entries(AllTeams).map(([team, organizers]) => (
-							<>
-								<h3 className={styles.heroHeading2}>{team}</h3>
-								<Box justifyContent="center" wrap="wrap" gap="2rem">
-									{organizers.map(
-										({ name, major, avatar, socials }: OrganizerProps) => (
-											<Organizer
-												key={name}
-												name={name}
-												major={major}
-												avatar={avatar}
-												socials={socials}
-											/>
-										),
-									)}
-								</Box>
-							</>
-						))}
-					</div>
-				</Box>*/
-			}
 		</>
 	)
 }

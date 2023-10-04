@@ -1,5 +1,6 @@
 .accordion {
 	background: #eee;
+	transition: all 1s ease-out;
 }
 
 .accordion > summary {
@@ -8,24 +9,30 @@
 	padding: 0.5rem 1rem;
 	align-items: center;
 	justify-content: space-between;
+	transition: all 1s ease-out;
 }
 
 .accordion > summary::-webkit-details-marker {
 	display: none;
+	transition: all 1s ease-out;
 }
 
 .accordion > summary:hover {
 	cursor: pointer;
+	transition: all 1s ease-out;
 }
 
 .accordion > .child {
 	padding: 0 1.5rem;
+	transition: all 1s ease-out;
 }
 
 .accordion > summary > svg {
 	transition: transform 0.2s ease-out;
+	transition: all 1s ease-out;
 }
 
 .accordion[open] > summary > svg {
 	transform: rotate(90deg);
+	transition: all 1s ease-out;
 }
