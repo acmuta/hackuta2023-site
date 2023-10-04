@@ -37,12 +37,12 @@ export function FaqSection({
 
 	// return <PageSection heading="FAQ">{content}</PageSection>
 	return (
-		<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-			<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+		<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+			<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 				Frequently Asked
 				<WavyPattern className="w-32" />
 			</h2>
-			<div className="flex flex-row flex-wrap gap-4 items-start">
+			<div className="flex flex-row flex-wrap gap-4 items-start justify-center">
 				{content}
 			</div>
 		</div>
