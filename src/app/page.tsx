@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { headers } from 'next/headers';
-import { SVGProps } from 'react-html-props';
+import { headers } from 'next/headers'
+import { SVGProps } from 'react-html-props'
 
-import { Box } from '@/components/Box';
-import { LinkButton } from '@/components/Button';
-import { getEvents } from '@/components/calendar';
-import { HackTicket } from '@/components/Tickets/HackTicket';
+import { Box } from '@/components/Box'
+import { LinkButton } from '@/components/Button'
+import { getEvents } from '@/components/calendar'
+import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
-import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket';
-import { WavyPattern } from '@/components/WavyPattern';
-import { getEnhancedSession } from '@/lib/utils/server';
+import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
+import { WavyPattern } from '@/components/WavyPattern'
+import { getEnhancedSession } from '@/lib/utils/server'
 
-import { Organizer, OrganizerProps } from '@/components/Organizer';
-import { AllTeams } from './admin/organizers/OrganizerData';
-import { FaqSection, getFaqs } from './faq/utils';
-import { Calendar } from './schedule/utils';
+import { Organizer, OrganizerProps } from '@/components/Organizer'
+import { AllTeams } from './admin/organizers/OrganizerData'
+import { FaqSection, getFaqs } from './faq/utils'
+import { Calendar } from './schedule/utils'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'

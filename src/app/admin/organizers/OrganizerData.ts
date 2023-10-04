@@ -283,5 +283,5 @@ export const AllTeams: OrganizerData[] = [
 	...Logsorganizers,
 	...Techorganizers,
 	...XPorganizers,
-	...MarketOrganizers
+	...MarketOrganizers,
 ]

@@ -6,13 +6,13 @@ import {
 	Instagram,
 	LinkedIn,
 	VerifiedBadge,
-} from 'iconoir-react';
-import Link, { LinkProps } from 'next/link';
-import { ReactNode } from 'react';
+} from 'iconoir-react'
+import Link, { LinkProps } from 'next/link'
+import { ReactNode } from 'react'
 // import Image from 'next/image'
-import { DivProps } from 'react-html-props';
+import { DivProps } from 'react-html-props'
 
-import { Box } from '../Box';
+import { Box } from '../Box'
 
 export type OrganizerProps = DivProps & {
 	avatar: string
@@ -34,7 +34,13 @@ export const Organizer = ({
 	socials,
 }: OrganizerProps) => {
 	return (
-		<Box alignItems="center" direction="column" justifyContent="space-between" gap=".625rem" className="bg-hackuta-darkred drop-shadow-hackuta py-4 m-2 max-w-xl w-40 h-56 text-center rounded-lg flex flex-col justify-between transition-all hover:opacity-90">
+		<Box
+			alignItems="center"
+			direction="column"
+			justifyContent="space-between"
+			gap=".625rem"
+			className="bg-hackuta-darkred drop-shadow-hackuta py-4 m-2 max-w-xl w-40 h-56 text-center rounded-lg flex flex-col justify-between transition-all hover:opacity-90"
+		>
 			<div>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
@@ -98,7 +104,7 @@ export const OrganizerSocial = ({
 			href={`${baseUrl}${username}`}
 			id={`organizer-${username}-${platform.toLowerCase()}`}
 			aria-label={`@${username} on ${platform}`}
-			target='_blank'
+			target="_blank"
 			className="text-white"
 		>
 			{icon}
