@@ -3,7 +3,7 @@
 import { DivProps } from 'react-html-props'
 
 import { JsonUser } from '@/lib/db/models/User'
-import { dedupe } from '@/lib/utils/shared'
+import { dedupe, getGroupName } from '@/lib/utils/shared'
 import Countdown from '../Countdown'
 
 export type HackTicketProps = DivProps & {
@@ -19,6 +19,28 @@ export const HackTicket = ({
 		: user?.checkInPin
 		? '/qrcode/check-in'
 		: '/images/noqrcode.svg'
+
+	let suite = ''
+	if (user?.hexId) {
+		switch (getGroupName(user.hexId)) {
+			case 'Hearts':
+				suite = '♥️'
+				break
+			case 'Spades':
+				suite = '♠️'
+				break
+			case 'Clubs':
+				suite = '♣️'
+				break
+			case 'Diamonds':
+				suite = '♦️'
+				break
+			case 'Unknown':
+			default:
+				suite = ''
+				break
+		}
+	}
 
 	return (
 		<>
@@ -63,7 +85,9 @@ export const HackTicket = ({
 						)}
 					</p>
 					<div className="ticket-number w-64 flex justify-end items-end p-2">
-						<p className="text-red-400 text-opacity-80">{id}</p>
+						<p className="text-red-400 text-opacity-80">
+							{`${suite} ${getGroupName(user?.hexId as string) ?? id}`}
+						</p>
 					</div>
 				</div>
 

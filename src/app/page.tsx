@@ -15,7 +15,6 @@ import { getEnhancedSession } from '@/lib/utils/server'
 import { Organizer, OrganizerProps } from '@/components/Organizer'
 import { AllTeams } from './admin/organizers/OrganizerData'
 import { FaqSection, getFaqs } from './faq/utils'
-import { Calendar } from './schedule/utils'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -246,7 +245,7 @@ export default async function Landing() {
 						</div>
 					</div>
 				</div>
-				<Calendar events={events} />
+				{/* <Calendar events={events} /> */}
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
