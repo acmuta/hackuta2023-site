@@ -13,6 +13,7 @@ const Links = {
 	'/admin/email': 'Email',
 	'/admin/faq': 'FAQ',
 	'/admin/post': 'Posts',
+	'/admin/role': 'Role',
 	'/admin/schedule': 'Schedule',
 	'/admin/users': 'Users',
 }
