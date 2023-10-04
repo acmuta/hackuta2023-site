@@ -12,7 +12,9 @@ import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
 import { getEnhancedSession } from '@/lib/utils/server'
 
+import GoogleMyMap from '@/components/GoogleMyMap'
 import { Organizer, OrganizerProps } from '@/components/Organizer'
+import Link from 'next/link'
 import { AllTeams } from './admin/organizers/OrganizerData'
 import { FaqSection, getFaqs } from './faq/utils'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
@@ -266,6 +268,40 @@ export default async function Landing() {
 					</div>
 				</div>
 				{/* <Calendar events={events} /> */}
+				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+						Map & Parking
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
+					</h2>
+					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
+						<div className="flex flex-col items-center justify-start">
+							<GoogleMyMap />
+							<div>
+								<Link
+									className="font-heading text-white no-underline m-1"
+									href="https://maps.app.goo.gl/bawAGAcqcNr4Bwcw6"
+									target="_blank"
+								>
+									[Google Maps]
+								</Link>
+								<Link
+									className="font-heading text-white no-underline m-1"
+									href="https://maps.apple.com/?ll=32.728052,-97.110779&q=Dropped%20Pin&t=m"
+									target="_blank"
+								>
+									[Apple Maps]
+								</Link>
+								<Link
+									className="font-heading text-white no-underline m-1"
+									href="/images/hackuta2023map.png"
+									target="_blank"
+								>
+									[PDF Map]
+								</Link>
+							</div>
+						</div>
+					</div>
+				</div>
 				<FaqSection faqs={faqs} />
 				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
