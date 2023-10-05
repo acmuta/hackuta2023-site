@@ -1,9 +1,9 @@
-import Link, { LinkProps } from 'next/link'
-import { AnchorHTMLAttributes, ReactNode } from 'react'
-import { ButtonProps as HtmlButtonProps, SVGProps } from 'react-html-props'
-import { twJoin } from 'tailwind-merge'
+import Link, { LinkProps } from 'next/link';
+import { AnchorHTMLAttributes, ReactNode } from 'react';
+import { ButtonProps as HtmlButtonProps, SVGProps } from 'react-html-props';
+import { twJoin } from 'tailwind-merge';
 
-export { ToggleButton } from './ToggleButton'
+export { ToggleButton } from './ToggleButton';
 
 const getButtonClassNames = () =>
 	twJoin(
@@ -77,7 +77,7 @@ export function LinkButton({
 }: LinkButtonProps) {
 	return (
 		<Link
-			className={twJoin(getButtonClassNames(), 'no-underline', className)}
+			className={twJoin(getButtonClassNames(), 'no-underline transition-all hover:opacity-90 hover:rounded-lg', className)}
 			{...props}
 		>
 			{kind === 'primary' ? <ButtonStar /> : undefined}
