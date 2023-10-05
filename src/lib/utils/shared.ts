@@ -1,10 +1,10 @@
-import doT from 'dot'
-import type { ObjectId } from 'mongodb'
-import { z } from 'zod'
+import doT from 'dot';
+import type { ObjectId } from 'mongodb';
+import { z } from 'zod';
 
-import { JSend } from '@/lib/api/jsend'
+import { JSend } from '@/lib/api/jsend';
 
-import { JsonUser } from '../db/models/User'
+import { JsonUser } from '../db/models/User';
 
 export function range(start: number, end: number) {
 	return new Array(end - start).fill(undefined).map((_, i) => i + start)
@@ -82,19 +82,23 @@ export function renderTemplate(
 	return renderer(ctx)
 }
 
-export function getGroupName(hexId: string | undefined): string {
-	const firstLetter = hexId?.charAt(0).toUpperCase()
+export function getGroupName(hexId: string): string {
+	if (hexId) {
+		const firstLetter = hexId?.charAt(0).toUpperCase()
 
-	switch (firstLetter) {
-		case 'A':
-			return 'Hearts'
-		case 'B':
-			return 'Spades'
-		case 'C':
-			return 'Clubs'
-		case 'D':
-			return 'Diamonds'
-		default:
-			return 'Unknown' // Handle other cases if needed
+		switch (firstLetter) {
+			case 'A':
+				return 'Hearts'
+			case 'B':
+				return 'Spades'
+			case 'C':
+				return 'Clubs'
+			case 'D':
+				return 'Diamonds'
+			default:
+				return 'Unknown' // Handle other cases if needed
+		}
+	} else {
+		return ''
 	}
 }
