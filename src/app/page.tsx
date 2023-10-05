@@ -303,12 +303,12 @@ export default async function Landing() {
 					</div>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+				<div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Meet the Team
 						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div className="flex flex-row justify-start items-center flex-wrap flex-auto">
+					<div className="flex flex-row justify-center items-center flex-wrap flex-auto">
 						{AllTeams.map((organizer: OrganizerProps) => (
 							<Organizer
 								key={`${organizer.name}`}
@@ -321,12 +321,12 @@ export default async function Landing() {
 						))}
 					</div>
 				</div>
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+				<div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Sponsors & Partners
 						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
+					<div className="flex flex-col md:flex-row justify-center items-center flex-wrap flex-auto">
 						{sponsors.map((company, index) => (
 							<LogoTicket
 								key={`${company.companyName}-${index}`}
@@ -338,7 +338,7 @@ export default async function Landing() {
 						))}
 					</div>
 
-					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
+					<div className="flex flex-col md:flex-row justify-center items-center flex-wrap flex-auto">
 						{partners.map((company, index) => (
 							<LogoTicket
 								key={`${company.companyName}-${index}`}
