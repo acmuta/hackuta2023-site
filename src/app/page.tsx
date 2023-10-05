@@ -268,31 +268,31 @@ export default async function Landing() {
 					</div>
 				</div>
 				{/* <Calendar events={events} /> */}
-				<div className="flex flex-col items-start justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-start gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
-						Map & Parking
+				<div className="flex flex-col items-center justify-start gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+						Venue Map & Parking
 						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
 					</h2>
-					<div className="flex flex-col md:flex-row justify-start items-center flex-wrap flex-auto">
-						<div className="flex flex-col items-center justify-start">
+					<div className="flex flex-col md:flex-row justify-center items-center flex-wrap flex-auto">
+						<div className="flex flex-col items-center justify-start p-4 bg-hackuta-darkred rounded-lg">
 							<GoogleMyMap />
-							<div>
+							<div className="w-full flex justify-center items-center pt-4">
 								<Link
-									className="font-heading text-white no-underline m-1"
+									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
 									href="https://maps.app.goo.gl/bawAGAcqcNr4Bwcw6"
 									target="_blank"
 								>
 									[Google Maps]
 								</Link>
 								<Link
-									className="font-heading text-white no-underline m-1"
+									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
 									href="https://maps.apple.com/?ll=32.728052,-97.110779&q=Dropped%20Pin&t=m"
 									target="_blank"
 								>
 									[Apple Maps]
 								</Link>
 								<Link
-									className="font-heading text-white no-underline m-1"
+									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
 									href="/images/hackuta2023map.png"
 									target="_blank"
 								>
