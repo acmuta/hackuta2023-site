@@ -204,7 +204,7 @@ export const MarketOrganizers: OrganizerData[] = [
 	{
 		avatar: '/images/Organizers/javier.png',
 		name: 'Javier Cardoso',
-		role: 'marketing',
+		role: 'Marketing',
 		socials: {
 			github: 'CardosoJavier',
 			instagram: 'itsjavscardoso',
@@ -214,7 +214,7 @@ export const MarketOrganizers: OrganizerData[] = [
 	{
 		avatar: '/images/Organizers/samridh.png',
 		name: 'Samridh Singh',
-		role: 'marketing',
+		role: 'Marketing',
 		socials: {
 			github: 'samridhsingh20',
 			instagram: 'its_samridhsingh',
@@ -224,7 +224,7 @@ export const MarketOrganizers: OrganizerData[] = [
 	{
 		avatar: '/images/Organizers/aniv.png',
 		name: 'Aniv Surana',
-		role: 'marketing',
+		role: 'Marketing',
 		socials: {
 			github: 'anivsurana',
 			instagram: 'aniv.surana',
