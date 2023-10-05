@@ -1,10 +1,10 @@
-import doT from 'dot';
-import type { ObjectId } from 'mongodb';
-import { z } from 'zod';
+import doT from 'dot'
+import type { ObjectId } from 'mongodb'
+import { z } from 'zod'
 
-import { JSend } from '@/lib/api/jsend';
+import { JSend } from '@/lib/api/jsend'
 
-import { JsonUser } from '../db/models/User';
+import { JsonUser } from '../db/models/User'
 
 export function range(start: number, end: number) {
 	return new Array(end - start).fill(undefined).map((_, i) => i + start)
