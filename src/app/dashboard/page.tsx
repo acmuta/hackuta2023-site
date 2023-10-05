@@ -13,10 +13,31 @@ export const dynamic = 'force-dynamic'
 
 export default async function Dashboard() {
 	const { user } = getEnhancedSession(headers())
+	// if (!user) {
+	// 	redirect('/api/auth/signin?callbackUrl=%2Fdashboard')
+	// } else if (!user.application) {
+	// 	redirect('/apply')
+	// }
 	if (!user) {
-		redirect('/api/auth/signin?callbackUrl=%2Fdashboard')
-	} else if (!user.application) {
-		redirect('/apply')
+		return (
+			<div>
+				<p>
+					Thank you for your interest in joining us at HackUTA 2023.
+					Unfortunately, we&apos;ve hit our registration capacity and can
+					no longer accept applications.
+				</p>
+				<p>
+					We will have <strong>walk-in registrations</strong>{' '}
+					starting at 11:00am on Saturday, October 7th as space becomes
+					available.
+				</p>
+			</div>
+		)
+	}
+
+	// If the user has already submitted an application, redirect them to the dashboard
+	if (user.application) {
+		redirect('/dashboard')
 	}
 
 	return (
