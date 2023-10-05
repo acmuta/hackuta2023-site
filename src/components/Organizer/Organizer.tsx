@@ -6,13 +6,13 @@ import {
 	Instagram,
 	LinkedIn,
 	VerifiedBadge,
-} from 'iconoir-react';
-import Link, { LinkProps } from 'next/link';
-import { ReactNode } from 'react';
+} from 'iconoir-react'
+import Link, { LinkProps } from 'next/link'
+import { ReactNode } from 'react'
 // import Image from 'next/image'
-import { DivProps } from 'react-html-props';
+import { DivProps } from 'react-html-props'
 
-import { Box } from '../Box';
+import { Box } from '../Box'
 
 export type OrganizerProps = DivProps & {
 	avatar: string
