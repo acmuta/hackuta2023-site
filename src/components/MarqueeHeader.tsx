@@ -55,7 +55,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 
 	return (
 		<div
-			className={twMerge('bg-hackuta-black mb-2 sticky z-20 top-0')}
+			className={twMerge('bg-hackuta-black mb-2 sticky z-100 top-0')}
 			{...props}
 		>
 			<div

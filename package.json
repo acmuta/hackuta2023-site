@@ -44,6 +44,7 @@
     "node-fetch": "^3.3.1",
     "nodemailer": "^6.9.5",
     "pino": "^8.15.1",
+    "planby": "^1.1.4",
     "primereact": "^9.6.2",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",

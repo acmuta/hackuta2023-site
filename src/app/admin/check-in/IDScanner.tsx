@@ -209,7 +209,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 				&& !!(currEvents[0] ?? currMeal)
 				&& (eventSelected || checkinMode !== 'event'),
 		)
-		console.log(currEvents)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue, eventSelected])
 

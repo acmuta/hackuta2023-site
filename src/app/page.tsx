@@ -5,7 +5,6 @@ import { SVGProps } from 'react-html-props'
 
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
-import { getEvents } from '@/components/calendar'
 import { HackTicket } from '@/components/Tickets/HackTicket'
 // import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
@@ -103,9 +102,9 @@ const CTAArrow = ({ ...props }: CTAArrowProps) => {
 }
 
 export default async function Landing() {
-	const startDate = new Date('10/07/2023 06:00:00')
-	const endDate = new Date('10/08/2023 18:00:00')
-	const events = await getEvents()
+	// const startDate = new Date('10/07/2023 06:00:00')
+	// const endDate = new Date('10/08/2023 18:00:00')
+	// const events = await getEvents()
 	const faqs = await getFaqs()
 	const sponsors = [
 		{
@@ -278,25 +277,25 @@ export default async function Landing() {
 							<GoogleMyMap />
 							<div className="w-full flex justify-center items-center pt-4">
 								<Link
-									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
+									className="font-heading text-white no-underline mx-2 bg-black bg-opacity-20 px-2 py-1 rounded-lg text-lg hover:bg-opacity-10 transition-all"
 									href="https://maps.app.goo.gl/bawAGAcqcNr4Bwcw6"
 									target="_blank"
 								>
-									[Google Maps]
+									Google Maps
 								</Link>
 								<Link
-									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
+									className="font-heading text-white no-underline mx-2 bg-black bg-opacity-20 px-2 py-1 rounded-lg text-lg hover:bg-opacity-10 transition-all"
 									href="https://maps.apple.com/?ll=32.728052,-97.110779&q=Dropped%20Pin&t=m"
 									target="_blank"
 								>
-									[Apple Maps]
+									Apple Maps
 								</Link>
 								<Link
-									className="font-heading text-white no-underline mx-1 text-lg hover:opacity-80"
+									className="font-heading text-white no-underline mx-2 bg-black bg-opacity-20 px-2 py-1 rounded-lg text-lg hover:bg-opacity-10 transition-all"
 									href="/images/hackuta2023map.png"
 									target="_blank"
 								>
-									[PDF Map]
+									PDF Map
 								</Link>
 							</div>
 						</div>

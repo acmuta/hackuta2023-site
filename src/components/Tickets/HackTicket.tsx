@@ -96,7 +96,11 @@ export const HackTicket = ({
 					</p>
 					<div className="ticket-number w-64 flex justify-end items-end p-2">
 						<p className="text-red-400 text-opacity-80">
-							{`${suite} ${getGroupName(user?.hexId) ?? id}`}
+							{`${suite} ${
+								getGroupName(user?.hexId) !== 'Unknown'
+									? getGroupName(user?.hexId)
+									: ''
+							}`}
 						</p>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-import { getEvents } from '@/components/calendar'
+import { getEvents } from '@/components/Schedule/getEvents'
 
 import JsonEditor from '../JsonEditor'
 
