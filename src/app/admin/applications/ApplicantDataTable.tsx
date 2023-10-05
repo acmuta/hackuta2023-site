@@ -15,7 +15,7 @@ import { Button } from '@/components/Button'
 import { hasPermission } from '@/lib/auth/shared'
 import { BlockedHacker } from '@/lib/db/models/BlockedHacker'
 import User, { Application } from '@/lib/db/models/User'
-import { stringifyError } from '@/lib/utils/shared'
+import { countBy, stringifyError } from '@/lib/utils/shared'
 
 import { AppPermissions } from '@/lib/db/models/Role'
 import JsonEditor from '../JsonEditor'
@@ -105,10 +105,9 @@ export default function ApplicantDataTable({
 	return (
 		<div className="flex flex-col gap-2">
 			<p>
-				Total Applications: {applications.length}.{' '}
-				<Link href={`/admin/applications/resume`} target="_blank" download>
-					Download All Resume
-				</Link>
+				Tot/Acc/Rej/Wai/Und:{' '}
+				{applications.length}/{counts.accepted ?? 0}/{counts.rejected
+					?? 0}/{counts.waitlisted ?? 0}/{counts.undecided ?? 0}.{' '}
 			</p>
 			<DataTable
 				value={applications}

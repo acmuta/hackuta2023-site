@@ -98,3 +98,25 @@ export function getGroupName(hexId: string): string {
 			return 'Unknown' // Handle other cases if needed
 	}
 }
+
+/**
+ * Group the elements in the array by the value of a certain key,
+ * and return an object with the keys as the possible values and
+ * the values as the numbers of elements in the group.
+ *
+ * @example countBy(
+ * 	[{ type: 'apple' }, { type: 'apple' }, { type: 'banana' }],
+ * 	'type'
+ * ) // => { apple: 2, banana: 1 }
+ */
+export function countBy<K extends string, T extends { [_ in K]: string }>(
+	data: readonly T[],
+	key: K,
+): Partial<Record<T[K], number>> {
+	const map: Record<T[K], number> = Object.create(null)
+	for (const e of data) {
+		const group = e[key]
+		map[group] = (map[group] ??= 0) + 1
+	}
+	return map
+}
