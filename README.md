@@ -10,6 +10,13 @@ Built with Next.js v13 `app/` directory and React Server Components.
 * `npm run dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If port 3000 is already taken, use `npx kill-port 3000` to terminate the process that occupies the port if desired.
+
+Before commit,
+
+* `npm run lint:fix` fixes all **lint** and **formatting** errors. 
+* `npm run fmt` fixes **formatting** errors only (cuz ESLint is hella slow).
+* `npm run lint` checks for **lint** and **formatting** errors without fixing them. This is included in a pre-commit hook and is executed automatically when you use `git commit` or equivalent
 
 ## Deployment
 
@@ -18,10 +25,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 * `npm install`
 * `npm run build`
 * `npm start -p <port>`
-
-### Environmental Variables
-
-See `.env.local.template`.
 
 ## Architecture
 
@@ -34,5 +37,5 @@ The middleware does the following:
 
 The routes are written with the following ideas in mind:
 
-* Prioritize using server components
-* Prioritize fetching data on the server side
+* Prefer using server components
+* Prefer fetching data on the server side

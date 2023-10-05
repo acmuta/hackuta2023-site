@@ -10,11 +10,7 @@ import GitLabProvider from 'next-auth/providers/gitlab'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-import {
-	EnhancedSession,
-	getUserPerms,
-	RolePermissionMap,
-} from '@/lib/auth/server'
+import { EnhancedSession, getUserPerms, UnauthedPerms } from '@/lib/auth/server'
 import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
 import sendEmail from '@/lib/email'
@@ -178,7 +174,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 			return res.status(200).json(
 				{
 					user: null,
-					perms: RolePermissionMap['@unauthenticated'],
+					perms: UnauthedPerms,
 				} satisfies EnhancedSession,
 			)
 		}

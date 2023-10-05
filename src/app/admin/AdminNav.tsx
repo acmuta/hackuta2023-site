@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
-import { AppPermissions, hasRoutePermission } from '@/lib/auth/shared'
+import { hasRoutePermission } from '@/lib/auth/shared'
+import { AppPermissions } from '@/lib/db/models/Role'
 
 const Links = {
 	'/admin': 'Root',
@@ -12,6 +13,7 @@ const Links = {
 	'/admin/email': 'Email',
 	'/admin/faq': 'FAQ',
 	'/admin/post': 'Posts',
+	'/admin/role': 'Role',
 	'/admin/schedule': 'Schedule',
 	'/admin/users': 'Users',
 }

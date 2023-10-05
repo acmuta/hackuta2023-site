@@ -1,25 +1,24 @@
 import '@/node-only'
 
+import clientPromise from '../db'
+import { AppPermissions, Role } from '../db/models/Role'
 import User from '../db/models/User'
-import {
-	AppPermissions,
-	mergePermission,
-	PermissionShape,
-	RolePermissionMap,
-} from './shared'
+import { mergePermission, UnauthedPerms } from './shared'
 
 export * from './shared'
 
 export async function getUserPerms(user: User | null): Promise<AppPermissions> {
 	const roles = [
-		'@unauthenticated',
 		...(user ? ['@authenticated'] : []),
 		...(user?.roles ?? []),
-	] satisfies [string, ...string[]]
-	return mergePermission(
-		...(roles.map(
-			(r) =>
-				RolePermissionMap[r as keyof typeof RolePermissionMap] ?? undefined,
-		) as unknown as [PermissionShape, ...PermissionShape[]]),
-	)
+	]
+	const client = await clientPromise
+	const perms = (await client.db()
+		.collection<Role>('roles')
+		.find({
+			_id: { $in: roles },
+		})
+		.toArray())
+		.map((v) => v.granted)
+	return mergePermission(UnauthedPerms, ...perms)
 }

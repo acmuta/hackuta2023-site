@@ -8,15 +8,16 @@ import {
 	DataTableExpandedRows,
 	DataTableValueArray,
 } from 'primereact/datatable'
-import { ReactFragment, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 import { Button } from '@/components/Button'
-import { AppPermissions, hasPermission } from '@/lib/auth/shared'
+import { hasPermission } from '@/lib/auth/shared'
 import { BlockedHacker } from '@/lib/db/models/BlockedHacker'
 import User, { Application } from '@/lib/db/models/User'
-import { stringifyError } from '@/lib/utils/shared'
+import { countBy, stringifyError } from '@/lib/utils/shared'
 
+import { AppPermissions } from '@/lib/db/models/Role'
 import JsonEditor from '../JsonEditor'
 import { ApplicationDecideRequestBody } from './decide/route'
 
@@ -59,7 +60,7 @@ export default function ApplicantDataTable({
 		)
 
 	interface DisqualifierFieldProps {
-		children: ReactFragment | number
+		children: Iterable<ReactNode> | number
 		criterionName?: string
 		disqualified: boolean
 	}
@@ -101,13 +102,61 @@ export default function ApplicantDataTable({
 		}
 	}
 
+	const exportCsv = (anchor: HTMLAnchorElement, apps: readonly Row[]) => {
+		const stringify = (v: boolean | number | string | undefined) =>
+			v ? v.toString() : ''
+		const quote = (s: string) => s.includes(',') ? `"${s}"` : s
+		const cell = (v: boolean | number | string | undefined) =>
+			quote(stringify(v))
+		const fields = (r: Row) => [
+			r.firstName,
+			r.lastName,
+			r.age,
+			r.email,
+			r.school,
+			r.phoneNumber,
+			r.countryOfResidence,
+			r.levelOfStudy,
+			r.agreedMlhCoC === 'Yes' ? 'TRUE' : 'FALSE',
+			r.agreedMlhMarketing === 'Yes' ? 'TRUE' : 'FALSE',
+			r.agreedMlhSharing === 'Yes' ? 'TRUE' : 'FALSE',
+		]
+		const row = (r: Row) => fields(r).map(cell).join(',')
+		const headers = () => [
+			'First Name',
+			'Last Name',
+			'Age',
+			'Email',
+			'School',
+			'Phone Number',
+			'Country',
+			'Current Level of Study',
+			'Code of Conduct Checkbox',
+			'MLH Marketing Opt In Checkbox',
+			'Privacy Policy Checkbox',
+		]
+		const csv = [headers(), ...apps.map(row)].join('\n')
+		anchor.setAttribute(
+			'href',
+			encodeURI(`data:text/csv;charset=utf-8,${csv}`),
+		)
+	}
+
+	const counts = countBy(applications, 'status')
+
 	return (
 		<div className="flex flex-col gap-2">
 			<p>
-				Total Applications: {applications.length}.{' '}
-				<Link href={`/admin/applications/resume`} target="_blank" download>
-					Download All Resume
-				</Link>
+				Tot/Acc/Rej/Wai/Und:{' '}
+				{applications.length}/{counts.accepted ?? 0}/{counts.rejected
+					?? 0}/{counts.waitlisted ?? 0}/{counts.undecided ?? 0}.{' '}
+				<a
+					className="text-hackuta-blue underline cursor-pointer"
+					onClick={(e) => exportCsv(e.currentTarget, applications)}
+					download="applications.csv"
+				>
+					Export to CSV
+				</a>
 			</p>
 			<DataTable
 				value={applications}
