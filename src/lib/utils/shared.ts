@@ -82,8 +82,8 @@ export function renderTemplate(
 	return renderer(ctx)
 }
 
-export function getGroupName(hexId: string): string {
-	const firstLetter = hexId.charAt(0).toUpperCase()
+export function getGroupName(hexId: string | undefined): string {
+	const firstLetter = hexId?.charAt(0).toUpperCase()
 
 	switch (firstLetter) {
 		case 'A':

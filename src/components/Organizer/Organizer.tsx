@@ -68,12 +68,23 @@ export const Organizer = ({
 					}}
 				>
 					<Box direction="row" alignItems="center" gap=".25rem">
-						{socials.github && <GitHubLink username={socials.github} />}
+						{socials.github && (
+							<GitHubLink
+								username={socials.github}
+								aria-label={`${name}'s GitHub`}
+							/>
+						)}
 						{socials.instagram && (
-							<InstagramLink username={socials.instagram} />
+							<InstagramLink
+								username={socials.instagram}
+								aria-label={`${name}'s Instagram`}
+							/>
 						)}
 						{socials.linkedIn && (
-							<LinkedInLink username={socials.linkedIn} />
+							<LinkedInLink
+								username={socials.linkedIn}
+								aria-label={`${name}'s LinkedIn`}
+							/>
 						)}
 					</Box>
 				</IconoirProvider>
@@ -116,7 +127,7 @@ const GitHubLink = ({ username }: OrganizerSocialUsername) => (
 	<OrganizerSocial
 		baseUrl={'https://github.com/'}
 		username={username}
-		icon={<GitHub aria-labelledby={`organizer-${username}-twitter`} />}
+		icon={<GitHub aria-labelledby={`organizer-${username}-github`} />}
 		platform="Twitter"
 	/>
 )
@@ -125,7 +136,7 @@ const InstagramLink = ({ username }: OrganizerSocialUsername) => (
 	<OrganizerSocial
 		baseUrl={'https://www.instagram.com/'}
 		username={username}
-		icon={<Instagram aria-labelledby={`organizer-${username}-github`} />}
+		icon={<Instagram aria-labelledby={`organizer-${username}-instagram`} />}
 		platform="Twitter"
 	/>
 )
