@@ -82,24 +82,20 @@ export function renderTemplate(
 	return renderer(ctx)
 }
 
-export function getGroupName(hexId: string): string {
-	if (hexId) {
-		const firstLetter = hexId?.charAt(0).toUpperCase()
+export function getGroupName(hexId: string | undefined): string {
+	const firstLetter = hexId?.charAt(0).toUpperCase()
 
-		switch (firstLetter) {
-			case 'A':
-				return 'Hearts'
-			case 'B':
-				return 'Spades'
-			case 'C':
-				return 'Clubs'
-			case 'D':
-				return 'Diamonds'
-			default:
-				return 'Unknown' // Handle other cases if needed
-		}
-	} else {
-		return ''
+	switch (firstLetter) {
+		case 'A':
+			return 'Hearts'
+		case 'B':
+			return 'Spades'
+		case 'C':
+			return 'Clubs'
+		case 'D':
+			return 'Diamonds'
+		default:
+			return 'Unknown' // Handle other cases if needed
 	}
 }
 
