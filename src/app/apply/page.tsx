@@ -6,8 +6,8 @@ import { getEnhancedSession } from '@/lib/utils/server'
 export default function Home() {
 	const { user } = getEnhancedSession(headers())
 
-	// If the user isn't logged in, show the registration closed message
-	if (!user) {
+	// If there's no user or the user has no application, show the registration closed message
+	if (!user?.application) {
 		return (
 			<div>
 				<p>
@@ -22,8 +22,8 @@ export default function Home() {
 				</p>
 			</div>
 		)
-	} else if (user.application) {
-		// If the user has already submitted an application, redirect them to the dashboard
+	} else {
+		// For any other scenario, redirect the user to the dashboard
 		redirect('/dashboard')
 	}
 }
