@@ -49,7 +49,7 @@ export function mergePermission(
 	const result: PermissionShapeObject = {}
 
 	for (const permission of permissions) {
-		if (permission === undefined) {
+		if (permission == null) {
 			continue
 		} else if (permission === true) {
 			// This is the highest possible permission.
