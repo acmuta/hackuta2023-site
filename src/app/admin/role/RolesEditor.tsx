@@ -10,13 +10,13 @@ export interface RolesEditorProps {
 }
 
 export function RolesEditor({ roles }: RolesEditorProps) {
-	const [selectedRole, setSelectedRole] = useState<string>()
-	return selectedRole
+	const [editingRole, setEditingRole] = useState<string>()
+	return editingRole
 		? (
 			<RoleEditor
-				role={roles.find((r) => r._id === selectedRole)!}
-				onExit={() => setSelectedRole(undefined)}
+				role={roles.find((r) => r._id === editingRole)!}
+				onExit={() => setEditingRole(undefined)}
 			/>
 		)
-		: <RoleList roles={roles} onRoleSelected={setSelectedRole} />
+		: <RoleList roles={roles} onRoleEdit={setEditingRole} />
 }

@@ -122,5 +122,7 @@ export function countBy<K extends string, T extends { [_ in K]: string }>(
 }
 
 export function printRoles(roles: readonly string[] = []): string {
-	return dedupe(['hacker', ...roles]).join(' + ')
+	return dedupe(['hacker', ...roles.filter((r) => !r.startsWith('@@'))]).join(
+		' + ',
+	)
 }

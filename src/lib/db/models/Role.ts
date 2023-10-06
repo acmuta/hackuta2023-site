@@ -22,8 +22,8 @@ export const AppPermissionsSchema = z.union([
 				checkIn: z.union([
 					z.literal(true),
 					z.object({
+						associate: z.literal(true).optional(),
 						event: z.literal(true).optional(),
-						link: z.literal(true).optional(),
 						meal: z.literal(true).optional(),
 					}),
 				]).optional(),

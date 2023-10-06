@@ -2,10 +2,16 @@
 
 import { Button } from '@/components/Button'
 import { PermissionShape } from '@/lib/auth/shared'
-import { AppPermissionsSchema, Role } from '@/lib/db/models/Role'
+import {
+	AppPermissions,
+	AppPermissionsSchema,
+	Role,
+} from '@/lib/db/models/Role'
+import { stringifyError } from '@/lib/utils/shared'
 import { ReactNode } from 'react'
 import { useImmer } from 'use-immer'
 import { z } from 'zod'
+import { PutBody } from './[roles]/route'
 import { PermissionOption, PermissionToggle } from './PermissionToggle'
 
 export interface RoleEditorProps {
@@ -13,15 +19,37 @@ export interface RoleEditorProps {
 	onExit?: () => void
 }
 export function RoleEditor({ role, onExit }: RoleEditorProps) {
-	const [perms, setPerms] = useImmer<PermissionShape>({ root: role.granted })
+	const [perms, setPerms] = useImmer<{ root: AppPermissions }>({
+		root: role.granted,
+	})
+	const save = async () => {
+		try {
+			const response = await fetch(`/admin/role/${role._id}`, {
+				method: 'PUT',
+				headers: {
+					Accept: 'application/json',
+					Content: 'application/json',
+				},
+				body: JSON.stringify({ granted: perms.root } satisfies PutBody),
+			})
+			const obj = await response.json()
+			if (obj.status !== 'success') {
+				throw new Error(JSON.stringify(obj))
+			}
+			window.location.reload()
+		} catch (e) {
+			alert(stringifyError(e))
+		}
+	}
+
 	return (
 		<article className="w-[300px] flex flex-col items-start gap-2">
-			<header className="text-lg font-bold">editing role: {role._id}</header>
+			<header className="text-lg font-bold">edit role: {role._id}</header>
 			<section className="w-full">
 				{generatePermissionToggles(['root'], AppPermissionsSchema)}
 			</section>
 			<div className="flex gap-2">
-				<Button onClick={() => {}}>Save</Button>
+				<Button onClick={save}>Save</Button>
 				<Button kind="secondary" onClick={onExit}>Back</Button>
 			</div>
 		</article>
@@ -135,7 +163,7 @@ function optionToShape(o: PermissionOption): PermissionShape {
 function shapeToOption(s: PermissionShape): PermissionOption {
 	if (s === true) {
 		return 'Granted'
-	} else if (s === undefined) {
+	} else if (s == null) {
 		return 'Omitted'
 	} else {
 		return 'Partial'

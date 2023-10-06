@@ -32,19 +32,17 @@ export function PermissionToggle(
 	{ name, children, value = 'Omitted', onChange }: PermissionToggleProps,
 ) {
 	const ToggleButton = (
-		{ valueToSet, Icon, color }: {
+		{ valueToSet, Icon, className }: {
 			valueToSet: PermissionOption
 			Icon: typeof Check
-			color: string
+			className: string
 		},
 	) => (
 		<button onClick={() => onChange?.(valueToSet)} title={valueToSet}>
 			<Icon
-				className={twJoin(
-					value === valueToSet
-						? `bg-${color} text-white`
-						: `text-black`,
-				)}
+				className={value === valueToSet
+					? twJoin(className, 'text-white')
+					: `text-black`}
 				aria-label={valueToSet}
 			/>
 		</button>
@@ -61,7 +59,7 @@ export function PermissionToggle(
 					{children && (
 						<ToggleButton
 							Icon={NavArrowDown}
-							color="hackuta-darkblue"
+							className="bg-hackuta-darkblue"
 							valueToSet="Partial"
 						/>
 					)}
@@ -70,12 +68,12 @@ export function PermissionToggle(
 				<div className="flex gap-1">
 					<ToggleButton
 						Icon={Check}
-						color="green-700"
+						className="bg-green-700"
 						valueToSet="Granted"
 					/>
 					<ToggleButton
 						Icon={Prohibition}
-						color="hackuta-red"
+						className="bg-hackuta-red"
 						valueToSet="Omitted"
 					/>
 				</div>

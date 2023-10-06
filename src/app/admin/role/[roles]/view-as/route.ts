@@ -12,13 +12,13 @@ interface ViewAsRoleRouteProps {
 		 * `@@reset` to restore to the user's original roles,
 		 * or a comma separated list of roles to view as.
 		 */
-		role: string
+		roles: string
 	}
 }
 
 export async function POST(
-	_req: NextRequest,
-	{ params: { role } }: ViewAsRoleRouteProps,
+	req: NextRequest,
+	{ params: { roles } }: ViewAsRoleRouteProps,
 ) {
 	const { user } = getEnhancedSession(headers())
 	if (!user) {
@@ -32,7 +32,7 @@ export async function POST(
 				{
 					_id: { $eq: new ObjectId(user._id) },
 				},
-				role === '@@reset'
+				roles.includes('@@reset')
 					? {
 						$set: {
 							roles: user.rolesActual ?? user.roles,
@@ -41,14 +41,14 @@ export async function POST(
 					}
 					: {
 						$set: {
-							roles: [...role.split(','), '@@view-as'],
+							roles: [...roles.split(','), '@@view-as'],
 							rolesActual: user.rolesActual ?? user.roles ?? [],
 						},
 					},
 			)
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
-		logger.error(e, `/admin/role/view-as/`)
+		logger.error(e, req.nextUrl.toString())
 		return NextResponse.json({ status: 'error' })
 	}
 }
