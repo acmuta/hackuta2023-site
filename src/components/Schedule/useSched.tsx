@@ -163,6 +163,8 @@ export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 		height: 535,
 		globalStyles: globalStyles,
 		isCurrentTime: true,
+		liveRefreshTime: 120,
+		isInitialScrollToNow: true,
 		theme,
 		areas,
 	})

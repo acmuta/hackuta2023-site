@@ -24,6 +24,16 @@ export const Program = ({ isVerticalMode, program, ...rest }: ProgramItem) => {
 			width={styles.width}
 			style={styles.position}
 			className="planby-program group transition-all hover:z-20"
+			onClick={() =>
+				alert(
+					`Title: ${title}\n${
+						description != '' ? `Description: ${description}\n` : ''
+					}${
+						pointValue > 0
+							? `Points: ${pointValue}\n`
+							: ''
+					}Place: ${location}\nTime: ${sinceTime} - ${tillTime}`,
+				)}
 		>
 			<ProgramContent
 				width={styles.width}

@@ -8,15 +8,15 @@ export const channels = [
 		logo: './images/Schedule/schedule-meals.png',
 	},
 	{
-		uuid: 'minievent',
-		logo: './images/Schedule/schedule-minievents.png',
-	},
-	{
 		uuid: 'sponsor',
 		logo: './images/Schedule/schedule-sponsors.png',
 	},
 	{
 		uuid: 'workshop',
 		logo: './images/Schedule/schedule-workshops.png',
+	},
+	{
+		uuid: 'minievent',
+		logo: './images/Schedule/schedule-minievents.png',
 	},
 ]
