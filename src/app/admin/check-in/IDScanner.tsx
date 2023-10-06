@@ -62,7 +62,8 @@ const useEvents = (): {
 					event.eventType === 'workshop'
 					|| event.eventType === 'minievent'
 					|| event.eventType === 'sponsor'
-					|| event.eventType === 'event',
+					|| event.eventType === 'event'
+					|| event.eventType === 'general',
 			)
 		}
 	}
