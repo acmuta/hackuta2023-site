@@ -3,17 +3,9 @@ import '@/node-only'
 import clientPromise from '../db'
 import { AppPermissions, Role } from '../db/models/Role'
 import User from '../db/models/User'
-import { mergePermission, UnauthedPerms } from './shared'
+import { BuiltInRoles, mergePermission, UnauthedPerms } from './shared'
 
 export * from './shared'
-
-const BuiltInRoles = {
-	'@@view-as': {
-		administration: {
-			role: true,
-		},
-	},
-} satisfies Record<`@@${string}`, AppPermissions>
 
 export async function getUserPerms(user: User | null): Promise<AppPermissions> {
 	const roles = [
