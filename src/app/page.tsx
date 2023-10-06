@@ -124,7 +124,7 @@ export default async function Landing() {
 		{
 			companyName: 'StateFarm',
 			companyUrl: 'https://www.statefarm.com/',
-			imageUrl: '/images/Sponsors/statefarm.svg',
+			imageUrl: '/images/Sponsors/State-Farm-Logo.png',
 			kind: 'Sponsor',
 		},
 		{
@@ -171,6 +171,21 @@ export default async function Landing() {
 			companyUrl: 'http://hackp.ac/mlh-StandOutStickers-hackathons',
 			imageUrl: '/images/Partners/standout-stickers.png',
 			kind: 'Partner',
+		},
+		{
+			companyName: 'echo3D',
+			companyUrl: 'https://www.echo3d.com',
+			imageUrl: '/images/Partners/echo3d.png',
+			kind: 'Partner',
+		},
+	]
+
+	const specialThanks = [
+		{
+			companyName: 'ACM at UTD',
+			companyUrl: 'https://acmutd.co',
+			imageUrl: '/images/SpecialThanks/acm-logo-black.png',
+			kind: 'SpecialThanks',
 		},
 	]
 
@@ -231,7 +246,7 @@ export default async function Landing() {
 							/>
 
 							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
-							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby">
+							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-ticket-yellow bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby">
 							</div>
 						</div>
 						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
@@ -349,7 +364,41 @@ export default async function Landing() {
 							/>
 						))}
 					</div>
+					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+						Special Thanks
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
+					</h2>
+					<div className="flex flex-col md:flex-row justify-centeritems-center flex-wrap flex-auto">
+						{specialThanks.map((company, index) => (
+							<LogoTicket
+								key={`${company.companyName}-${index}`}
+								companyName={company.companyName}
+								companyUrl={company.companyUrl}
+								imageUrl={company.imageUrl}
+								kind={company.kind as LogoTicketKind}
+							/>
+						))}
+					</div>
 				</div>
+				{
+					/* <div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
+					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
+						Special Thanks
+						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
+					</h2>
+					<div className="flex flex-col md:flex-row justify-center items-center flex-wrap flex-auto">
+						{specialThanks.map((company, index) => (
+							<LogoTicket
+								key={`${company.companyName}-${index}`}
+								companyName={company.companyName}
+								companyUrl={company.companyUrl}
+								imageUrl={company.imageUrl}
+								kind={company.kind as LogoTicketKind}
+							/>
+						))}
+					</div>
+				</div> */
+				}
 			</Box>
 		</>
 	)
