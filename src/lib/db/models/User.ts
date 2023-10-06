@@ -10,6 +10,12 @@ export default interface User {
 	email: string
 	image: string
 	roles?: string[]
+	/**
+	 * Exists iff the current user is viewing the website as another role.
+	 * `roles` would store the viewing-as roles,
+	 * and `rolesActual` would store the actual roles of the user.
+	 */
+	rolesActual?: string[]
 	emailVerified: Date | null
 	applied?: Date
 	application?: Application

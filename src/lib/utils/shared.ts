@@ -120,3 +120,7 @@ export function countBy<K extends string, T extends { [_ in K]: string }>(
 	}
 	return map
 }
+
+export function printRoles(roles: readonly string[] = []): string {
+	return dedupe(['hacker', ...roles]).join(' + ')
+}

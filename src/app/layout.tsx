@@ -14,6 +14,7 @@ import { MarqueeHeader } from '@/components/MarqueeHeader'
 import { siteName } from '@/lib/utils/server'
 
 import { headers } from 'next/headers'
+import { ViewAsRoleBanner } from './admin/role/ViewAsRoleBanner'
 import SiteFooter from './SiteFooter'
 
 /** fonts **/
@@ -108,6 +109,7 @@ export default function RootLayout({
 				)}
 			</head>
 			<Box as="body" direction="column" className="p-2">
+				<ViewAsRoleBanner />
 				<MarqueeHeader />
 				<main className="flex-[1]">{children}</main>
 				<SiteFooter />
