@@ -149,8 +149,7 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		matcher: new RegExp('^/admin/check-in'),
 		perms: {
 			administration: {
-				// checkIn: {},
-				checkIn: true,
+				checkIn: {},
 			},
 		},
 	},
