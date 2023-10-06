@@ -191,6 +191,6 @@ export type Application = z.infer<typeof ApplicationSchema>
 
 export type IdentifieableUser = ObjectId | User | string
 
-export function getFullName(user: User): string {
+export function getFullName(user: User | JsonUser): string {
 	return `${user.application?.firstName} ${user.application?.lastName}`
 }

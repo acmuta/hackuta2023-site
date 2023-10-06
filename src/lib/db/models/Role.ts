@@ -22,7 +22,7 @@ export const AppPermissionsSchema = z.union([
 				checkIn: z.union([
 					z.literal(true),
 					z.object({
-						associate: z.literal(true).optional(),
+						link: z.literal(true).optional(),
 						event: z.literal(true).optional(),
 						meal: z.literal(true).optional(),
 					}),
@@ -32,7 +32,13 @@ export const AppPermissionsSchema = z.union([
 				post: z.literal(true).optional(),
 				role: z.literal(true).optional(),
 				schedule: z.literal(true).optional(),
-				user: z.literal(true).optional(),
+				user: z.union([
+					z.literal(true),
+					z.object({
+						read: z.literal(true).optional(),
+						writeRole: z.literal(true).optional(),
+					}),
+				]).optional(),
 			}),
 		]).optional(),
 		application: z.literal(true).optional(),

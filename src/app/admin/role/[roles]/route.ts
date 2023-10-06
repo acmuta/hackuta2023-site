@@ -45,16 +45,18 @@ export async function POST(
 	{ params: { roles } }: ViewAsRoleRouteProps,
 ) {
 	try {
+		const regex = /^[a-z0-9_]+$/
+		// Intentionally only support adding one role at a time
+		const role = roles.split(',')[0]
+
+		if (!regex.test(role)) {
+			throw new Error('Illegal role name')
+		}
+
 		const client = await clientPromise
 		await client.db()
 			.collection<Role>('roles')
-			.insertOne(
-				{
-					// Intentionally only support adding one role at a time
-					_id: roles.split(',')[0],
-					granted: undefined,
-				},
-			)
+			.insertOne({ _id: role, granted: undefined })
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
 		logger.error(e, req.nextUrl.toString())

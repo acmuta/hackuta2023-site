@@ -67,6 +67,7 @@
     "zod-validation-error": "^1.2.1"
   },
   "devDependencies": {
+    "@acmuta/planby": "^3.4.0",
     "@svgr/webpack": "^8.1.0",
     "@types/dot": "^1.1.5",
     "@types/jsdom": "^21.1.3",

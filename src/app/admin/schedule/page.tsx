@@ -1,4 +1,4 @@
-import { getEvents } from '@/components/calendar'
+import { getEvents } from '@/components/Schedule/getEvents'
 
 import JsonEditor from '../JsonEditor'
 
@@ -6,7 +6,7 @@ export default async function Events() {
 	const events = await getEvents()
 	return (
 		<>
-			<h2 className="text-3xl shadow-hackuta">Event Schedule</h2>
+			<h2 className="text-3xl drop-shadow-hackuta">Event Schedule</h2>
 			{events
 				? (
 					<JsonEditor

@@ -21,7 +21,7 @@ export function FaqSection({
 					// .sort((a, b) => a._id - b._id)
 					.map((faq) => (
 						<Accordion
-							className="drop-shadow-hackuta border-l-4 border-hackuta-darkred pl-4 w-full max-w-md"
+							className="drop-shadow-hackuta border-l-4 border-hackuta-darkred pl-4 w-full max-w-md transition-all hover:drop-shadow-none"
 							arrowClassName="text-hackuta-red drop-shadow-hackuta"
 							summaryClassName="text-xl font-body"
 							contentClassName="font-body mb-4"
