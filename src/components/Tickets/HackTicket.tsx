@@ -3,7 +3,7 @@
 import { DivProps } from 'react-html-props'
 
 import { JsonUser } from '@/lib/db/models/User'
-import { dedupe, getGroupName } from '@/lib/utils/shared'
+import { getGroupName, printRoles } from '@/lib/utils/shared'
 import Countdown, { isCountdownOver } from '../Countdown'
 
 export type HackTicketProps = DivProps & {
@@ -165,7 +165,7 @@ export const HackTicket = ({
 						<div className="p-2 flex flex-col justify-center items-center text-center">
 							<h1 className="text-lg capitalize">
 								{user?.application?.firstName ?? ''}{' '}
-								[{dedupe(['hacker', ...user?.roles ?? []]).join(' + ')}]
+								[{printRoles(user?.roles)}]
 							</h1>
 							<div className="flex flex-col font-normal text-sm">
 								<p className="m-0 text-sm">

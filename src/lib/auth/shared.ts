@@ -14,6 +14,31 @@ export const UnauthedPerms: AppPermissions = {
 	post: true,
 }
 
+/**
+ * Types of roles:
+ *
+ * * Built-In: roles that are temporarily assigned by certain mechanisms
+ * to achieve a certain purpose. These roles cannot be managed by admins.
+ * * Unauthed: the base role that all users, including unauthenticated
+ * ones, are granted. This role cannot be managed by admins.
+ * * hacker: the base role that every authenticated user is granted.
+ * The permissions of this role can be changed by admins, but it cannot be
+ * deleted.
+ * * Database: roles created and fully managed by admins.
+ */
+export const BuiltInRoles = {
+	/**
+	 * A role temporarily assigned to users who are viewing as other roles.
+	 * This role has the neccessary permissions to ensure that the user
+	 * can restore back to their previous roles.
+	 */
+	'@@view-as': {
+		administration: {
+			role: true,
+		},
+	},
+} satisfies Record<`@@${string}`, AppPermissions>
+
 export function hasPermission(
 	granted: AppPermissions,
 	required: AppPermissions,
@@ -49,7 +74,7 @@ export function mergePermission(
 	const result: PermissionShapeObject = {}
 
 	for (const permission of permissions) {
-		if (permission === undefined) {
+		if (permission == null) {
 			continue
 		} else if (permission === true) {
 			// This is the highest possible permission.
@@ -149,6 +174,14 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		perms: {
 			administration: {
 				post: true,
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/admin/role'),
+		perms: {
+			administration: {
+				role: true,
 			},
 		},
 	},

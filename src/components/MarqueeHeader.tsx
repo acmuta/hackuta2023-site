@@ -8,10 +8,13 @@ import { SVGProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
 import { hasPermission } from '@/lib/auth/shared'
-import { useEnhancedSession } from '@/lib/utils/client'
+import { AppPermissions } from '@/lib/db/models/Role'
+import { JsonUser } from '@/lib/db/models/User'
 
 export type MarqueeHeaderProps = {
 	showBadge?: boolean
+	user: JsonUser | null
+	perms: AppPermissions
 }
 
 export type LogoProps = SVGProps
@@ -38,13 +41,14 @@ const Logo = (props: LogoProps) => {
 	)
 }
 
-export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
+export const MarqueeHeader = (
+	{ showBadge, user, perms, ...props }: MarqueeHeaderProps,
+) => {
 	const pathname = usePathname()
 	if (showBadge === undefined) {
 		showBadge = pathname === '/'
 	}
 
-	const { user, perms } = useEnhancedSession()
 	const [menuOpen, setMenuOpen] = useState(false)
 
 	const toggleMenu = () => {

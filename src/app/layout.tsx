@@ -11,9 +11,10 @@ import { twMerge } from 'tailwind-merge'
 
 import { Box } from '@/components/Box'
 import { MarqueeHeader } from '@/components/MarqueeHeader'
-import { siteName } from '@/lib/utils/server'
+import { getEnhancedSession, siteName } from '@/lib/utils/server'
 
 import { headers } from 'next/headers'
+import { ViewAsRoleBanner } from './admin/role/ViewAsRoleBanner'
 import SiteFooter from './SiteFooter'
 
 /** fonts **/
@@ -70,6 +71,7 @@ export default function RootLayout({
 	const pathname = decodeURIComponent(
 		headers().get('x-middleware-pathname') ?? '',
 	)
+	const { user, perms } = getEnhancedSession(headers())
 
 	return (
 		<html
@@ -108,7 +110,8 @@ export default function RootLayout({
 				)}
 			</head>
 			<Box as="body" direction="column" className="p-2">
-				<MarqueeHeader />
+				<ViewAsRoleBanner user={user} />
+				<MarqueeHeader user={user} perms={perms} />
 				<main className="flex-[1]">{children}</main>
 				<SiteFooter />
 			</Box>
