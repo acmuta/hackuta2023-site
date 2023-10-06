@@ -1,8 +1,4 @@
-import { channels } from './channels'
-import { epg } from './epg'
+import { channels } from './channels';
 
 export const fetchChannels = async () =>
 	new Promise((res) => setTimeout(() => res(channels), 400))
-
-export const fetchEpg = async () =>
-	new Promise((res) => setTimeout(() => res(epg), 500))

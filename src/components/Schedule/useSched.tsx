@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { fetchChannels } from './fetchEvents'
+import { fetchChannels } from './fetchEvents';
 
-import { Channel, Program, useEpg } from 'planby'
+import { Channel, Program, useEpg } from 'planby';
 
 export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 	const [channels, setChannels] = React.useState<Channel[]>([])
@@ -20,6 +20,12 @@ export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 	const globalStyles = `
   .planby {
     display: grid;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+
+    // Code below is redundant, can be replaced with loader component
+    // see: https://github.com/karolkozer/planby#:~:text=optional-,loader,-Component
 
     [aria-label="loading"] {
       background-image: url("./images/hackuta-logo-small.png");
@@ -28,6 +34,9 @@ export function useSched(startDate: Date, endDate: Date, events: Program[]) {
       animation: spin 1s linear infinite;
       background-color: transparent;
       scale: .5;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
     }
 
     [aria-label="loading"] > div {
@@ -44,8 +53,17 @@ export function useSched(startDate: Date, endDate: Date, events: Program[]) {
     }
 
     // /* Program */
+    .planby-program-content {
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+    }
     .planby-program-content:hover {
       background: linear-gradient(to right, #7A1D18, #AF2922);
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
     }
 
     @keyframes spin {
