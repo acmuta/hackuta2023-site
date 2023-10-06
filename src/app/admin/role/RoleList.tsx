@@ -32,6 +32,12 @@ export function RoleList({ roles, onRoleEdit }: RoleListProps) {
 
 	const createNewRole = async () => {
 		try {
+			const regex = /^[a-z0-9_]+$/
+			if (!regex.test(newRoleName)) {
+				throw new Error(
+					'Role name can only consist of a-z, 0-9, and underscore',
+				)
+			}
 			const response = await fetch(
 				`/admin/role/${newRoleName}`,
 				{
