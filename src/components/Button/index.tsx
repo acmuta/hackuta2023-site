@@ -79,7 +79,7 @@ export function LinkButton({
 		<Link
 			className={twJoin(
 				getButtonClassNames(),
-				'no-underline transition-all hover:opacity-90 hover:rounded-lg',
+				'no-underline transition-all hover:rounded-lg hover:shadow-none',
 				className,
 			)}
 			{...props}

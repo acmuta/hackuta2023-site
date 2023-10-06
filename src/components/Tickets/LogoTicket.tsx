@@ -32,7 +32,7 @@ export const LogoTicket = ({
 			href={companyUrl}
 			className={`md:w-80 w-fit h-40 my-2 text-center flex flex-row justify-center gap-4 items-center py-6 px-6 drop-shadow-hackuta bg-hackuta-ticket-${
 				kind === 'Sponsor' ? 'red' : 'blue'
-			} bg-center bg-clip-border bg-no-repeat no-underline`}
+			} bg-center bg-clip-border bg-no-repeat no-underline hover:drop-shadow-none hover:mx-1 transition-all`}
 		>
 			<div className="w-15 h-28 flex justify-center items-center">
 				<div className="rotate-90 text-center font-semibold text-sm font-mono uppercase text-hackuta-black-60">
