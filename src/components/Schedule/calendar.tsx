@@ -1,12 +1,11 @@
-"use client"
+'use client'
 
-import { ChannelItem } from "./ChannelItem";
-import { Program } from "./ProgramItem";
-import { Timeline } from "./Timeline";
+import { ChannelItem } from './ChannelItem'
+import { Program } from './ProgramItem'
+import { Timeline } from './Timeline'
 
-import { Epg, Layout, Program as ProgramI } from "planby";
-import { useSched } from "./useSched";
-
+import { Epg, Layout, Program as ProgramI } from 'planby'
+import { useSched } from './useSched'
 
 // export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
 // 	try {
@@ -33,26 +32,32 @@ interface HackathonCalendarProps {
 export function HackathonCalendar(
 	{ startDate, endDate, events }: HackathonCalendarProps,
 ) {
-	const { isLoading, getEpgProps, getLayoutProps } = useSched(startDate, endDate, events);
-	
+	const { isLoading, getEpgProps, getLayoutProps } = useSched(
+		startDate,
+		endDate,
+		events,
+	)
+
 	return (
-    <div>
-      <Epg isLoading={isLoading} {...getEpgProps()}>
-        <Layout
-          {...getLayoutProps()}
-          renderTimeline={(props) => <Timeline {...props} isLoading={isLoading}/>}
-          renderProgram={({ program, ...rest }) => (
-            <Program key={program.data.id} program={program} {...rest} />
-          )}
-          renderChannel={({ channel }) => (
-            <ChannelItem key={channel.uuid} channel={channel} />
-          )}
-        />
+		<div>
+			<Epg isLoading={isLoading} {...getEpgProps()}>
+				<Layout
+					{...getLayoutProps()}
+					renderTimeline={(props) => (
+						<Timeline {...props} isLoading={isLoading} />
+					)}
+					renderProgram={({ program, ...rest }) => (
+						<Program key={program.data.id} program={program} {...rest} />
+					)}
+					renderChannel={({ channel }) => (
+						<ChannelItem key={channel.uuid} channel={channel} />
+					)}
+				/>
 				{/* dummy div so tailwind can compile hidden tag for loading stage */}
 				<div className="hidden"></div>
-      </Epg>
-    </div>
-  );
+			</Epg>
+		</div>
+	)
 }
 
 // function Event({ event }: { event: EventModel }) {

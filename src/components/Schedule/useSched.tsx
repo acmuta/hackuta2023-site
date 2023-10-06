@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import { fetchChannels } from './fetchEvents';
+import { fetchChannels } from './fetchEvents'
 
-import { Channel, Program, useEpg } from 'planby';
+import { Channel, Program, useEpg } from 'planby'
 
 export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 	const [channels, setChannels] = React.useState<Channel[]>([])
