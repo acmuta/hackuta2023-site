@@ -15,7 +15,7 @@ const Links = {
 	'/admin/post': 'Posts',
 	'/admin/role': 'Role',
 	'/admin/schedule': 'Schedule',
-	'/admin/users': 'Users',
+	'/admin/user': 'Users',
 }
 
 export interface AdminNavProps {
