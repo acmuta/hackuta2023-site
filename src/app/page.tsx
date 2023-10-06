@@ -12,10 +12,10 @@ import { WavyPattern } from '@/components/WavyPattern'
 import { getEnhancedSession } from '@/lib/utils/server'
 
 import GoogleMyMap from '@/components/GoogleMyMap'
-import { Organizer, OrganizerProps } from '@/components/Organizer'
 import Link from 'next/link'
 import { AllTeams } from './admin/organizers/OrganizerData'
 import { FaqSection, getFaqs } from './faq/utils'
+import { MeetTheTeamSection } from './MeetTheTeamSection'
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -301,24 +301,7 @@ export default async function Landing() {
 					</div>
 				</div>
 				<FaqSection faqs={faqs} />
-				<div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
-					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
-						Meet the Team
-						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
-					</h2>
-					<div className="flex flex-row justify-center items-center flex-wrap flex-auto">
-						{AllTeams.map((organizer: OrganizerProps) => (
-							<Organizer
-								key={`${organizer.name}`}
-								name={organizer.name}
-								role={organizer.role}
-								avatar={organizer.avatar}
-								socials={organizer.socials}
-								isDirector={organizer.isDirector}
-							/>
-						))}
-					</div>
-				</div>
+				<MeetTheTeamSection organizers={AllTeams} />
 				<div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent p-8 md:p-16 w-full">
 					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
 						Sponsors & Partners
