@@ -39,7 +39,7 @@ export const Organizer = ({
 			direction="column"
 			justifyContent="space-between"
 			gap=".625rem"
-			className="bg-hackuta-darkred drop-shadow-hackuta hover:drop-shadow-none hover:rounded-2xl py-4 m-2 max-w-xl w-40 h-56 text-center rounded-lg flex flex-col justify-between transition-all hover:opacity-90"
+			className="bg-hackuta-darkred drop-shadow-hackuta hover:drop-shadow-none hover:rounded-2xl py-4 m-2 max-w-xl w-40 h-56 text-center rounded-lg flex flex-col flex-shrink-0 justify-between transition-all hover:opacity-90"
 		>
 			<div>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
