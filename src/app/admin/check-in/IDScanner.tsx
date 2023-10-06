@@ -371,7 +371,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 							<button
 								onClick={toggleCamera}
 								type="button"
-								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all"
+								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all z-100"
 							>
 								Switch Camera
 							</button>
