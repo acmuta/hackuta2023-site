@@ -2,6 +2,7 @@ import clientPromise from '@/lib/db'
 import { AppPermissionsSchema, Role } from '@/lib/db/models/Role'
 import User from '@/lib/db/models/User'
 import logger from '@/lib/logger'
+import { stringifyError } from '@/lib/utils/shared'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -35,7 +36,7 @@ export async function DELETE(
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
 		logger.error(e, req.nextUrl.toString())
-		return NextResponse.json({ status: 'error' })
+		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }
 
@@ -57,7 +58,7 @@ export async function POST(
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
 		logger.error(e, req.nextUrl.toString())
-		return NextResponse.json({ status: 'error' })
+		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }
 
@@ -87,6 +88,6 @@ export async function PUT(
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
 		logger.error(e, req.nextUrl.toString())
-		return NextResponse.json({ status: 'error' })
+		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }

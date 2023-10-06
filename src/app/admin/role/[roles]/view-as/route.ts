@@ -1,7 +1,7 @@
 import clientPromise from '@/lib/db'
 import User from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { getEnhancedSession } from '@/lib/utils/server'
+import { getEnhancedSession, stringifyError } from '@/lib/utils/server'
 import { ObjectId } from 'mongodb'
 import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
@@ -49,6 +49,6 @@ export async function POST(
 		return NextResponse.json({ status: 'success' })
 	} catch (e) {
 		logger.error(e, req.nextUrl.toString())
-		return NextResponse.json({ status: 'error' })
+		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }
