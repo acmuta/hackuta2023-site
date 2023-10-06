@@ -8,6 +8,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 interface ViewAsRoleRouteProps {
 	params: {
+		/**
+		 * `@@reset` to restore to the user's original roles,
+		 * or a comma separated list of roles to view as.
+		 */
 		role: string
 	}
 }
@@ -37,7 +41,7 @@ export async function POST(
 					}
 					: {
 						$set: {
-							roles: ['@@view-as', role],
+							roles: [...role.split(','), '@@view-as'],
 							rolesActual: user.rolesActual ?? user.roles ?? [],
 						},
 					},

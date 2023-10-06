@@ -1,3 +1,4 @@
+import { PermissionShape } from '@/lib/auth/shared'
 import { z } from 'zod'
 
 export const AppPermissionsSchema = z.union([
@@ -43,6 +44,19 @@ export const AppPermissionsSchema = z.union([
 ])
 
 export type AppPermissions = z.infer<typeof AppPermissionsSchema>
+
+export function __type_test() {
+	// Ensure AppPermissions is assignable to PermissionShape
+	// If there's an error reported in this function,
+	// fix AppPermissionsSchema so that its inferred type
+	// is assignable to PermissionShape.
+	const a: AppPermissions = undefined as unknown as AppPermissions
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _: PermissionShape = a
+	throw new Error(
+		'This function is for testing types only and should never be actually called',
+	)
+}
 
 export const RoleSchema = z.object({
 	_id: z.string(),
