@@ -5,19 +5,16 @@ import useSWR from 'swr'
 
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/Form'
+import { hasPermission } from '@/lib/auth/shared'
 import { JsonEvents } from '@/lib/db/models/Event'
+import { AppPermissions } from '@/lib/db/models/Role'
 import { JsonUser } from '@/lib/db/models/User'
 import { getGroupName, jsonFetcher, stringifyError } from '@/lib/utils/client'
 import { useZxing } from 'react-zxing'
 import { twJoin } from 'tailwind-merge'
 
 export interface IDScannerProps {
-	onSubmit?: (params: {
-		checkInPin?: string
-		hexId?: string
-		eventName?: string
-		id?: string
-	}) => void
+	perms: AppPermissions
 }
 
 type checkInType = 'checkin' | 'event' | 'meal'
@@ -100,7 +97,7 @@ const useEvents = (): {
 	}
 }
 
-const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
+const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	const [hexIdValue, setHexIdValue] = useState<string>('')
 	const [checkInPinValue, setCheckInPinValue] = useState<string>('')
 	const [generalIdValue, setGeneralIdValue] = useState<string>('') // could be hex or pin
@@ -122,18 +119,64 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 
 	const currDateTime = new Date().getTime()
 
+	const onSubmit = async ({ checkInPin, hexId, id, eventName }: {
+		checkInPin?: string
+		hexId?: string
+		eventName?: string
+		id?: string
+	}) => {
+		try {
+			const response = await fetch(
+				`/admin/check-in/link?checkInPin=${checkInPin}&hexId=${hexId}&eventName=${eventName}&id=${id}`,
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+					},
+				},
+			)
+			const data = await response.json()
+			if (data.status !== 'success') {
+				throw new Error(data.message)
+			}
+		} catch (e) {
+			alert(stringifyError(e))
+		}
+	}
+
+	const hasLinkPerm = hasPermission(perms, {
+		administration: { checkIn: { link: true } },
+	})
+	const hasEventPerm = hasPermission(perms, {
+		administration: { checkIn: { event: true } },
+	})
+	const hasMealPerm = hasPermission(perms, {
+		administration: { checkIn: { meal: true } },
+	})
+
 	useEffect(() => {
 		if (eventsError) {
 			alert(stringifyError(eventsError))
 		}
 	}, [eventsError])
 
-	// if saturday morning, default to checkin between 7 and 11:30 Saturday October 7th, 2023
 	useEffect(() => {
-		if (currDateTime > 1696680000000 && currDateTime < 1696696200000) {
+		// if saturday morning, default to checkin between 7 and 11:30 Saturday October 7th, 2023
+		if (
+			(hasLinkPerm && currDateTime > 1696680000000
+				&& currDateTime < 1696696200000)
+		) {
 			setCheckinMode('checkin')
 		}
-	}, [currDateTime])
+		// if no permission for event check-in, default to the one with permission
+		if (!hasEventPerm) {
+			if (hasLinkPerm) {
+				setCheckinMode('checkin')
+			} else if (hasMealPerm) {
+				setCheckinMode('meal')
+			}
+		}
+	}, [currDateTime, hasEventPerm, hasLinkPerm, hasMealPerm])
 
 	// set currentEvent default value
 	useEffect(() => {
@@ -258,13 +301,13 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 	}
 
 	const handleConfirmCheckIn = () => {
-		onSubmit?.({ checkInPin: checkInPinValue, hexId: hexIdValue })
+		onSubmit({ checkInPin: checkInPinValue, hexId: hexIdValue })
 		clearInputs()
 		setUserData(null) // clear user data
 	}
 
 	const handleEventCheckIn = (genidVal: string, eName: string) => {
-		onSubmit?.({ id: genidVal, eventName: eName })
+		onSubmit({ id: genidVal, eventName: eName })
 		clearInputs() // clear inputs doesnt work
 		setUserData(null) // clear user data
 	}
@@ -275,41 +318,47 @@ const IDScanner: React.FC<IDScannerProps> = ({ onSubmit }) => {
 		<div className="max-w-xs m-auto p-4 border-2 border-dashed border-black flex justify-center items-center flex-col">
 			<div className="flex items-center justify-center gap-4 pb-4">
 				<button
-					className={`${
+					className={twJoin(
 						checkinMode === 'checkin'
 							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige'
-					} font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all`}
+							: 'text-hackuta-black bg-hackuta-beige',
+						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
+						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
+					)}
 					onClick={() => {
 						setCheckinMode('checkin')
 					}}
+					disabled={!hasLinkPerm}
 				>
 					Check&#8209;in
 				</button>
 				<button
-					className={`${
+					className={twJoin(
 						checkinMode === 'event'
 							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige'
-					} font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all`}
+							: 'text-hackuta-black bg-hackuta-beige',
+						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
+						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
+					)}
 					onClick={() => {
 						setCheckinMode('event')
 					}}
+					disabled={!hasEventPerm}
 				>
 					Events
 				</button>
 				<button
-					className={`${
+					className={twJoin(
 						checkinMode === 'meal'
 							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige'
-					} ${
-						currMeal ? '' : 'border-opacity-40 text-opacity-40'
-					} disabled font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all`}
+							: 'text-hackuta-black bg-hackuta-beige',
+						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
+						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
+					)}
 					onClick={() => {
 						setCheckinMode('meal')
 					}}
-					disabled={!currMeal}
+					disabled={!currMeal || !hasMealPerm}
 				>
 					Meals
 				</button>

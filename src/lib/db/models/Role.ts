@@ -19,15 +19,14 @@ export const AppPermissionsSchema = z.union([
 						decision: z.literal(true).optional(),
 					}),
 				]).optional(),
-				// checkIn: z.union([
-				// 	z.literal(true),
-				// 	z.object({
-				// 		associate: z.literal(true).optional(),
-				// 		event: z.literal(true).optional(),
-				// 		meal: z.literal(true).optional(),
-				// 	}),
-				// ]).optional(),
-				checkIn: z.literal(true).optional(),
+				checkIn: z.union([
+					z.literal(true),
+					z.object({
+						link: z.literal(true).optional(),
+						event: z.literal(true).optional(),
+						meal: z.literal(true).optional(),
+					}),
+				]).optional(),
 				email: z.literal(true).optional(),
 				faq: z.literal(true).optional(),
 				post: z.literal(true).optional(),
