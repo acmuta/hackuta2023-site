@@ -2,7 +2,6 @@
 
 import { JsonUser } from '@/lib/db/models/User'
 import { printRoles, stringifyError } from '@/lib/utils/shared'
-import { Cancel } from 'iconoir-react'
 
 export interface ViewAsRoleBannerProps {
 	user: JsonUser | null
@@ -29,23 +28,26 @@ export function ViewAsRoleBanner({ user }: ViewAsRoleBannerProps) {
 	}
 
 	return (
-		<div className="fixed top-0 left-0 w-full bg-purple-700 text-white p-2 text-center z-50">
-			<div className="flex items-center justify-center gap-4 font-bold">
-				<span>
-					You are currently viewing the website as the role{' '}
-					{printRoles(user.roles)}
-					<div className="text-sm">
-						To prevent lock outs, you still have access to /admin/role
-					</div>
-				</span>
-				<button
-					title="Exit View As"
-					className="active:text-hackuta-yellow hover:text-hackuta-yellow"
-					onClick={exitViewAs}
-				>
-					<Cancel aria-label="Exit View As" />
-				</button>
-			</div>
-		</div>
+		<>
+			<div className="fixed top-0 left-0 w-full h-2 bg-purple-700 z-50" />
+			<div className="fixed top-0 left-0 w-2 h-full bg-purple-700 z-50" />
+			<div className="fixed top-0 right-0 w-2 h-full bg-purple-700 z-50" />
+			<section className="fixed bottom-0 left-0 w-full bg-purple-700 text-white p-2 text-center z-50">
+				<div className="flex items-center justify-center gap-4 text-lg font-bold">
+					<span>
+						You are viewing the website as {printRoles(user.roles)}
+						<div className="text-sm">
+							To prevent lockout, you still have access to /admin/role
+						</div>
+					</span>
+					<button
+						className="border-2 p-2 rounded-md active:text-hackuta-yellow hover:text-hackuta-yellow"
+						onClick={exitViewAs}
+					>
+						Exit View
+					</button>
+				</div>
+			</section>
+		</>
 	)
 }
