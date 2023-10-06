@@ -71,6 +71,7 @@ export default function RootLayout({
 	const pathname = decodeURIComponent(
 		headers().get('x-middleware-pathname') ?? '',
 	)
+	const { user, perms } = getEnhancedSession(headers())
 
 	return (
 		<html
@@ -110,7 +111,7 @@ export default function RootLayout({
 			</head>
 			<Box as="body" direction="column" className="p-2">
 				<ViewAsRoleBanner />
-				<MarqueeHeader />
+				<MarqueeHeader user={user} perms={perms} />
 				<main className="flex-[1]">{children}</main>
 				<SiteFooter />
 			</Box>
