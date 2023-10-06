@@ -8,7 +8,7 @@ export type LogoTicketProps = DivProps & {
 	companyName: string
 	companyUrl: string
 	imageUrl: string
-	kind: 'Sponsor' | 'Partner'
+	kind: 'Sponsor' | 'Partner' | 'SpecialThanks'
 }
 
 export const LogoTicket = ({
@@ -31,8 +31,12 @@ export const LogoTicket = ({
 		<Link
 			href={companyUrl}
 			className={`md:w-80 w-fit h-40 my-2 text-center flex flex-row justify-center gap-4 items-center py-6 px-6 drop-shadow-hackuta bg-hackuta-ticket-${
-				kind === 'Sponsor' ? 'red' : 'blue'
-			} bg-center bg-clip-border bg-no-repeat no-underline hover:drop-shadow-none hover:mx-1 transition-all`}
+				kind === 'SpecialThanks'
+					? 'yellow'
+					: kind === 'Sponsor'
+					? 'red'
+					: 'blue'
+			} bg-center bg-clip-border bg-no-repeat no-underline`}
 		>
 			<div className="w-15 h-28 flex justify-center items-center">
 				<div className="rotate-90 text-center font-semibold text-sm font-mono uppercase text-hackuta-black-60">
@@ -43,10 +47,16 @@ export const LogoTicket = ({
 				<Image src={imageUrl} alt={companyName} width={128} height={96} />
 			</div>
 			<div className="w-15 h-28 flex justify-center items-center">
-				<div className="-rotate-90 text-center font-semibold font-mono uppercase text-hackuta-black-60">
+				<div
+					className="-rotate-90 text-center font-semibold font-mono uppercase text-hackuta-black-60"
+					style={{
+						fontSize: kind === 'SpecialThanks' ? 'smaller' : 'inherit',
+					}}
+				>
 					{kind}
 				</div>
 			</div>
+
 			{
 				/* <div
 				className={twJoin(

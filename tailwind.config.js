@@ -26,6 +26,7 @@ module.exports = {
 				'hackuta-ticket': "url('/images/ticket.svg')",
 				'hackuta-ticket-red': "url('/images/ticket-red.svg')",
 				'hackuta-ticket-blue': "url('/images/ticket-blue.svg')",
+				'hackuta-ticket-yellow': "url('/images/ticket-yellow.svg')",
 
 				'hackuta-sqrbg-ruby': "url('/images/backgrounds/rubyred.png')",
 				'hackuta-sqrbg-fireice': "url('/images/backgrounds/fireice.png')",

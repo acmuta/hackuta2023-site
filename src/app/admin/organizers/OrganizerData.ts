@@ -35,7 +35,7 @@ export const Techorganizers: OrganizerData[] = [
 		name: 'Sneh Acharya',
 		role: 'Tech',
 		socials: {
-			github: 'sneh_ach',
+			github: 'sneh-ach',
 			instagram: 'sneh_ach',
 			linkedIn: 'sneh-acharya-48219a1b1',
 		},
