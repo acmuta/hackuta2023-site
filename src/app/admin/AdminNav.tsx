@@ -12,10 +12,10 @@ const Links = {
 	'/admin/check-in': 'Check-In',
 	'/admin/email': 'Email',
 	'/admin/faq': 'FAQ',
-	'/admin/post': 'Posts',
+	'/admin/post': 'Post',
 	'/admin/role': 'Role',
 	'/admin/schedule': 'Schedule',
-	'/admin/user': 'Users',
+	'/admin/user': 'User',
 }
 
 export interface AdminNavProps {

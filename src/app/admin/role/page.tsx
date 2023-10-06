@@ -7,6 +7,7 @@ export default async function AdminRolePage() {
 	const roles = await client.db()
 		.collection<Role>('roles')
 		.find()
+		.sort({ _id: 1 })
 		.toArray()
 	return <RolesEditor roles={roles} />
 }
