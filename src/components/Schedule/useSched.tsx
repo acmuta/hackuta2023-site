@@ -2,7 +2,8 @@ import React from 'react'
 
 import { fetchChannels } from './fetchEvents'
 
-import { Channel, Program, useEpg } from 'planby'
+import { theme } from '@/app/theme'
+import { Channel, Program, useEpg } from '@acmuta/planby'
 
 export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 	const [channels, setChannels] = React.useState<Channel[]>([])
@@ -92,18 +93,9 @@ export function useSched(startDate: Date, endDate: Date, events: Program[]) {
 		isBaseTimeFormat: true,
 		height: 485,
 		globalStyles: globalStyles,
+		isCurrentTime: true,
+		theme,
 	})
-
-	//   export interface Program {
-	//     channelUuid: string;
-	//     id: string;
-	//     title: string;
-	//     description: string;
-	//     since: string | number | Date;
-	//     till: string | number | Date;
-	//     image: string;
-	//     [key: string]: any;
-	// }
 
 	const handleFetchResources = React.useCallback(async () => {
 		if (!events) { return }

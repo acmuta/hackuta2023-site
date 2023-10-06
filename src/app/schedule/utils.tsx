@@ -1,6 +1,6 @@
 import { HackathonCalendar } from '@/components/Schedule/calendar'
 import { WavyPattern } from '@/components/WavyPattern'
-import { Program } from 'planby'
+import { Program } from '@acmuta/planby'
 export const revalidate = 10
 
 export function Calendar(

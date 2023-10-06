@@ -4,7 +4,9 @@ import { ChannelItem } from './ChannelItem'
 import { Program } from './ProgramItem'
 import { Timeline } from './Timeline'
 
-import { Epg, Layout, Program as ProgramI } from 'planby'
+import { Epg, Layout, Program as ProgramI } from '@acmuta/planby'
+import { Line } from './Line'
+import { LiveTime } from './LiveTime'
 import { useSched } from './useSched'
 
 // export async function getEvents(): Promise<WithId<EventModel>[] | undefined> {
@@ -43,14 +45,16 @@ export function HackathonCalendar(
 			<Epg isLoading={isLoading} {...getEpgProps()}>
 				<Layout
 					{...getLayoutProps()}
+					renderLine={(props) => <Line {...props} />}
+					renderCurrentTime={(props) => <LiveTime {...props} />}
 					renderTimeline={(props) => (
 						<Timeline {...props} isLoading={isLoading} />
 					)}
 					renderProgram={({ program, ...rest }) => (
 						<Program key={program.data.id} program={program} {...rest} />
 					)}
-					renderChannel={({ channel }) => (
-						<ChannelItem key={channel.uuid} channel={channel} />
+					renderChannel={({ channel, ...rest }) => (
+						<ChannelItem key={channel.uuid} channel={channel} {...rest} />
 					)}
 				/>
 				{/* dummy div so tailwind can compile hidden tag for loading stage */}

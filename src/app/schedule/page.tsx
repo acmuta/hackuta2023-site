@@ -1,5 +1,5 @@
 import { getEvents } from '@/components/Schedule/getEvents'
-import { Program } from 'planby'
+import { Program } from '@acmuta/planby'
 import { Calendar } from './utils'
 
 export const revalidate = 10

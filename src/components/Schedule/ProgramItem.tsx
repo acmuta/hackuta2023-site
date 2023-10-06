@@ -5,10 +5,11 @@ import {
 	ProgramStack,
 	ProgramText,
 	useProgram,
-} from 'planby'
+} from '@acmuta/planby'
 
-export const Program = ({ program, ...rest }: ProgramItem) => {
+export const Program = ({ isVerticalMode, program, ...rest }: ProgramItem) => {
 	const { styles, formatTime, set12HoursTimeFormat, isLive } = useProgram({
+		isVerticalMode,
 		program,
 		...rest,
 	})
@@ -27,6 +28,7 @@ export const Program = ({ program, ...rest }: ProgramItem) => {
 		>
 			<ProgramContent
 				width={styles.width}
+				isVerticalMode={isVerticalMode}
 				isLive={isLive}
 				className="planby-program-content transition-all"
 			>
@@ -34,9 +36,11 @@ export const Program = ({ program, ...rest }: ProgramItem) => {
 					{/* {isLive && isMinWidth && <ProgramImage src={image} alt="Preview" />} */}
 					<ProgramStack className="planby-program-stack transition-all">
 						<div className="inline-flex gap-2 items-center mb-1">
-							<p className="bg-emerald-500 rounded-full w-fit p-1 text-white font-heading">
-								{pointValue}
-							</p>
+							{pointValue > 0 && (
+								<p className="bg-emerald-500 rounded-full w-fit p-1 text-white font-heading">
+									{pointValue > 0 ? pointValue : ''}
+								</p>
+							)}
 							<p className="font-heading text-sm">{title}</p>
 						</div>
 						<p className="group-hover:block  hidden">{details}</p>
