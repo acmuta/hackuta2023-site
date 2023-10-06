@@ -59,7 +59,7 @@ export const MarqueeHeader = (
 
 	return (
 		<div
-			className={twMerge('bg-hackuta-black mb-2 sticky z-20 top-0')}
+			className={twMerge('bg-hackuta-black mb-2 sticky z-100 top-0')}
 			{...props}
 		>
 			<div
@@ -82,7 +82,7 @@ export const MarqueeHeader = (
 				>
 					{
 						<a
-							className="flex items-center gap-2 no-underline text-hackuta-beige hover:opacity-80"
+							className="flex items-center gap-2 no-underline text-hackuta-beige hover:opacity-80 hover:drop-shadow-hackuta transition-all"
 							href="/"
 						>
 							<Logo className="inline-block" />

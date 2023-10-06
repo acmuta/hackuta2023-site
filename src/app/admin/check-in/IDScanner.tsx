@@ -59,7 +59,8 @@ const useEvents = (): {
 					event.eventType === 'workshop'
 					|| event.eventType === 'minievent'
 					|| event.eventType === 'sponsor'
-					|| event.eventType === 'event',
+					|| event.eventType === 'event'
+					|| event.eventType === 'general',
 			)
 		}
 	}
@@ -252,7 +253,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 				&& !!(currEvents[0] ?? currMeal)
 				&& (eventSelected || checkinMode !== 'event'),
 		)
-		console.log(currEvents)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue, eventSelected])
 
@@ -420,7 +420,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 							<button
 								onClick={toggleCamera}
 								type="button"
-								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all"
+								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all z-100"
 							>
 								Switch Camera
 							</button>

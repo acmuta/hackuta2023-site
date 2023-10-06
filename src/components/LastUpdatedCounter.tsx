@@ -9,8 +9,6 @@ interface Props {
 }
 
 const LastUpdatedCounter: React.FC<Props> = ({ minsAgo, className }: Props) => {
-	console.log(minsAgo)
-
 	return (
 		// Return the JSX for your component here
 		<span
