@@ -20,7 +20,7 @@ export function Calendar(
 					Schedule
 					<WavyPattern className="w-32" />
 				</h2>
-				<div className="font-rhd flex flex-nowrap text-white tracking-wider uppercase">
+				<div className="font-rhd drop-shadow-hackuta flex flex-nowrap text-white tracking-wider uppercase">
 					<HackathonCalendar
 						startDate={startDate}
 						endDate={endDate}

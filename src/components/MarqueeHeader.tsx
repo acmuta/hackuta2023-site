@@ -78,7 +78,7 @@ export const MarqueeHeader = ({ showBadge, ...props }: MarqueeHeaderProps) => {
 				>
 					{
 						<a
-							className="flex items-center gap-2 no-underline text-hackuta-beige hover:opacity-80"
+							className="flex items-center gap-2 no-underline text-hackuta-beige hover:opacity-80 hover:drop-shadow-hackuta transition-all"
 							href="/"
 						>
 							<Logo className="inline-block" />

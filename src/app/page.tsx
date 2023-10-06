@@ -225,7 +225,7 @@ export default async function Landing() {
 							</div> */
 							}
 							<HackTicket
-								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8"
+								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8 drop-shadow-hackuta"
 								user={user}
 							/>
 
