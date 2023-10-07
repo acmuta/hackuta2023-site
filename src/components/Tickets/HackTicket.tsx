@@ -13,7 +13,6 @@ export const HackTicket = ({
 	className,
 	user,
 }: HackTicketProps) => {
-	const id = user?.hexId ?? user?.checkInPin ?? 'APPLY'
 	const qrcodePath = user?.hexId
 		? '/qrcode/hex'
 		: user?.checkInPin
@@ -199,7 +198,9 @@ export const HackTicket = ({
 									/>
 								</div>
 							</div>
-							<p className="text-sm font-semibold text-gray-600">{id}</p>
+							<p className="text-sm font-semibold text-gray-600 uppercase">
+								{user?.applicationStatus ?? 'waitlisted'}
+							</p>
 						</div>
 					</div>
 				</div>
