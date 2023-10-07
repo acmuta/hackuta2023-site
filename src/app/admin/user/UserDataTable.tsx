@@ -85,6 +85,9 @@ export default function UserDataTable({
 				/>
 				<Column
 					header="Roles"
+					field="roles"
+					filter
+					filterMatchMode="contains"
 					body={(user: JsonUser) => (
 						hasWriteRolePerm
 							? (
