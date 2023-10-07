@@ -19,6 +19,9 @@ export const HackTicket = ({
 		? '/qrcode/check-in'
 		: '/images/noqrcode.svg'
 	const countdownOver = isCountdownOver() || true
+	const status = (user?.applicationStatus === 'waitlisted'
+		? undefined
+		: user?.applicationStatus) ?? 'walk in'
 
 	let suite = ''
 	if (user?.hexId) {
@@ -59,7 +62,7 @@ export const HackTicket = ({
 									className="h-40"
 								/>
 								<span className="uppercase">
-									{user?.applicationStatus ?? 'waitlisted'}
+									{status}
 								</span>
 							</div>
 						)
@@ -199,9 +202,7 @@ export const HackTicket = ({
 								</div>
 							</div>
 							<p className="text-sm font-semibold text-gray-600 uppercase">
-								{(user?.applicationStatus === 'waitlisted'
-									? 'walk in'
-									: user?.applicationStatus) ?? 'walk in'}
+								{status}
 							</p>
 						</div>
 					</div>
