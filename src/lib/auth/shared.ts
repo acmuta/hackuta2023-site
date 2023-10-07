@@ -8,26 +8,26 @@ export type PermissionShapeObject = {
 	[key: string]: PermissionShape
 }
 
-export const UnauthedPerms: AppPermissions = {
-	auth: true,
-	faq: true,
-	schedule: true,
-	post: true,
-}
-
 /**
  * Types of roles:
  *
- * * Built-In: roles that are temporarily assigned by certain mechanisms
+ * * Built-In: roles that are assigned by internal mechanisms
  * to achieve a certain purpose. These roles cannot be managed by admins.
- * * Unauthed: the base role that all users, including unauthenticated
- * ones, are granted. This role cannot be managed by admins.
  * * hacker: the base role that every authenticated user is granted.
  * The permissions of this role can be changed by admins, but it cannot be
  * deleted.
  * * Database: roles created and fully managed by admins.
  */
 export const BuiltInRoles = {
+	/**
+	 * A role that every user, including unnauthenticated visitors, has.
+	 */
+	'@@base': {
+		auth: true,
+		faq: true,
+		schedule: true,
+		post: true,
+	},
 	/**
 	 * A role temporarily assigned to users who are viewing as other roles.
 	 * This role has the neccessary permissions to ensure that the user

@@ -2,9 +2,9 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import {
+	BuiltInRoles,
 	EnhancedSession,
 	hasRoutePermission,
-	UnauthedPerms,
 } from './lib/auth/shared'
 
 const Redirects = new Map([
@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
 		console.error('[middleware]', e)
 		session = {
 			user: null,
-			perms: UnauthedPerms,
+			perms: BuiltInRoles['@@base'],
 		}
 	}
 
