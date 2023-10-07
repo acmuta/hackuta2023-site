@@ -493,12 +493,12 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 						{/* MEAL SCAN MODE */}
 						{(scannerMode === 'meal' && currMeal) && (
 							<>
-								<div className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white">
+								<div className="font-heading text-center mt-3 text-lg px-4 rounded-lg bg-hackuta-red text-white">
 									{`${currMeal} Checkin`}
 								</div>
-								<div className="text-center mb-4 font-bold">
-									Checked in: {stats
-										? `${stats.numEatenMeal} out of ${stats.numCheckedIn} checked in`
+								<div className="text-center mb-2 font-bold">
+									{stats
+										? `${stats.numEatenMeal} out of ${stats.numCheckedIn}`
 										: 'Loading...'}
 								</div>
 								<div style={{ marginTop: '10px' }}>
