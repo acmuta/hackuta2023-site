@@ -6,8 +6,12 @@ export const revalidate = 10
 
 export default async function faq() {
 	const convertToTime = (date: string, duration?: number) => {
+		const localToCentralOffset = new Date().getTime() - new Date(
+			new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+		).getTime()
 		const newDate = new Date(
-			new Date(date).getTime() + (duration ? duration * 60000 : 0),
+			new Date(date).getTime() + (duration ? duration * 60000 : 0)
+				+ localToCentralOffset,
 		)
 		return newDate.toISOString()
 	}

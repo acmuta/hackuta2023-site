@@ -32,7 +32,9 @@ const useEvents = (): {
 			refreshInterval: 20_000,
 		},
 	)
-	const currDateTime = new Date().getTime()
+	const currDateTime = new Date(
+		new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+	).getTime()
 
 	if (isLoading) {
 		return { isLoading: true, currEvents: [] }
@@ -67,8 +69,7 @@ const useEvents = (): {
 
 	// MEALS: only allow meals during meal time (30 mins before — 1 hour after)
 	filterEvents('meal').forEach((event: any) => {
-		const eventTime = new Date(new Date(event.date).toLocaleString())
-			.getTime()
+		const eventTime = new Date(event.date).getTime()
 		const eventEndTime = eventTime + event.durationMins * 60_000
 		if (
 			currDateTime > eventTime - 1800000
@@ -80,8 +81,7 @@ const useEvents = (): {
 
 	// EVENTS: only allow events during event time (10 mins before — 10 mins after)
 	filterEvents('event').forEach((event: any) => {
-		const eventTime = new Date(new Date(event.date).toLocaleString())
-			.getTime()
+		const eventTime = new Date(event.date).getTime()
 		const eventEndTime = eventTime + event.durationMins * 60_000
 		if (
 			currDateTime > eventTime - 600000

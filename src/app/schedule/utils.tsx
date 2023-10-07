@@ -10,8 +10,8 @@ export function Calendar(
 		events: Program[]
 	},
 ) {
-	const startDate = new Date('10/07/2023 08:00:00')
-	const endDate = new Date('10/08/2023 17:00:00')
+	const startDate = new Date('2023-10-07T08:00:00.000-05:00')
+	const endDate = new Date('2023-10-08T17:00:00.000-05:00')
 
 	return (
 		<div className="flex flex-col items-center justify-center gap-8 bg-hackuta-red bg-hackuta-pattern-transparent py-8 md:p-16 w-full">
