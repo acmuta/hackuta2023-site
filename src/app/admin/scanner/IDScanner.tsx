@@ -139,10 +139,10 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		'no' | 'success' | 'error'
 	>('no')
 	const [scannerMode, setScannerMode] = useState<ScanType>(
-		hasLinkPerm
-			? 'checkin'
-			: hasEventPerm
+		hasEventPerm
 			? 'event'
+			: hasLinkPerm
+			? 'checkin'
 			: hasMealPerm
 			? 'meal'
 			: 'shop',
@@ -154,6 +154,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		jsonFetcher,
 	)
 	const eventSelect = useRef<HTMLSelectElement>(null)
+	const [message, setMessage] = useState<string>()
+	const [messageIsError, setMessageIsError] = useState(false)
+
+	const showMessage = (msg: string, isError = false) => {
+		setMessage(msg)
+		setMessageIsError(isError)
+		setTimeout(() => {
+			setMessage(undefined)
+		}, 4_000)
+	}
 
 	const onSubmit = async ({ checkInPin, hexId, id, eventName, swagName }: {
 		checkInPin?: string
@@ -179,7 +189,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 			const data = await response.json()
 			if (data.status === 'success') {
 				if (data.message) {
-					alert(data.message)
+					showMessage(data.message)
 				} else {
 					window.location.reload()
 				}
@@ -187,13 +197,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 				throw new Error(data.message)
 			}
 		} catch (e) {
-			alert(stringifyError(e))
+			showMessage(stringifyError(e), true)
 		}
 	}
 
 	useEffect(() => {
 		if (eventsFetchError) {
-			alert('Failed fetching events: ' + stringifyError(eventsFetchError))
+			showMessage(
+				'Failed fetching events: ' + stringifyError(eventsFetchError),
+				true,
+			)
 		}
 	}, [eventsFetchError])
 
@@ -229,7 +242,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 			status: typeof cameraPreviewFlash = 'success',
 		) => {
 			setCameraPreviewFlash(status)
-			setTimeout(() => setCameraPreviewFlash('no'), 300)
+			setTimeout(() => setCameraPreviewFlash('no'), 600)
 		}
 		// phys id ie: A00000
 		// dig id: 123456
@@ -278,10 +291,11 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		)
 		const data: JsonUser[] = await response.json()
 		if (data.length === 0) {
-			alert('No user found with the provided check-in PIN.')
+			showMessage('No user found with the provided check-in PIN.', true)
 		} else if (data[0].checkedIn) {
-			alert(
+			showMessage(
 				`The user has already checked in with the hexID ${data[0].hexId}`,
+				true,
 			)
 		} else {
 			setUserData({
@@ -372,6 +386,18 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 								Switch Camera
 							</button>
 						</div>
+						{message && (
+							<div
+								className={twJoin(
+									'text-center',
+									messageIsError
+										? 'text-hackuta-error'
+										: 'text-green-700',
+								)}
+							>
+								{message}
+							</div>
+						)}
 
 						{/* START OF DAY CHECK-IN MODE */}
 						{scannerMode === 'checkin' && (

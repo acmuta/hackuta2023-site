@@ -106,7 +106,7 @@ async function addEvent(
 
 	return NextResponse.json({
 		status: 'success',
-		message: `${getFullName(user)} checked into "${eventName}"`,
+		message: `Checked ${getFullName(user)} into "${eventName}" successfully`,
 	})
 }
 
@@ -157,6 +157,6 @@ async function redeemSwag(
 
 	return NextResponse.json({
 		status: 'success',
-		message: `${getFullName(user)} redeemed ${swagName}`,
+		message: `${getFullName(user)} redeemed ${swagName} successfully`,
 	})
 }
