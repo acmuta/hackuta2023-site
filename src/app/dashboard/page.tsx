@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { Box } from '@/components/Box'
 import { getEnhancedSession } from '@/lib/utils/server'
 
+import { canAccessDashboard } from '@/lib/auth/shared'
 import Cards from './Cards'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
@@ -12,10 +13,10 @@ import Cards from './Cards'
 export const dynamic = 'force-dynamic'
 
 export default async function Dashboard() {
-	const { user } = getEnhancedSession(headers())
+	const { user, perms } = getEnhancedSession(headers())
 	if (!user) {
 		redirect('/api/auth/signin?callbackUrl=%2Fdashboard')
-	} else if (!user.application) {
+	} else if (!canAccessDashboard(user, perms)) {
 		redirect('/apply')
 	}
 

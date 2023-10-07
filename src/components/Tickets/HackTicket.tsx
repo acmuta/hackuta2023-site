@@ -19,6 +19,7 @@ export const HackTicket = ({
 		: user?.checkInPin
 		? '/qrcode/check-in'
 		: '/images/noqrcode.svg'
+	const countdownOver = isCountdownOver() || true
 
 	let suite = ''
 	if (user?.hexId) {
@@ -46,18 +47,24 @@ export const HackTicket = ({
 		<>
 			<div className="flex flex-col md:hidden justify-center items-center bg-hackuta-darkred p-2">
 				<h2 className="text-white text-3xl mt-2 font-bold">
-					{`${isCountdownOver() ? 'Hacker ID' : 'Countdown'}`}
+					{`${countdownOver ? 'Hacker ID' : 'Countdown'}`}
 				</h2>
 				<div className="my-2.5 px-4 gap-0.5 flex flex-col font-semibold text-3xl text-white">
-					{!isCountdownOver() && <Countdown />}
-					{(user?.applied && isCountdownOver()) && (
-						// eslint-disable-next-line @next/next/no-img-element
-						<img
-							src={qrcodePath}
-							alt="ID QR code"
-							className="h-40"
-						/>
-					)}
+					{countdownOver
+						? (
+							<div className="flex flex-col gap-2 items-center">
+								{/* eslint-disable-next-line @next/next/no-img-element */}
+								<img
+									src={qrcodePath}
+									alt="ID QR code"
+									className="h-40"
+								/>
+								<span className="uppercase">
+									{user?.applicationStatus ?? 'waitlisted'}
+								</span>
+							</div>
+						)
+						: <Countdown />}
 				</div>
 			</div>
 			<div
@@ -169,10 +176,10 @@ export const HackTicket = ({
 							</h1>
 							<div className="flex flex-col font-normal text-sm">
 								<p className="m-0 text-sm">
-									SAT 12PM{' '}
+									SAT 9AM{' '}
 									<span className="font-medium text-base">TO</span>
 									{' '}
-									SUN 12PM
+									SUN 4PM
 								</p>
 								<p className="m-0">
 									DOORS{' '}
@@ -182,18 +189,14 @@ export const HackTicket = ({
 							</div>
 							<div className="h-32 mt-2">
 								<div
-									className={`w-32 h-32 ${
-										!user?.applied ? 'bg-hackuta-noqrcode' : ''
-									}`}
+									className={`w-32 h-32`}
 								>
-									{user?.applied && (
-										// eslint-disable-next-line @next/next/no-img-element
-										<img
-											src={qrcodePath}
-											alt="ID QR code"
-											className="h-full"
-										/>
-									)}
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										src={qrcodePath}
+										alt="ID QR code"
+										className="h-full"
+									/>
 								</div>
 							</div>
 							<p className="text-sm font-semibold text-gray-600">{id}</p>

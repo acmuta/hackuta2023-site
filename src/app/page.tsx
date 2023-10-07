@@ -265,7 +265,7 @@ export default async function Landing() {
 								</LinkButton>
 							)}
 							<LinkButton
-								href="https://discord.gg/4e64SfjmWS"
+								href="/discord"
 								className="bg-hackuta-darkblue"
 								kind="secondary"
 							>

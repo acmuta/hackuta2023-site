@@ -13,7 +13,7 @@ export default function SiteFooter() {
 					links={[
 						<Link
 							key="discord"
-							href={'https://discord.gg/4e64SfjmWS'}
+							href={'/discord'}
 							className="no-underline text-hackuta-beige"
 						>
 							<Discord

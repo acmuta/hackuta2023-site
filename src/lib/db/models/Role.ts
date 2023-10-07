@@ -42,6 +42,7 @@ export const AppPermissionsSchema = z.union([
 			}),
 		]).optional(),
 		application: z.literal(true).optional(),
+		applicationWaived: z.literal(true).optional(),
 		auth: z.literal(true).optional(),
 		faq: z.literal(true).optional(),
 		post: z.literal(true).optional(),

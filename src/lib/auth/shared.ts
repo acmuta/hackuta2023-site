@@ -1,5 +1,6 @@
 import { AppPermissions } from '../db/models/Role'
 import type { JsonUser } from '../db/models/User'
+import User from '../db/models/User'
 
 export type PermissionShape = undefined | true | PermissionShapeObject
 
@@ -267,4 +268,12 @@ export function hasRoutePermission(
 		({ matcher, perms }) =>
 			!matcher.test(pathname) || hasPermission(granted, perms),
 	)
+}
+
+export function canAccessDashboard(
+	user: User | JsonUser | undefined | null,
+	perms: AppPermissions,
+): boolean {
+	return !!(user?.applied || user?.checkedIn
+		|| hasPermission(perms, { applicationWaived: true }))
 }

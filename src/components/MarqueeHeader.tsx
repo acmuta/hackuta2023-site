@@ -7,7 +7,7 @@ import { ReactNode, useState } from 'react'
 import { SVGProps } from 'react-html-props'
 import { twMerge } from 'tailwind-merge'
 
-import { hasPermission } from '@/lib/auth/shared'
+import { canAccessDashboard, hasPermission } from '@/lib/auth/shared'
 import { AppPermissions } from '@/lib/db/models/Role'
 import { JsonUser } from '@/lib/db/models/User'
 
@@ -106,10 +106,10 @@ export const MarqueeHeader = (
 						{hasPermission(perms, { administration: {} }) && (
 							<HeaderLink href="/admin">Admin</HeaderLink>
 						)}
-						{!user?.application && (
+						{!user?.applied && (
 							<HeaderLink href="/apply">Apply</HeaderLink>
 						)}
-						{user?.application && (
+						{canAccessDashboard(user, perms) && (
 							<HeaderLink href="/dashboard">Dashboard</HeaderLink>
 						)}
 						<HeaderLink href="/faq">FAQ</HeaderLink>
