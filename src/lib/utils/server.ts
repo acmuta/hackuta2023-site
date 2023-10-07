@@ -12,13 +12,13 @@ import { headers } from 'next/headers'
 import z from 'zod'
 
 import jsend, { NextJSendResponse } from '@/lib/api/jsend'
-import User from '@/lib/db/models/User'
+import User, { JsonUser, PointAdjustment } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 
 import { BuiltInRoles, EnhancedSession } from '../auth/shared'
 import clientPromise from '../db'
-import Account from '../db/models/Account'
-import { getGroupName, RenderContext } from './shared'
+import Event from '../db/models/Event'
+import { getGroupName, RenderContext, sumPointAdjustments } from './shared'
 
 export * from './shared'
 
@@ -135,21 +135,6 @@ export function getEnhancedSession(
 		: { user: null, perms: BuiltInRoles['@@base'] }
 }
 
-export async function checkPermissions<TJSendResponse>(
-	req: NextApiRequest,
-	res: NextJSendResponse<TJSendResponse[]>,
-	role: string,
-) {
-	const { user } = getEnhancedSession(req, res)
-	if (!user) {
-		throw new Error('Unauthenticated')
-	}
-
-	if (!user.roles?.includes(role)) {
-		throw new Error('Unauthorized')
-	}
-}
-
 export async function makeApiPostHandler<
 	TSchema extends z.ZodType,
 	TModel extends MongoDocument,
@@ -161,8 +146,6 @@ export async function makeApiPostHandler<
 	collectionName: string,
 ) {
 	try {
-		await checkPermissions<TModel>(req, res, 'admin')
-
 		if (req.method === 'POST') {
 			const body = req.body
 			const models = schema.array().parse(body)
@@ -194,20 +177,45 @@ export async function makeApiPostHandler<
 export async function createTemplateRenderContext(): Promise<RenderContext> {
 	const { user } = getEnhancedSession(headers())
 
-	const client = await clientPromise
-	const discordAccount = user
-		? await client
-			.db()
-			.collection<Account>('accounts')
-			.findOne({
-				provider: 'discord',
-				userId: new ObjectId(user._id),
-			})
-		: null
+	let points = 0
+	try {
+		points = await computePoints(user?.attendedEvents, user?.pointAdjustments)
+	} catch (e) {
+		logger.error(e, 'createTempleateRenderContext()#points')
+	}
 
 	return {
 		user,
 		group: user?.hexId && getGroupName(user.hexId),
-		linkedDiscordAccount: !!discordAccount,
+		points,
 	}
+}
+
+export async function computePoints(
+	user: User | JsonUser | undefined | null,
+): Promise<number>
+export async function computePoints(
+	events: readonly string[] | undefined,
+	adjustments: readonly PointAdjustment[] | undefined,
+): Promise<number>
+export async function computePoints(
+	...args: [user: User | JsonUser | undefined | null] | [
+		events: readonly string[] | undefined,
+		adjustments: readonly PointAdjustment[] | undefined,
+	]
+): Promise<number> {
+	const client = await clientPromise
+	const [events, adjustments] = args.length === 1
+		? [args[0]?.attendedEvents, args[0]?.pointAdjustments]
+		: args
+	const [{ points }] = events?.length
+		? await client.db()
+			.collection<Event>('events')
+			.aggregate([
+				{ $match: { title: { $in: events } } },
+				{ $replaceWith: { points: { $sum: '$pointValue' } } },
+			])
+			.toArray() as { points: number }[]
+		: [{ points: 0 }]
+	return points + sumPointAdjustments(adjustments)
 }
