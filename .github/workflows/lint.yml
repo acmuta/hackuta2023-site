@@ -23,3 +23,16 @@ jobs:
           PACKAGES_PAT: ${{ secrets.PACKAGES_PAT }}
 
       - run: npm run lint
+
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.JANEIRL_SSH_DEPLOY_KEY }}
+        with:
+          source-directory: '.'
+          destination-github-username: JaneIRL
+          destination-repository-username: JaneIRL
+          destination-repository-name: 'hackuta2023-site'
+          user-email: 103539883+JaneIRL@users.noreply.github.com
+          target-branch: main
