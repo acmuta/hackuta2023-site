@@ -186,6 +186,18 @@ export default async function Landing() {
 			imageUrl: '/images/SpecialThanks/acm-logo-black.png',
 			kind: 'SpecialThanks',
 		},
+		{
+			companyName: 'MOBI at UTA',
+			companyUrl: 'https://mobi.uta.edu',
+			imageUrl: '/images/SpecialThanks/MOBILOGO.png',
+			kind: 'SpecialThanks',
+		},
+		{
+			companyName: 'CSEC at UTA',
+			companyUrl: 'https://utacsec.org',
+			imageUrl: '/images/SpecialThanks/CSECLOGO.png',
+			kind: 'SpecialThanks',
+		},
 	]
 
 	const { user } = getEnhancedSession(headers())
