@@ -132,7 +132,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	const [selectedSwag, setSelectedSwag] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [userData, setUserData] = useState<UserData | null>(null)
-	const { data: stats } = useSWR('/admin/scanner/stats', jsonFetcher)
 	const [cameraFacingMode, setCameraFacingMode] = useState<
 		'user' | 'environment'
 	>('environment')
@@ -150,6 +149,10 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	)
 	const [eventSelected, setEventSelected] = useState<boolean>(false)
 	const { currMeal, currEvents, swags, error: eventsFetchError } = useData()
+	const { data: stats } = useSWR(
+		`/admin/scanner/stats?currMeal=${currMeal ?? ''}`,
+		jsonFetcher,
+	)
 
 	const onSubmit = async ({ checkInPin, hexId, id, eventName, swagName }: {
 		checkInPin?: string
@@ -197,6 +200,10 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	useEffect(() => {
 		setSelectedEvent(currEvents[0])
 	}, [currEvents])
+
+	useEffect(() => {
+		setSelectedSwag(swags[0]?.name ?? '')
+	}, [swags])
 
 	// set generalIdValue to hexIdValue or checkInPinValue
 	useEffect(() => {
