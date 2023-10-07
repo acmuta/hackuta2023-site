@@ -18,7 +18,7 @@ export const HackTicket = ({
 		: user?.checkInPin
 		? '/qrcode/check-in'
 		: '/images/noqrcode.svg'
-	const countdownOver = isCountdownOver()
+	const countdownOver = isCountdownOver() || true
 
 	let suite = ''
 	if (user?.hexId) {
