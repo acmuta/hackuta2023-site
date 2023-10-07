@@ -149,7 +149,8 @@ function RoleButton({ uid, role }: RoleButtonProps) {
 			if (obj.status !== 'success') {
 				throw new Error(JSON.stringify(obj))
 			}
-			window.location.reload()
+			// window.location.reload()
+			alert(`Removed role ${role}`)
 		} catch (e) {
 			alert(stringifyError(e))
 		}
@@ -209,7 +210,8 @@ function AddRoleButton({ additonalRoles, uid, uname }: AddRoleButtonProps) {
 			if (obj.status !== 'success') {
 				throw new Error(JSON.stringify(obj))
 			}
-			window.location.reload()
+			// window.location.reload()
+			alert(`Added ${role} to ${uname}`)
 		} catch (e) {
 			alert(stringifyError(e))
 		}
