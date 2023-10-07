@@ -5,10 +5,16 @@ import Event from '@/lib/db/models/Event'
 import { ShopSwag, ShopSwagCollection } from '@/lib/db/models/ShopSwap'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { stringifyError, updatePoints } from '@/lib/utils/server'
+import {
+	getEnhancedSession,
+	stringifyError,
+	updatePoints,
+} from '@/lib/utils/server'
 import { Collection, MongoClient } from 'mongodb'
+import { headers } from 'next/headers'
 
 export async function POST(request: NextRequest) {
+	const { user: operator } = getEnhancedSession(headers())
 	const checkInPin = request.nextUrl.searchParams.get('checkInPin')
 	const hexId = request.nextUrl.searchParams.get('hexId')?.toUpperCase()
 	const eventName = request.nextUrl.searchParams.get('eventName')
@@ -31,7 +37,7 @@ export async function POST(request: NextRequest) {
 
 		throw new Error('Missing search params')
 	} catch (e) {
-		logger.error(e, request.nextUrl.toString())
+		logger.error(e, operator?.email + '@@' + request.nextUrl.toString())
 		return NextResponse.json({ status: 'error', message: stringifyError(e) })
 	}
 }
