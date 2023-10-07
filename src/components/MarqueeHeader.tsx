@@ -56,6 +56,7 @@ export const MarqueeHeader = (
 	}
 
 	const closeMenu = () => setMenuOpen(false)
+	const dashboardAccess = canAccessDashboard(user, perms)
 
 	return (
 		<div
@@ -109,7 +110,7 @@ export const MarqueeHeader = (
 						{!user?.applied && (
 							<HeaderLink href="/apply">Apply</HeaderLink>
 						)}
-						{canAccessDashboard(user, perms) && (
+						{dashboardAccess && (
 							<HeaderLink href="/dashboard">Dashboard</HeaderLink>
 						)}
 						<HeaderLink href="/faq">FAQ</HeaderLink>
@@ -141,7 +142,7 @@ export const MarqueeHeader = (
 							Apply
 						</HeaderLink>
 					)}
-					{user?.application && (
+					{dashboardAccess && (
 						<HeaderLink href="/dashboard" onClick={closeMenu}>
 							Dashboard
 						</HeaderLink>
