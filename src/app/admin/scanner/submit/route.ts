@@ -5,7 +5,7 @@ import Event from '@/lib/db/models/Event'
 import { ShopSwag, ShopSwagCollection } from '@/lib/db/models/ShopSwap'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { stringifyError } from '@/lib/utils/server'
+import { computePoints, stringifyError } from '@/lib/utils/server'
 import { Collection, MongoClient } from 'mongodb'
 
 export async function POST(request: NextRequest) {
@@ -98,7 +98,13 @@ async function addEvent(
 
 	await users.updateOne({ _id: user._id }, {
 		$addToSet: { attendedEvents: eventName },
-		$set: { points: (user.points ?? 0) + event.pointValue },
+	})
+
+	const updatedUser = await users.findOne({ _id: user._id }, {
+		projection: { 'application.resume': 0 },
+	})
+	await users.updateOne({ _id: user._id }, {
+		$set: { points: await computePoints(updatedUser) },
 	})
 
 	return NextResponse.json({
@@ -152,9 +158,13 @@ async function redeemSwag(
 				timestamp: new Date().getTime(),
 			},
 		},
-		$set: {
-			points: points - swag.price,
-		},
+	})
+
+	const updatedUser = await users.findOne({ _id: user._id }, {
+		projection: { 'application.resume': 0 },
+	})
+	await users.updateOne({ _id: user._id }, {
+		$set: { points: await computePoints(updatedUser) },
 	})
 
 	return NextResponse.json({

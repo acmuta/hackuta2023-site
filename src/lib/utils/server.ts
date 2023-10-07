@@ -12,7 +12,7 @@ import { headers } from 'next/headers'
 import z from 'zod'
 
 import jsend, { NextJSendResponse } from '@/lib/api/jsend'
-import User, { JsonUser, PointAdjustment } from '@/lib/db/models/User'
+import User, { JsonUser } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 
 import { BuiltInRoles, EnhancedSession } from '../auth/shared'
@@ -185,21 +185,9 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 
 export async function computePoints(
 	user: User | JsonUser | undefined | null,
-): Promise<number>
-export async function computePoints(
-	events: readonly string[] | undefined,
-	adjustments: readonly PointAdjustment[] | undefined,
-): Promise<number>
-export async function computePoints(
-	...args: [user: User | JsonUser | undefined | null] | [
-		events: readonly string[] | undefined,
-		adjustments: readonly PointAdjustment[] | undefined,
-	]
 ): Promise<number> {
 	const client = await clientPromise
-	const [events, adjustments] = args.length === 1
-		? [args[0]?.attendedEvents, args[0]?.pointAdjustments]
-		: args
+	const [events, adjustments] = [user?.attendedEvents, user?.pointAdjustments]
 	const [{ points }] = events?.length
 		? await client.db()
 			.collection<Event>('events')
@@ -209,5 +197,6 @@ export async function computePoints(
 			])
 			.toArray() as { points: number }[]
 		: [{ points: 0 }]
-	return points + sumPointAdjustments(adjustments)
+	const checkedInBonus = user?.checkedIn ? 50 : 0
+	return points + checkedInBonus + sumPointAdjustments(adjustments)
 }
