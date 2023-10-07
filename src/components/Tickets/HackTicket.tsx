@@ -18,7 +18,7 @@ export const HackTicket = ({
 		: user?.checkInPin
 		? '/qrcode/check-in'
 		: '/images/noqrcode.svg'
-	const countdownOver = isCountdownOver() || true
+	const countdownOver = false && isCountdownOver()
 	const status = (user?.applicationStatus === 'waitlisted'
 		? undefined
 		: user?.applicationStatus) ?? 'walk in'

@@ -45,7 +45,7 @@ export type CountdownProps = DivProps
 const Countdown: React.FC = ({ className }: CountdownProps) => {
 	const calculate = () => {
 		const currentTime = new Date()
-		const timeDifference = targetDate.getTime() - currentTime.getTime()
+		const timeDifference = currentCountdown() - currentTime.getTime()
 
 		if (timeDifference <= 0) {
 			return { weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
