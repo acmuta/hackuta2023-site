@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import clientPromise from '@/lib/db'
+import Event from '@/lib/db/models/Event'
 import { ShopSwag, ShopSwagCollection } from '@/lib/db/models/ShopSwap'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { computePoints, stringifyError } from '@/lib/utils/server'
+import { stringifyError } from '@/lib/utils/server'
 import { Collection, MongoClient } from 'mongodb'
 
 export async function POST(request: NextRequest) {
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
 			return await linkIDs(users, hexId, checkInPin)
 		}
 		if (eventName && generalId) {
-			return await addEvent(generalId, users, eventName)
+			return await addEvent(client, generalId, users, eventName)
 		}
 		if (swagName && generalId) {
 			return await redeemSwag(generalId, client, swagName, users)
@@ -64,6 +65,7 @@ async function linkIDs(
 }
 
 async function addEvent(
+	client: MongoClient,
 	generalId: string,
 	users: Collection<User>,
 	eventName: string,
@@ -87,8 +89,16 @@ async function addEvent(
 		)
 	}
 
+	const event = await client.db().collection<Event>('events').findOne({
+		title: { $eq: eventName },
+	})
+	if (!event) {
+		throw new Error(`Unknown event ${eventName}`)
+	}
+
 	await users.updateOne({ _id: user._id }, {
 		$addToSet: { attendedEvents: eventName },
+		$set: { points: (user.points ?? 0) + event.pointValue },
 	})
 
 	return NextResponse.json({
@@ -123,7 +133,7 @@ async function redeemSwag(
 		throw new Error(`No user with ID ${generalId}`)
 	}
 
-	const points = await computePoints(user)
+	const points = user.points ?? 0
 	if (points < swag.price) {
 		throw new Error(
 			`${
@@ -138,9 +148,12 @@ async function redeemSwag(
 		$push: {
 			pointAdjustments: {
 				delta: -swag.price,
-				reason: `Redeemed ${swagName} from shop`,
+				reason: `Redeemed ${swagName} from Shop`,
 				timestamp: new Date().getTime(),
 			},
+		},
+		$set: {
+			points: points - swag.price,
 		},
 	})
 

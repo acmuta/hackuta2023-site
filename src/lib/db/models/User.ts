@@ -28,6 +28,7 @@ export default interface User {
 	hexId?: string
 	attendedEvents?: string[]
 	pointAdjustments?: PointAdjustment[]
+	points?: number
 }
 
 export interface PointAdjustment {

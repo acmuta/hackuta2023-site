@@ -177,17 +177,9 @@ export async function makeApiPostHandler<
 export async function createTemplateRenderContext(): Promise<RenderContext> {
 	const { user } = getEnhancedSession(headers())
 
-	let points = 0
-	try {
-		points = await computePoints(user?.attendedEvents, user?.pointAdjustments)
-	} catch (e) {
-		logger.error(e, 'createTempleateRenderContext()#points')
-	}
-
 	return {
 		user,
 		group: user?.hexId && getGroupName(user.hexId),
-		points,
 	}
 }
 

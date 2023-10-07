@@ -71,7 +71,6 @@ export type ToJsonValue<T> = T extends Date | ObjectId ? string
 export interface RenderContext {
 	user: JsonUser | null
 	group?: string | undefined
-	points: number
 }
 
 export function renderTemplate(
