@@ -203,6 +203,22 @@ export const RoutePermissions: { matcher: RegExp; perms: AppPermissions }[] = [
 		},
 	},
 	{
+		matcher: new RegExp('^/admin/shop'),
+		perms: {
+			administration: {
+				shop: true,
+			},
+		},
+	},
+	{
+		matcher: new RegExp('^/api/admin/shop'),
+		perms: {
+			administration: {
+				shop: true,
+			},
+		},
+	},
+	{
 		matcher: new RegExp('^/admin/user'),
 		perms: {
 			administration: {

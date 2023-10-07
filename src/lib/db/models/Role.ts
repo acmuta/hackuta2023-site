@@ -33,6 +33,7 @@ export const AppPermissionsSchema = z.union([
 					}),
 				]).optional(),
 				schedule: z.literal(true).optional(),
+				shop: z.literal(true).optional(),
 				user: z.union([
 					z.literal(true),
 					z.object({
