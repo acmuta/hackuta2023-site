@@ -13,7 +13,7 @@ export const HackTicket = ({
 	className,
 	user,
 }: HackTicketProps) => {
-	const qrcodePath = user?.hexId
+	const qrCodePath = user?.hexId
 		? '/qrcode/hex'
 		: user?.checkInPin
 		? '/qrcode/check-in'
@@ -54,7 +54,7 @@ export const HackTicket = ({
 							<div className="flex flex-col gap-2 items-center">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img
-									src={qrcodePath}
+									src={qrCodePath}
 									alt="ID QR code"
 									className="h-40"
 								/>
@@ -192,7 +192,7 @@ export const HackTicket = ({
 								>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img
-										src={qrcodePath}
+										src={qrCodePath}
 										alt="ID QR code"
 										className="h-full"
 									/>

@@ -4,7 +4,7 @@ import { Calendar } from './utils'
 
 export const revalidate = 10
 
-export default async function faq() {
+export default async function Schedule() {
 	const convertToTime = (date: string, duration?: number) => {
 		const localToCentralOffset = new Date().getTime() - new Date(
 			new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),

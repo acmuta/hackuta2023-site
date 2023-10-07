@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 import { JSend } from '@/lib/api/jsend'
 
-import { JsonUser } from '../db/models/User'
+import { JsonUser, PointAdjustment } from '../db/models/User'
 
 export function range(start: number, end: number) {
 	return new Array(end - start).fill(undefined).map((_, i) => i + start)
@@ -71,7 +71,7 @@ export type ToJsonValue<T> = T extends Date | ObjectId ? string
 export interface RenderContext {
 	user: JsonUser | null
 	group?: string | undefined
-	linkedDiscordAccount: boolean
+	points: number
 }
 
 export function renderTemplate(
@@ -125,4 +125,10 @@ export function printRoles(roles: readonly string[] = []): string {
 	return dedupe(['hacker', ...roles.filter((r) => !r.startsWith('@@'))]).join(
 		' + ',
 	)
+}
+
+export function sumPointAdjustments(
+	adjustments: readonly PointAdjustment[] | undefined,
+): number {
+	return adjustments?.reduce((p, c) => p + c.delta, 0) ?? 0
 }

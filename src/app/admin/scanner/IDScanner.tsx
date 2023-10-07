@@ -6,27 +6,38 @@ import useSWR from 'swr'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/Form'
 import { hasPermission } from '@/lib/auth/shared'
-import { JsonEvents } from '@/lib/db/models/Event'
 import { AppPermissions } from '@/lib/db/models/Role'
+import { ShopSwag } from '@/lib/db/models/ShopSwap'
 import { JsonUser } from '@/lib/db/models/User'
 import { getGroupName, jsonFetcher, stringifyError } from '@/lib/utils/client'
 import { useZxing } from 'react-zxing'
 import { twJoin } from 'tailwind-merge'
+import { ScannerDataResponse } from './data/route'
 
 export interface IDScannerProps {
 	perms: AppPermissions
 }
 
-type checkInType = 'checkin' | 'event' | 'meal'
+type ScanType = 'checkin' | 'event' | 'meal' | 'shop'
 
-const useEvents = (): {
+interface UserData {
+	firstName: string
+	lastName: string
+	fullName: string
+	school: string
+	age: number
+	group: string
+}
+
+const useData = (): {
 	currEvents: string[]
 	currMeal?: string | undefined
+	swags: ShopSwag[]
 	isLoading: boolean
 	error?: unknown
 } => {
-	const { data, error, isLoading } = useSWR<JsonEvents[]>(
-		'/admin/check-in/events',
+	const { data, error, isLoading } = useSWR<ScannerDataResponse>(
+		'/admin/scanner/data',
 		jsonFetcher,
 		{
 			refreshInterval: 20_000,
@@ -37,26 +48,27 @@ const useEvents = (): {
 	).getTime()
 
 	if (isLoading) {
-		return { isLoading: true, currEvents: [] }
+		return { isLoading: true, currEvents: [], swags: [] }
 	} else if (error || !data) {
-		return { isLoading: false, error, currEvents: [] }
+		return { isLoading: false, error, currEvents: [], swags: [] }
 	}
 
 	let currMeal: string | undefined
 	const currEvents: string[] = []
 
-	if (data.length === 0) {
+	if (data.events.length === 0) {
 		return {
 			isLoading: false,
 			error: new Error('No events found'),
 			currEvents: [],
+			swags: data.swags,
 		}
 	}
-	const filterEvents = (type: checkInType) => {
+	const filterEvents = (type: ScanType) => {
 		if (type !== 'event') {
-			return data.filter((event: any) => event.eventType === type)
+			return data.events.filter((event: any) => event.eventType === type)
 		} else {
-			return data.filter(
+			return data.events.filter(
 				(event: any) =>
 					event.eventType === 'workshop'
 					|| event.eventType === 'minievent'
@@ -95,40 +107,64 @@ const useEvents = (): {
 		isLoading: false,
 		currMeal,
 		currEvents,
+		swags: data.swags,
 	}
 }
 
 const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
+	const hasLinkPerm = hasPermission(perms, {
+		administration: { scanner: { link: true } },
+	})
+	const hasEventPerm = hasPermission(perms, {
+		administration: { scanner: { event: true } },
+	})
+	const hasMealPerm = hasPermission(perms, {
+		administration: { scanner: { meal: true } },
+	})
+	const hasShopPerm = hasPermission(perms, {
+		administration: { scanner: { shop: true } },
+	})
+
 	const [hexIdValue, setHexIdValue] = useState<string>('')
 	const [checkInPinValue, setCheckInPinValue] = useState<string>('')
 	const [generalIdValue, setGeneralIdValue] = useState<string>('') // could be hex or pin
-	const [eventNameValue, setEventNameValue] = useState<string>('')
+	const [selectedEvent, setSelectedEvent] = useState<string>('')
+	const [selectedSwag, setSelectedSwag] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
-	const [userData, setUserData] = useState<any>(null)
-	const [isFormValid, setIsFormValid] = useState<boolean>(false)
-	const [isEventFormValid, setIsEventFormValid] = useState<boolean>(false)
-	const { data: stats } = useSWR('/admin/check-in/stats', jsonFetcher)
+	const [userData, setUserData] = useState<UserData | null>(null)
+	const { data: stats } = useSWR('/admin/scanner/stats', jsonFetcher)
 	const [cameraFacingMode, setCameraFacingMode] = useState<
 		'user' | 'environment'
 	>('environment')
-	const [flashesCamera, setFlashesCamera] = useState<
+	const [cameraPreviewFlash, setCameraPreviewFlash] = useState<
 		'no' | 'success' | 'error'
 	>('no')
-	const [checkinMode, setCheckinMode] = useState<checkInType>('event')
+	const [scannerMode, setScannerMode] = useState<ScanType>(
+		hasLinkPerm
+			? 'checkin'
+			: hasEventPerm
+			? 'event'
+			: hasMealPerm
+			? 'meal'
+			: 'shop',
+	)
 	const [eventSelected, setEventSelected] = useState<boolean>(false)
-	const { currMeal, currEvents, error: eventsError } = useEvents()
+	const { currMeal, currEvents, swags, error: eventsFetchError } = useData()
 
-	const currDateTime = new Date().getTime()
-
-	const onSubmit = async ({ checkInPin, hexId, id, eventName }: {
+	const onSubmit = async ({ checkInPin, hexId, id, eventName, swagName }: {
 		checkInPin?: string
 		hexId?: string
 		eventName?: string
 		id?: string
+		swagName?: string
 	}) => {
 		try {
 			const response = await fetch(
-				`/admin/check-in/link?checkInPin=${checkInPin}&hexId=${hexId}&eventName=${eventName}&id=${id}`,
+				`/admin/scanner/submit?checkInPin=${checkInPin ?? ''}&hexId=${
+					hexId ?? ''
+				}&eventName=${eventName ?? ''}&id=${id ?? ''}&swagName=${
+					swagName ?? ''
+				}`,
 				{
 					method: 'POST',
 					headers: {
@@ -137,7 +173,11 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 				},
 			)
 			const data = await response.json()
-			if (data.status !== 'success') {
+			if (data.status === 'success') {
+				if (data.message) {
+					alert(data.message)
+				}
+			} else {
 				throw new Error(data.message)
 			}
 		} catch (e) {
@@ -145,43 +185,15 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		}
 	}
 
-	const hasLinkPerm = hasPermission(perms, {
-		administration: { checkIn: { link: true } },
-	})
-	const hasEventPerm = hasPermission(perms, {
-		administration: { checkIn: { event: true } },
-	})
-	const hasMealPerm = hasPermission(perms, {
-		administration: { checkIn: { meal: true } },
-	})
-
 	useEffect(() => {
-		if (eventsError) {
-			alert(stringifyError(eventsError))
+		if (eventsFetchError) {
+			alert('Failed fetching events: ' + stringifyError(eventsFetchError))
 		}
-	}, [eventsError])
-
-	useEffect(() => {
-		// if saturday morning, default to checkin between 7 and 11:30 Saturday October 7th, 2023
-		if (
-			(hasLinkPerm && currDateTime > 1696680000000
-				&& currDateTime < 1696696200000)
-		) {
-			setCheckinMode('checkin')
-		}
-		// if no permission for event check-in, default to the one with permission
-		if (!hasEventPerm) {
-			if (hasLinkPerm) {
-				setCheckinMode('checkin')
-			} else if (hasMealPerm) {
-				setCheckinMode('meal')
-			}
-		}
-	}, [currDateTime, hasEventPerm, hasLinkPerm, hasMealPerm])
+	}, [eventsFetchError])
 
 	// set currentEvent default value
 	useEffect(() => {
-		setEventNameValue(currEvents[0])
+		setSelectedEvent(currEvents[0])
 	}, [currEvents])
 
 	// set generalIdValue to hexIdValue or checkInPinValue
@@ -196,23 +208,23 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 			},
 		},
 		timeBetweenDecodingAttempts: 1000,
-		onDecodeResult: (res) => handleScan(res.getText()),
+		onDecodeResult: (res) => onQrDecode(res.getText()),
 	})
 
-	const toggleCamera = () => {
+	const toggleCameraFacing = () => {
 		setCameraFacingMode((
 			prev,
 		) => (prev === 'environment' ? 'user' : 'environment'))
-
-		// Clear any existing error message.
 		setErrorMessage('')
 	}
 
-	const handleScan = (data: string) => {
+	const onQrDecode = (data: string) => {
 		setErrorMessage('')
-		const showFlashAnimation = (status: typeof flashesCamera = 'success') => {
-			setFlashesCamera(status)
-			setTimeout(() => setFlashesCamera('no'), 300)
+		const showFlashAnimation = (
+			status: typeof cameraPreviewFlash = 'success',
+		) => {
+			setCameraPreviewFlash(status)
+			setTimeout(() => setCameraPreviewFlash('no'), 300)
 		}
 		// phys id ie: A00000
 		// dig id: 123456
@@ -242,29 +254,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		}
 	}
 
-	useEffect(() => {
-		setIsFormValid(isValidHexID(hexIdValue) && isValidPin(checkInPinValue))
-	}, [hexIdValue, checkInPinValue])
-
-	// reset is valid field when switching modes
-	useEffect(() => {
-		setIsEventFormValid(
-			(isValidHexID(generalIdValue) || isValidPin(generalIdValue))
-				&& !!(currEvents[0] ?? currMeal)
-				&& (eventSelected || checkinMode !== 'event'),
-		)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [generalIdValue, checkinMode, hexIdValue, checkInPinValue, eventSelected])
-
 	const isValidHexID = (id: string) =>
 		id.length === 6 && !!id.match(/^[ABCD][a-f0-9]{5}$/i)
 	const isValidPin = (pin: string) =>
 		pin.length === 6 && !!pin.match(/^\d{6}$/i)
+	const isValidGeneralID = (id: string) => isValidHexID(id) || isValidPin(id)
 
-	const handleVerifyInput = async (e: FormEvent<HTMLFormElement>) => {
+	const verifyInput = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const response = await fetch(
-			`/admin/check-in/users?pin=${checkInPinValue}`,
+			`/admin/scanner/users?pin=${checkInPinValue}`,
 			{
 				method: 'GET',
 				headers: {
@@ -297,107 +296,51 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		setHexIdValue('') // clear HexID input
 		setCheckInPinValue('') // clear PIN input
 		setGeneralIdValue('')
-		setEventNameValue(currEvents[0] ?? currMeal)
+		setSelectedEvent(currEvents[0] ?? currMeal)
 	}
 
-	const handleConfirmCheckIn = () => {
+	const submitCheckInScan = () => {
 		onSubmit({ checkInPin: checkInPinValue, hexId: hexIdValue })
 		clearInputs()
-		setUserData(null) // clear user data
+		setUserData(null)
 	}
 
-	const handleEventCheckIn = (genidVal: string, eName: string) => {
+	const submitEventScan = (genidVal: string, eName: string) => {
 		onSubmit({ id: genidVal, eventName: eName })
 		clearInputs() // clear inputs doesnt work
-		setUserData(null) // clear user data
+		setUserData(null)
 	}
 
-	const backToForm = () => setUserData(null)
+	const submitSwagScan = (generalId: string, swagName: string) => {
+		onSubmit({ id: generalId, swagName })
+		clearInputs()
+		setUserData(null)
+	}
+
+	const cancelCheckIn = () => setUserData(null)
 
 	return (
 		<div className="max-w-xs m-auto p-4 border-2 border-dashed border-black flex justify-center items-center flex-col">
-			<div className="flex items-center justify-center gap-4 pb-4">
-				<button
-					className={twJoin(
-						checkinMode === 'checkin'
-							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige',
-						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
-						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
-					)}
-					onClick={() => {
-						setCheckinMode('checkin')
-					}}
-					disabled={!hasLinkPerm}
-				>
-					Check&#8209;in
-				</button>
-				<button
-					className={twJoin(
-						checkinMode === 'event'
-							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige',
-						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
-						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
-					)}
-					onClick={() => {
-						setCheckinMode('event')
-					}}
-					disabled={!hasEventPerm}
-				>
-					Events
-				</button>
-				<button
-					className={twJoin(
-						checkinMode === 'meal'
-							? 'text-hackuta-beige bg-hackuta-black'
-							: 'text-hackuta-black bg-hackuta-beige',
-						'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
-						'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
-					)}
-					onClick={() => {
-						setCheckinMode('meal')
-					}}
-					disabled={!currMeal || !hasMealPerm}
-				>
-					Meals
-				</button>
-			</div>
-
-			{/* display userdata for checkin */}
+			<TabButtons
+				checkinMode={scannerMode}
+				currMeal={currMeal}
+				hasEventPerm={hasEventPerm}
+				hasLinkPerm={hasLinkPerm}
+				hasMealPerm={hasMealPerm}
+				hasShopPerm={hasShopPerm}
+				setCheckinMode={setScannerMode}
+			/>
 			{userData
 				? (
-					<div style={{ textAlign: 'left', fontSize: '1.2rem' }}>
-						<p>
-							<strong>Full Name:</strong> {userData.fullName}
-						</p>
-						<p>
-							<strong>University:</strong> {userData.school}
-						</p>
-						<p>
-							<strong>Age:</strong> {userData.age}
-						</p>
-						<p>
-							<strong>Group:</strong> {userData.group}
-						</p>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								gap: '16px',
-								marginTop: '20px',
-							}}
-						>
-							<Button kind="secondary" onClick={backToForm}>
-								Back
-							</Button>
-							<Button onClick={handleConfirmCheckIn}>Submit</Button>
-						</div>
-					</div>
+					<UserDataConfirm
+						userData={userData}
+						onCancel={cancelCheckIn}
+						onSubmit={submitCheckInScan}
+					/>
 				)
 				: (
 					<form
-						onSubmit={handleVerifyInput}
+						onSubmit={verifyInput}
 						className="flex flex-col justify-center items-center"
 					>
 						<div
@@ -411,14 +354,16 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 							<div
 								className={twJoin(
 									'absolute top-0 left-0 w-full h-full transition-opacity',
-									flashesCamera !== 'no' ? 'opacity-50' : 'opacity-0',
-									flashesCamera === 'error'
+									cameraPreviewFlash !== 'no'
+										? 'opacity-100'
+										: 'opacity-0',
+									cameraPreviewFlash === 'error'
 										? 'bg-hackuta-error'
 										: 'bg-white',
 								)}
 							/>
 							<button
-								onClick={toggleCamera}
+								onClick={toggleCameraFacing}
 								type="button"
 								className="absolute top-1 right-1 bg-hackuta-blue text-white p-1 cursor-pointer rounded hover:opacity-90 border-hackuta-darkblue hover:border-2 transition-all z-100"
 							>
@@ -426,8 +371,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 							</button>
 						</div>
 
-						{/* START OF DAY CHECKIN MODE */}
-						{checkinMode === 'checkin' && (
+						{/* START OF DAY CHECK-IN MODE */}
+						{scannerMode === 'checkin' && (
 							<>
 								<div
 									style={{
@@ -463,29 +408,27 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 											)}
 									/>
 								</div>
-								<div
-									style={{
-										marginTop: '20px',
-										display: 'flex',
-										justifyContent: 'center',
-									}}
-								>
-									<Button type="submit" disabled={!isFormValid}>
+								<div className="mt-5 flex justify-center">
+									<Button
+										type="submit"
+										disabled={!(isValidHexID(hexIdValue)
+											&& isValidPin(checkInPinValue))}
+									>
 										Verify
 									</Button>
 								</div>
 							</>
 						)}
 
-						{/* EVENT CHECKIN MODE */}
-						{checkinMode === 'event' && (
+						{/* EVENT SCAN MODE */}
+						{scannerMode === 'event' && (
 							<>
 								{/* Dropdown for selecting events */}
 								<div className="text-center mt-3">
 									<select
 										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white w-full"
 										onChange={(e) => {
-											setEventNameValue(e.target.value)
+											setSelectedEvent(e.target.value)
 											setEventSelected(true)
 										}}
 										defaultValue={'unselected'}
@@ -520,29 +463,25 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 											)}
 									/>
 								</div>
-								<div
-									style={{
-										marginTop: '20px',
-										display: 'flex',
-										justifyContent: 'center',
-									}}
-								>
+								<div className="mt-5 flex justify-center">
 									<Button
 										onClick={() => {
-											handleEventCheckIn(
+											submitEventScan(
 												generalIdValue,
-												eventNameValue,
+												selectedEvent,
 											)
 										}}
-										disabled={!isEventFormValid}
+										disabled={!(isValidGeneralID(generalIdValue)
+											&& currEvents[0] && eventSelected)}
 									>
 										Submit
 									</Button>
 								</div>
 							</>
 						)}
-						{/* EVENT CHECKIN MODE */}
-						{checkinMode === 'meal' && (
+
+						{/* MEAL SCAN MODE */}
+						{(scannerMode === 'meal' && currMeal) && (
 							<>
 								<div className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white">
 									{`${currMeal} Checkin`}
@@ -558,21 +497,58 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 											)}
 									/>
 								</div>
-								<div
-									style={{
-										marginTop: '20px',
-										display: 'flex',
-										justifyContent: 'center',
-									}}
-								>
+								<div className="mt-5 flex justify-center">
 									<Button
 										onClick={() => {
-											handleEventCheckIn(
+											submitEventScan(
 												generalIdValue,
 												currMeal ?? '',
 											)
 										}}
-										disabled={!isEventFormValid}
+										disabled={!(isValidGeneralID(generalIdValue)
+											&& currMeal)}
+									>
+										Submit
+									</Button>
+								</div>
+							</>
+						)}
+
+						{/* SHOP SCAN MODE */}
+						{scannerMode === 'shop' && (
+							<>
+								{/* Dropdown for selecting swags */}
+								<div className="text-center mt-3">
+									<select
+										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white w-full"
+										onChange={(e) => {
+											setSelectedSwag(e.target.value)
+										}}
+									>
+										{swags.map((s) => (
+											<option key={s.name} value={s.name}>
+												{s.name}
+											</option>
+										))}
+									</select>
+								</div>
+								<div className="mt-2">
+									<TextInput
+										type="text"
+										placeholder="Attendee ID"
+										value={generalIdValue}
+										onChange={(e) =>
+											setGeneralIdValue(
+												(e.target as HTMLInputElement).value,
+											)}
+									/>
+								</div>
+								<div className="mt-5 flex justify-center">
+									<Button
+										onClick={() => {
+											submitSwagScan(generalIdValue, selectedSwag)
+										}}
+										disabled={!(isValidGeneralID(generalIdValue))}
 									>
 										Submit
 									</Button>
@@ -586,3 +562,127 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 }
 
 export default IDScanner
+
+interface TabButtonsProps {
+	checkinMode: ScanType
+	setCheckinMode: (v: ScanType) => void
+	hasLinkPerm: boolean
+	hasEventPerm: boolean
+	hasMealPerm: boolean
+	hasShopPerm: boolean
+	currMeal: string | undefined
+}
+function TabButtons(
+	{
+		checkinMode,
+		setCheckinMode,
+		hasLinkPerm,
+		hasEventPerm,
+		hasMealPerm,
+		hasShopPerm,
+		currMeal,
+	}: TabButtonsProps,
+) {
+	const commonClassName = twJoin(
+		'disabled:border-opacity-40 disabled:text-opacity-40 disabled:cursor-not-allowed',
+		'font-heading border-2 p-2 opacity-95 hover:opacity-85 rounded-lg border-hackuta-black no-underline transition-all',
+	)
+	const selectedClassName = 'text-hackuta-beige bg-hackuta-black'
+	const unselectedClassName = 'text-hackuta-black bg-hackuta-beige'
+	return (
+		<div className="flex items-center justify-center gap-1 pb-2">
+			<button
+				className={twJoin(
+					commonClassName,
+					checkinMode === 'checkin'
+						? selectedClassName
+						: unselectedClassName,
+				)}
+				onClick={() => {
+					setCheckinMode('checkin')
+				}}
+				hidden={!hasLinkPerm}
+			>
+				Check&#8209;In
+			</button>
+			<button
+				className={twJoin(
+					commonClassName,
+					checkinMode === 'event'
+						? selectedClassName
+						: unselectedClassName,
+				)}
+				onClick={() => {
+					setCheckinMode('event')
+				}}
+				hidden={!hasEventPerm}
+			>
+				Event
+			</button>
+			<button
+				className={twJoin(
+					commonClassName,
+					checkinMode === 'meal' ? selectedClassName : unselectedClassName,
+				)}
+				onClick={() => {
+					setCheckinMode('meal')
+				}}
+				hidden={!hasMealPerm}
+				disabled={!currMeal}
+			>
+				Meal
+			</button>
+			<button
+				className={twJoin(
+					commonClassName,
+					checkinMode === 'shop' ? selectedClassName : unselectedClassName,
+				)}
+				onClick={() => {
+					setCheckinMode('shop')
+				}}
+				hidden={!hasShopPerm}
+			>
+				Shop
+			</button>
+		</div>
+	)
+}
+
+interface UserDataConfirmProps {
+	userData: UserData
+	onCancel: () => void
+	onSubmit: () => void
+}
+function UserDataConfirm(
+	{ userData, onCancel, onSubmit }: UserDataConfirmProps,
+) {
+	return (
+		<div style={{ textAlign: 'left', fontSize: '1.2rem' }}>
+			<p>
+				<strong>Full Name:</strong> {userData.fullName}
+			</p>
+			<p>
+				<strong>University:</strong> {userData.school}
+			</p>
+			<p>
+				<strong>Age:</strong> {userData.age}
+			</p>
+			<p>
+				<strong>Group:</strong> {userData.group}
+			</p>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					gap: '16px',
+					marginTop: '20px',
+				}}
+			>
+				<Button kind="secondary" onClick={onCancel}>
+					Back
+				</Button>
+				<Button onClick={onSubmit}>Submit</Button>
+			</div>
+		</div>
+	)
+}

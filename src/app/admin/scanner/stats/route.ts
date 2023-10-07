@@ -24,7 +24,7 @@ export async function GET() {
 			} satisfies Stats,
 		)
 	} catch (e) {
-		logger.error(e, '[/admin/check-in/users]')
+		logger.error(e, '[/admin/scanner/users]')
 		return NextResponse.json([])
 	}
 }

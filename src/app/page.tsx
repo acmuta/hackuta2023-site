@@ -6,7 +6,6 @@ import { SVGProps } from 'react-html-props'
 import { Box } from '@/components/Box'
 import { LinkButton } from '@/components/Button'
 import { HackTicket } from '@/components/Tickets/HackTicket'
-// import { ClippedBadge } from '@/components/ClippedBadge'
 import { LogoTicket, LogoTicketKind } from '@/components/Tickets/LogoTicket'
 import { WavyPattern } from '@/components/WavyPattern'
 import { getEnhancedSession } from '@/lib/utils/server'
@@ -16,6 +15,7 @@ import Link from 'next/link'
 import { AllTeams } from './admin/organizers/OrganizerData'
 import { FaqSection, getFaqs } from './faq/utils'
 import { MeetTheTeamSection } from './MeetTheTeamSection'
+
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
 export const dynamic = 'force-dynamic'
@@ -255,10 +255,6 @@ export default async function Landing() {
 								className="animate-[jump-shaking_0.5s_ease-in-out_1] my-8 drop-shadow-hackuta"
 								user={user}
 							/>
-
-							{/* Code below to allow tailwind to compile custom backgrounds (they dont load at compile time) */}
-							<div className="hidden w-0 h-0 bg-hackuta-ticket-blue bg-hackuta-ticket-red bg-hackuta-ticket-yellow bg-hackuta-noqrcode bg-hackuta-sqrbg-unregistered bg-hackuta-sqrbg-ruby">
-							</div>
 						</div>
 						<div className="flex flex-col md:flex-row justify-center items-center flex-wrap gap-1 md:gap-3">
 							{!user?.applied && (

@@ -30,12 +30,12 @@ export const LogoTicket = ({
 	return (
 		<Link
 			href={companyUrl}
-			className={`md:w-80 w-fit h-40 my-2 text-center flex flex-row justify-center gap-4 items-center py-6 px-6 drop-shadow-hackuta bg-hackuta-ticket-${
+			className={`md:w-80 w-fit h-40 my-2 text-center flex flex-row justify-center gap-4 items-center py-6 px-6 drop-shadow-hackuta ${
 				kind === 'SpecialThanks'
-					? 'yellow'
+					? 'bg-hackuta-ticket-yellow'
 					: kind === 'Sponsor'
-					? 'red'
-					: 'blue'
+					? 'bg-hackuta-ticket-red'
+					: 'bg-hackuta-ticket-blue'
 			} bg-center bg-clip-border bg-no-repeat no-underline`}
 		>
 			<div className="w-15 h-28 flex justify-center items-center">

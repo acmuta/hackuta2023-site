@@ -9,12 +9,13 @@ import { AppPermissions } from '@/lib/db/models/Role'
 const Links = {
 	'/admin': 'Root',
 	'/admin/applications': 'Applications',
-	'/admin/check-in': 'Check-In',
 	'/admin/email': 'Email',
 	'/admin/faq': 'FAQ',
 	'/admin/post': 'Post',
 	'/admin/role': 'Role',
+	'/admin/scanner': 'Scanner',
 	'/admin/schedule': 'Schedule',
+	'/admin/shop': 'Shop',
 	'/admin/user': 'User',
 }
 

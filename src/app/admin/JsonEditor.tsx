@@ -8,6 +8,7 @@ import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
 import { BlockedHackerSchema } from '@/lib/db/models/BlockedHacker'
 import { EventSchema } from '@/lib/db/models/Event'
+import { ShopSwapSchema } from '@/lib/db/models/ShopSwap'
 import { fetchPost, stringifyError } from '@/lib/utils/client'
 
 interface Props {
@@ -16,11 +17,12 @@ interface Props {
 	schema: SchemaName
 }
 
-type SchemaName = 'event' | 'blocked_hacker'
+type SchemaName = 'blocked_hacker' | 'event' | 'shop'
 
 const SchemaMap: Record<SchemaName, ZodTypeAny> = {
 	blocked_hacker: BlockedHackerSchema,
 	event: EventSchema,
+	shop: ShopSwapSchema,
 }
 
 export default function JsonEditor({ text, postUrl, schema }: Props) {

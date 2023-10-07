@@ -3,7 +3,7 @@ import '@/node-only'
 import clientPromise from '../db'
 import { AppPermissions, Role } from '../db/models/Role'
 import User from '../db/models/User'
-import { BuiltInRoles, mergePermission, UnauthedPerms } from './shared'
+import { BuiltInRoles, mergePermission } from './shared'
 
 export * from './shared'
 
@@ -27,5 +27,5 @@ export async function getUserPerms(user: User | null): Promise<AppPermissions> {
 			.toArray())
 			.map((v) => v.granted),
 	]
-	return mergePermission(UnauthedPerms, ...perms)
+	return mergePermission(BuiltInRoles['@@base'], ...perms)
 }
