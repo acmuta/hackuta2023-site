@@ -19,22 +19,29 @@ export async function computePoints(user) {
 		: []
 	const eventPoints = events.reduce((p, c) => p + c.pointValue, 0)
 	const checkedInBonus = user?.checkedIn ? 50 : 0
-	return eventPoints + checkedInBonus
-		+ sumPointAdjustments(user?.pointAdjustments)
+	const adjusterPoints = sumPointAdjustments(user?.pointAdjustments)
+	return [
+		eventPoints + checkedInBonus,
+		eventPoints + checkedInBonus + adjusterPoints,
+	]
 }
 
 let counter = 0
 
 export async function updateUser(user) {
-	const newPoints = await computePoints(user)
-	await users.updateOne({ _id: user._id }, { $set: { points: newPoints } })
-	if (user.points !== newPoints) {
-		console.log(`updated ${user.email} from ${user.points} to ${newPoints}`)
+	const [newPointsObtained, newPoints] = await computePoints(user)
+	if (user.points !== newPoints || user.pointsObtained !== newPointsObtained) {
+		await users.updateOne({ _id: user._id }, {
+			$set: { points: newPoints, pointsObtained: newPointsObtained },
+		})
+		console.log(
+			`updated ${user.email} from [${user.pointsObtained}, ${user.points}] to [${newPointsObtained}, ${newPoints}]`,
+		)
 	}
 	if (++counter % 20 === 0) {
 		console.log(counter)
 	}
-	return { ...user, points: newPoints }
+	return { ...user, points: newPoints, pointsObtained: newPointsObtained }
 }
 
 export async function updateAll() {

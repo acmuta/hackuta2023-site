@@ -29,6 +29,7 @@ export default interface User {
 	attendedEvents?: string[]
 	pointAdjustments?: PointAdjustment[]
 	points?: number
+	pointsObtained?: number
 }
 
 export interface PointAdjustment {

@@ -210,7 +210,7 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 
 export async function computePoints(
 	user: User | JsonUser | undefined | null,
-): Promise<number> {
+): Promise<[obtained: number, adjusted: number]> {
 	const client = await clientPromise
 	const events = user?.attendedEvents?.length
 		? await client.db().collection<Event>('events').find({
@@ -219,13 +219,16 @@ export async function computePoints(
 		: []
 	const eventPoints = events.reduce((p, c) => p + c.pointValue, 0)
 	const checkedInBonus = user?.checkedIn ? 50 : 0
-	return eventPoints + checkedInBonus
-		+ sumPointAdjustments(user?.pointAdjustments)
+	const adjusterPoints = sumPointAdjustments(user?.pointAdjustments)
+	return [
+		eventPoints + checkedInBonus,
+		eventPoints + checkedInBonus + adjusterPoints,
+	]
 }
 
 export async function updatePoints(
 	filter: Condition<User>,
-): Promise<WithId<User> & { points: number }> {
+): Promise<WithId<User> & { points: number; pointsObtained: number }> {
 	const client = await clientPromise
 	const users = client.db().collection<User>('users')
 	const user = await users.findOne(filter, {
@@ -234,7 +237,9 @@ export async function updatePoints(
 	if (!user) {
 		throw new Error(`No user matching ${JSON.stringify(filter)}`)
 	}
-	const newPoints = await computePoints(user)
-	await users.updateOne({ _id: user._id }, { $set: { points: newPoints } })
-	return { ...user, points: newPoints }
+	const [newPointsObtained, newPoints] = await computePoints(user)
+	await users.updateOne({ _id: user._id }, {
+		$set: { points: newPoints, pointsObtained: newPointsObtained },
+	})
+	return { ...user, points: newPoints, pointsObtained: newPointsObtained }
 }
