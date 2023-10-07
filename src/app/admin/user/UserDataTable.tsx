@@ -15,6 +15,7 @@ import { AppPermissions } from '@/lib/db/models/Role'
 import { dedupe, printRoles, stringifyError } from '@/lib/utils/shared'
 import { AddCircle, Cancel, Circle } from 'iconoir-react'
 import { twJoin } from 'tailwind-merge'
+import { useImmer } from 'use-immer'
 
 export interface UserDataTableProps {
 	users: JsonUser[]
@@ -24,13 +25,15 @@ export interface UserDataTableProps {
 
 export default function UserDataTable({
 	allRoles,
-	users,
+	users: initialUsers,
 	perms,
 }: UserDataTableProps) {
 	const [selectedRows, setSelectedRows] = useState<JsonUser[]>([])
 	const [expandedRows, setExpandedRows] = useState<
 		DataTableValueArray | DataTableExpandedRows
 	>()
+
+	const [users, setUsers] = useImmer(initialUsers)
 
 	const hasWriteRolePerm = hasPermission(perms, {
 		administration: { user: { writeRole: true } },
@@ -82,17 +85,39 @@ export default function UserDataTable({
 				/>
 				<Column
 					header="Roles"
-					body={(r: JsonUser) => (
+					body={(user: JsonUser) => (
 						hasWriteRolePerm
 							? (
 								<RolesCell
-									uid={r._id}
-									uname={r.application ? getFullName(r) : r.email}
-									roles={r.rolesActual ?? r.roles}
+									uid={user._id}
+									uname={user.application
+										? getFullName(user)
+										: user.email}
+									roles={user.rolesActual ?? user.roles}
 									allRoles={allRoles}
+									onAddRole={(r) => {
+										setUsers((draft) => {
+											const draftUser = draft.find((u) =>
+												u._id === user._id
+											)!
+											draftUser.roles = dedupe([
+												...draftUser.roles ?? [],
+												r,
+											])
+										})
+									}}
+									onRemoveRole={(r) => {
+										setUsers((draft) => {
+											const draftUser = draft.find((u) =>
+												u._id === user._id
+											)!
+											draftUser.roles = (draftUser.roles ?? [])
+												.filter((v) => v !== r)
+										})
+									}}
 								/>
 							)
-							: printRoles(r.rolesActual ?? r.roles)
+							: printRoles(user.rolesActual ?? user.roles)
 					)}
 				/>
 				<Column
@@ -112,18 +137,32 @@ interface RolesCellProps {
 	uid: string
 	uname: string
 	roles: readonly string[] | undefined
+	onAddRole: (role: string) => void
+	onRemoveRole: (role: string) => void
 }
-function RolesCell({ uid, uname, roles = [], allRoles }: RolesCellProps) {
+function RolesCell(
+	{ uid, uname, roles = [], allRoles, onAddRole, onRemoveRole }:
+		RolesCellProps,
+) {
 	roles = dedupe(['hacker', ...roles])
-	const additonalRoles = [...allRoles].filter((r) => !roles.includes(r)).sort()
+	const additionalRoles = [...allRoles].filter((r) => !roles.includes(r))
+		.sort()
 	return (
 		<div className="flex  gap-2">
-			{roles.map((r) => <RoleButton key={r} uid={uid} role={r} />)}
-			{!!additonalRoles.length && (
+			{roles.map((r) => (
+				<RoleButton
+					key={r}
+					uid={uid}
+					role={r}
+					onRemoveRole={() => onRemoveRole(r)}
+				/>
+			))}
+			{!!additionalRoles.length && (
 				<AddRoleButton
-					additonalRoles={additonalRoles}
+					additionalRoles={additionalRoles}
 					uid={uid}
 					uname={uname}
+					onAddRole={onAddRole}
 				/>
 			)}
 		</div>
@@ -133,8 +172,9 @@ function RolesCell({ uid, uname, roles = [], allRoles }: RolesCellProps) {
 interface RoleButtonProps {
 	uid: string
 	role: string
+	onRemoveRole: () => void
 }
-function RoleButton({ uid, role }: RoleButtonProps) {
+function RoleButton({ uid, role, onRemoveRole }: RoleButtonProps) {
 	const [hovered, setHovered] = useState(false)
 	const Icon = hovered ? Cancel : Circle
 	const removeRole = async () => {
@@ -149,8 +189,7 @@ function RoleButton({ uid, role }: RoleButtonProps) {
 			if (obj.status !== 'success') {
 				throw new Error(JSON.stringify(obj))
 			}
-			// window.location.reload()
-			alert(`Removed role ${role}`)
+			onRemoveRole()
 		} catch (e) {
 			alert(stringifyError(e))
 		}
@@ -176,17 +215,20 @@ function RoleButton({ uid, role }: RoleButtonProps) {
 }
 
 interface AddRoleButtonProps {
-	additonalRoles: readonly string[]
+	additionalRoles: readonly string[]
 	uid: string
 	uname: string
+	onAddRole: (role: string) => void
 }
-function AddRoleButton({ additonalRoles, uid, uname }: AddRoleButtonProps) {
+function AddRoleButton(
+	{ additionalRoles, uid, uname, onAddRole }: AddRoleButtonProps,
+) {
 	const [hovered, setHovered] = useState(false)
 	const addRole = async () => {
 		try {
 			const roleIdxStr = prompt(
 				`Index of role to add to ${uname}:\n${
-					additonalRoles.map((r, i) => `${i}: ${r}`).join('\n')
+					additionalRoles.map((r, i) => `${i}: ${r}`).join('\n')
 				}`,
 			)
 			if (roleIdxStr == null) {
@@ -195,11 +237,11 @@ function AddRoleButton({ additonalRoles, uid, uname }: AddRoleButtonProps) {
 				throw new Error('Type a number')
 			}
 			const roleIdx = parseInt(roleIdxStr)
-			if (roleIdx < 0 || roleIdx >= additonalRoles.length) {
+			if (roleIdx < 0 || roleIdx >= additionalRoles.length) {
 				throw new Error('Role index out of range')
 			}
 
-			const role = additonalRoles[roleIdx]
+			const role = additionalRoles[roleIdx]
 			const response = await fetch(
 				`/admin/user/role/add/${uid}/${role}`,
 				{
@@ -210,8 +252,7 @@ function AddRoleButton({ additonalRoles, uid, uname }: AddRoleButtonProps) {
 			if (obj.status !== 'success') {
 				throw new Error(JSON.stringify(obj))
 			}
-			// window.location.reload()
-			alert(`Added ${role} to ${uname}`)
+			onAddRole(role)
 		} catch (e) {
 			alert(stringifyError(e))
 		}
