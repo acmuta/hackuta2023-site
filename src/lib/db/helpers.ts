@@ -10,7 +10,7 @@ export function getUserFilter(user: IdentifieableUser): Condition<User> {
 	} else if (user instanceof ObjectId) {
 		return { _id: user }
 	} else {
-		return user
+		return { email: user.email }
 	}
 }
 

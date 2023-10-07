@@ -1,6 +1,7 @@
 import '@/node-only'
 
 import {
+	Condition,
 	Document as MongoDocument,
 	MongoClient,
 	ObjectId,
@@ -200,4 +201,20 @@ export async function computePoints(
 		: [{ points: 0 }]
 	const checkedInBonus = user?.checkedIn ? 50 : 0
 	return points + checkedInBonus + sumPointAdjustments(adjustments)
+}
+
+export async function updatePoints(
+	filter: Condition<User>,
+): Promise<WithId<User> & { points: number }> {
+	const client = await clientPromise
+	const users = client.db().collection<User>('users')
+	const user = await users.findOne(filter, {
+		projection: { 'application.resume': 0 },
+	})
+	if (!user) {
+		throw new Error(`No user matching ${JSON.stringify(filter)}`)
+	}
+	const newPoints = await computePoints(user)
+	await users.updateOne({ _id: user._id }, { $set: { points: newPoints } })
+	return { ...user, points: newPoints }
 }

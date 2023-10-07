@@ -5,7 +5,7 @@ import Event from '@/lib/db/models/Event'
 import { ShopSwag, ShopSwagCollection } from '@/lib/db/models/ShopSwap'
 import User, { getFullName } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
-import { computePoints, stringifyError } from '@/lib/utils/server'
+import { stringifyError, updatePoints } from '@/lib/utils/server'
 import { Collection, MongoClient } from 'mongodb'
 
 export async function POST(request: NextRequest) {
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 			return await addEvent(client, generalId, users, eventName)
 		}
 		if (swagName && generalId) {
-			return await redeemSwag(generalId, client, swagName, users)
+			return await redeemSwag(generalId, client, swagName)
 		}
 
 		throw new Error('Missing search params')
@@ -60,6 +60,8 @@ async function linkIDs(
 			},
 		},
 	)
+
+	await updatePoints({ checkInPin: { $eq: parseInt(checkInPin) } })
 
 	return NextResponse.json({ status: 'success' })
 }
@@ -100,12 +102,7 @@ async function addEvent(
 		$addToSet: { attendedEvents: eventName },
 	})
 
-	const updatedUser = await users.findOne({ _id: user._id }, {
-		projection: { 'application.resume': 0 },
-	})
-	await users.updateOne({ _id: user._id }, {
-		$set: { points: await computePoints(updatedUser) },
-	})
+	await updatePoints({ _id: user._id })
 
 	return NextResponse.json({
 		status: 'success',
@@ -117,7 +114,6 @@ async function redeemSwag(
 	generalId: string,
 	client: MongoClient,
 	swagName: string,
-	users: Collection<User>,
 ) {
 	const isHexId = generalId.match(/^[ABCD][a-f0-9]{5}$/i)
 	const idKey = (isHexId ? 'hexId' : 'checkInPin') satisfies keyof User
@@ -132,19 +128,15 @@ async function redeemSwag(
 	}
 
 	const swag = swags[0]
-	const user = await users.findOne({
-		[idKey]: { $eq: isHexId ? generalId : parseInt(generalId) },
-	}, { projection: { 'application.resume': 0 } })
-	if (!user) {
-		throw new Error(`No user with ID ${generalId}`)
-	}
 
-	const points = user.points ?? 0
-	if (points < swag.price) {
+	const user = await updatePoints({
+		[idKey]: { $eq: isHexId ? generalId : parseInt(generalId) },
+	})
+	if (user.points < swag.price) {
 		throw new Error(
 			`${
 				getFullName(user)
-			} cannot afford ${swagName}: ${points} < ${swag.price}`,
+			} cannot afford ${swagName}: ${user.points} < ${swag.price}`,
 		)
 	}
 
@@ -158,13 +150,9 @@ async function redeemSwag(
 				timestamp: new Date().getTime(),
 			},
 		},
-	})
-
-	const updatedUser = await users.findOne({ _id: user._id }, {
-		projection: { 'application.resume': 0 },
-	})
-	await users.updateOne({ _id: user._id }, {
-		$set: { points: await computePoints(updatedUser) },
+		$set: {
+			points: user.points - swag.price,
+		},
 	})
 
 	return NextResponse.json({
