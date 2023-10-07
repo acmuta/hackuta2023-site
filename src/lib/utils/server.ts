@@ -15,7 +15,7 @@ import jsend, { NextJSendResponse } from '@/lib/api/jsend'
 import User, { JsonUser } from '@/lib/db/models/User'
 import logger from '@/lib/logger'
 
-import { BuiltInRoles, EnhancedSession } from '../auth/shared'
+import { BuiltInRoles, EnhancedSession, hasPermission } from '../auth/shared'
 import clientPromise from '../db'
 import Event from '../db/models/Event'
 import { getGroupName, RenderContext, sumPointAdjustments } from './shared'
@@ -175,11 +175,12 @@ export async function makeApiPostHandler<
 }
 
 export async function createTemplateRenderContext(): Promise<RenderContext> {
-	const { user } = getEnhancedSession(headers())
+	const { user, perms } = getEnhancedSession(headers())
 
 	return {
 		user,
 		group: user?.hexId && getGroupName(user.hexId),
+		applicationWaived: hasPermission(perms, { applicationWaived: true }),
 	}
 }
 

@@ -70,6 +70,7 @@ export type ToJsonValue<T> = T extends Date | ObjectId ? string
 
 export interface RenderContext {
 	user: JsonUser | null
+	applicationWaived: boolean
 	group?: string | undefined
 }
 
