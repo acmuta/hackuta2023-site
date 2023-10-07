@@ -24,6 +24,7 @@ export async function GET() {
 			.db()
 			.collection<ShopSwag>(ShopSwagCollection)
 			.find({})
+			.sort({ price: 'ascending' })
 			.toArray()
 		return NextResponse.json({ events, swags } satisfies ScannerDataResponse)
 	} catch (e) {
