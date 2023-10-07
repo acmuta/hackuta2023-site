@@ -27,6 +27,7 @@ export default interface User {
 	/** In the form of `A00` */
 	hexId?: string
 	attendedEvents?: string[]
+	pointAdjustments?: { delta: number; reason: string }[]
 }
 
 export type JsonUser = ToJsonValue<WithId<User>>

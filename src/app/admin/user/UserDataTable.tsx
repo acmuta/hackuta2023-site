@@ -184,7 +184,7 @@ function AddRoleButton({ additonalRoles, uid, uname }: AddRoleButtonProps) {
 	const addRole = async () => {
 		try {
 			const roleIdxStr = prompt(
-				`Type number of role to add to ${uname}:\n${
+				`Index of role to add to ${uname}:\n${
 					additonalRoles.map((r, i) => `${i}: ${r}`).join('\n')
 				}`,
 			)

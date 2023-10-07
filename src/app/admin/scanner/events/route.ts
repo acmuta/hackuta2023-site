@@ -16,7 +16,7 @@ export async function GET() {
 			.toArray()
 		return NextResponse.json(events)
 	} catch (e) {
-		logger.error(e, '[/admin/check-in/events]')
+		logger.error(e, '[/admin/scanner/events]')
 		return NextResponse.json([])
 	}
 }

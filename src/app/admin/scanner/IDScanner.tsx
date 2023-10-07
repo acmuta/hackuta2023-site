@@ -17,7 +17,7 @@ export interface IDScannerProps {
 	perms: AppPermissions
 }
 
-type checkInType = 'checkin' | 'event' | 'meal'
+type checkInType = 'checkin' | 'event' | 'meal' | 'shop'
 
 const useEvents = (): {
 	currEvents: string[]
@@ -26,7 +26,7 @@ const useEvents = (): {
 	error?: unknown
 } => {
 	const { data, error, isLoading } = useSWR<JsonEvents[]>(
-		'/admin/check-in/events',
+		'/admin/scanner/events',
 		jsonFetcher,
 		{
 			refreshInterval: 20_000,
@@ -107,7 +107,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	const [userData, setUserData] = useState<any>(null)
 	const [isFormValid, setIsFormValid] = useState<boolean>(false)
 	const [isEventFormValid, setIsEventFormValid] = useState<boolean>(false)
-	const { data: stats } = useSWR('/admin/check-in/stats', jsonFetcher)
+	const { data: stats } = useSWR('/admin/scanner/stats', jsonFetcher)
 	const [cameraFacingMode, setCameraFacingMode] = useState<
 		'user' | 'environment'
 	>('environment')
@@ -128,7 +128,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	}) => {
 		try {
 			const response = await fetch(
-				`/admin/check-in/link?checkInPin=${checkInPin}&hexId=${hexId}&eventName=${eventName}&id=${id}`,
+				`/admin/scanner/link?checkInPin=${checkInPin}&hexId=${hexId}&eventName=${eventName}&id=${id}`,
 				{
 					method: 'POST',
 					headers: {
@@ -146,13 +146,13 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	}
 
 	const hasLinkPerm = hasPermission(perms, {
-		administration: { checkIn: { link: true } },
+		administration: { scanner: { link: true } },
 	})
 	const hasEventPerm = hasPermission(perms, {
-		administration: { checkIn: { event: true } },
+		administration: { scanner: { event: true } },
 	})
 	const hasMealPerm = hasPermission(perms, {
-		administration: { checkIn: { meal: true } },
+		administration: { scanner: { meal: true } },
 	})
 
 	useEffect(() => {
@@ -264,7 +264,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	const handleVerifyInput = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const response = await fetch(
-			`/admin/check-in/users?pin=${checkInPinValue}`,
+			`/admin/scanner/users?pin=${checkInPinValue}`,
 			{
 				method: 'GET',
 				headers: {
@@ -411,7 +411,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 							<div
 								className={twJoin(
 									'absolute top-0 left-0 w-full h-full transition-opacity',
-									flashesCamera !== 'no' ? 'opacity-50' : 'opacity-0',
+									flashesCamera !== 'no' ? 'opacity-100' : 'opacity-0',
 									flashesCamera === 'error'
 										? 'bg-hackuta-error'
 										: 'bg-white',

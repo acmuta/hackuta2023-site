@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 			.toArray()
 		return NextResponse.json(users)
 	} catch (e) {
-		logger.error(e, '[/admin/check-in/users]')
+		logger.error(e, '[/admin/scanner/users]')
 		return NextResponse.json([])
 	}
 }
