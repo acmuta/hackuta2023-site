@@ -13,6 +13,7 @@ import { getGroupName, jsonFetcher, stringifyError } from '@/lib/utils/client'
 import { useZxing } from 'react-zxing'
 import { twJoin } from 'tailwind-merge'
 import { ScannerDataResponse } from './data/route'
+import { Stats } from './stats/route'
 
 export interface IDScannerProps {
 	perms: AppPermissions
@@ -149,7 +150,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	)
 	const [eventSelected, setEventSelected] = useState<boolean>(false)
 	const { currMeal, currEvents, swags, error: eventsFetchError } = useData()
-	const { data: stats } = useSWR(
+	const { data: stats } = useSWR<Stats>(
 		`/admin/scanner/stats?currMeal=${currMeal ?? ''}`,
 		jsonFetcher,
 	)
@@ -494,6 +495,11 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 							<>
 								<div className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white">
 									{`${currMeal} Checkin`}
+								</div>
+								<div className="text-center mb-4 font-bold">
+									Checked in: {stats
+										? `${stats.numEatenMeal} out of ${stats.numCheckedIn} checked in`
+										: 'Loading...'}
 								</div>
 								<div style={{ marginTop: '10px' }}>
 									<TextInput
