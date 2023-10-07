@@ -176,6 +176,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 			if (data.status === 'success') {
 				if (data.message) {
 					alert(data.message)
+				} else {
+					window.location.reload()
 				}
 			} else {
 				throw new Error(data.message)
