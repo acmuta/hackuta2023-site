@@ -2,8 +2,8 @@ import '@/node-only'
 
 import {
 	Condition,
-	Document as MongoDocument,
 	MongoClient,
+	Document as MongoDocument,
 	ObjectId,
 	WithId,
 } from 'mongodb'
@@ -19,7 +19,7 @@ import logger from '@/lib/logger'
 import { BuiltInRoles, EnhancedSession, hasPermission } from '../auth/shared'
 import clientPromise from '../db'
 import Event from '../db/models/Event'
-import { getGroupName, RenderContext, sumPointAdjustments } from './shared'
+import { RenderContext, getGroupName, sumPointAdjustments } from './shared'
 
 export * from './shared'
 
@@ -180,8 +180,31 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 
 	return {
 		user,
-		group: user?.hexId && getGroupName(user.hexId),
 		applicationWaived: hasPermission(perms, { applicationWaived: true }),
+		group: user?.hexId && getGroupName(user.hexId),
+		pointHistory: createPointHistory(),
+	}
+
+	function createPointHistory(): string {
+		let ans = ''
+		const events = user?.attendedEvents
+		if (user?.checkedIn || events?.length) {
+			ans += '**Attended Events**\n\n'
+			if (user?.checkedIn) {
+				ans += `* Checked In\n`
+			}
+			for (const event of events ?? []) {
+				ans += `* ${event}\n`
+			}
+		}
+		const adjustments = user?.pointAdjustments
+		if (adjustments?.length) {
+			ans += '\n**Adjustments**\n\n'
+			for (const { reason, delta } of adjustments) {
+				ans += `* ${reason}: **${delta >= 0 ? `+${delta}` : delta}**\n`
+			}
+		}
+		return ans
 	}
 }
 
