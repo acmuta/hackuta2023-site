@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
 
 import { Button } from '@/components/Button'
@@ -129,7 +129,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	const [hexIdValue, setHexIdValue] = useState<string>('')
 	const [checkInPinValue, setCheckInPinValue] = useState<string>('')
 	const [generalIdValue, setGeneralIdValue] = useState<string>('') // could be hex or pin
-	const [selectedEvent, setSelectedEvent] = useState<string>('')
 	const [selectedSwag, setSelectedSwag] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [userData, setUserData] = useState<UserData | null>(null)
@@ -154,6 +153,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		`/admin/scanner/stats?currMeal=${currMeal ?? ''}`,
 		jsonFetcher,
 	)
+	const eventSelect = useRef<HTMLSelectElement>(null)
 
 	const onSubmit = async ({ checkInPin, hexId, id, eventName, swagName }: {
 		checkInPin?: string
@@ -196,11 +196,6 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 			alert('Failed fetching events: ' + stringifyError(eventsFetchError))
 		}
 	}, [eventsFetchError])
-
-	// set currentEvent default value
-	useEffect(() => {
-		setSelectedEvent(currEvents[0])
-	}, [currEvents])
 
 	useEffect(() => {
 		setSelectedSwag(swags[0]?.name ?? '')
@@ -303,10 +298,9 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 	}
 
 	const clearInputs = () => {
-		setHexIdValue('') // clear HexID input
-		setCheckInPinValue('') // clear PIN input
+		setHexIdValue('')
+		setCheckInPinValue('')
 		setGeneralIdValue('')
-		setSelectedEvent(currEvents[0] ?? currMeal)
 	}
 
 	const submitCheckInScan = () => {
@@ -317,14 +311,12 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 
 	const submitEventScan = (genidVal: string, eName: string) => {
 		onSubmit({ id: genidVal, eventName: eName })
-		clearInputs() // clear inputs doesnt work
-		setUserData(null)
+		clearInputs()
 	}
 
 	const submitSwagScan = (generalId: string, swagName: string) => {
 		onSubmit({ id: generalId, swagName })
 		clearInputs()
-		setUserData(null)
 	}
 
 	const cancelCheckIn = () => setUserData(null)
@@ -436,9 +428,9 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 								{/* Dropdown for selecting events */}
 								<div className="text-center mt-3">
 									<select
+										ref={eventSelect}
 										className="font-heading text-center mt-2 text-lg pl-4 pr-8 py-2 rounded-lg form-select appearance-none bg-no-repeat bg-hackuta-red text-white w-full"
-										onChange={(e) => {
-											setSelectedEvent(e.target.value)
+										onChange={() => {
 											setEventSelected(true)
 										}}
 										defaultValue={'unselected'}
@@ -478,11 +470,10 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 										onClick={() => {
 											submitEventScan(
 												generalIdValue,
-												selectedEvent,
+												eventSelect.current!.value,
 											)
 										}}
-										disabled={!(isValidGeneralID(generalIdValue)
-											&& currEvents[0] && eventSelected)}
+										disabled={!(isValidGeneralID(generalIdValue))}
 									>
 										Submit
 									</Button>
@@ -493,7 +484,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 						{/* MEAL SCAN MODE */}
 						{(scannerMode === 'meal' && currMeal) && (
 							<>
-								<div className="font-heading text-center mt-3 text-lg px-4 rounded-lg bg-hackuta-red text-white">
+								<div className="font-heading text-center mt-3 text-lg px-4 py-2 rounded-lg bg-hackuta-red text-white">
 									{`${currMeal} Checkin`}
 								</div>
 								<div className="text-center mb-2 font-bold">
