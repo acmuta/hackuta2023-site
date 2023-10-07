@@ -189,18 +189,15 @@ export async function computePoints(
 	user: User | JsonUser | undefined | null,
 ): Promise<number> {
 	const client = await clientPromise
-	const [events, adjustments] = [user?.attendedEvents, user?.pointAdjustments]
-	const [{ points }] = events?.length
-		? await client.db()
-			.collection<Event>('events')
-			.aggregate([
-				{ $match: { title: { $in: events } } },
-				{ $replaceWith: { points: { $sum: '$pointValue' } } },
-			])
-			.toArray() as { points: number }[]
-		: [{ points: 0 }]
+	const events = user?.attendedEvents?.length
+		? await client.db().collection<Event>('events').find({
+			title: { $in: user.attendedEvents },
+		}).toArray()
+		: []
+	const eventPoints = events.reduce((p, c) => p + c.pointValue, 0)
 	const checkedInBonus = user?.checkedIn ? 50 : 0
-	return points + checkedInBonus + sumPointAdjustments(adjustments)
+	return eventPoints + checkedInBonus
+		+ sumPointAdjustments(user?.pointAdjustments)
 }
 
 export async function updatePoints(
