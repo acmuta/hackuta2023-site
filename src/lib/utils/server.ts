@@ -2,8 +2,8 @@ import '@/node-only'
 
 import {
 	Condition,
-	MongoClient,
 	Document as MongoDocument,
+	MongoClient,
 	ObjectId,
 	WithId,
 } from 'mongodb'
@@ -19,7 +19,7 @@ import logger from '@/lib/logger'
 import { BuiltInRoles, EnhancedSession, hasPermission } from '../auth/shared'
 import clientPromise from '../db'
 import Event from '../db/models/Event'
-import { RenderContext, getGroupName, sumPointAdjustments } from './shared'
+import { getGroupName, RenderContext, sumPointAdjustments } from './shared'
 
 export * from './shared'
 
