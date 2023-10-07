@@ -191,7 +191,7 @@ export async function createTemplateRenderContext(): Promise<RenderContext> {
 		if (user?.checkedIn || events?.length) {
 			ans += '**Attended Events**\n\n'
 			if (user?.checkedIn) {
-				ans += `* Checked In\n`
+				ans += `* Check In\n`
 			}
 			for (const event of events ?? []) {
 				ans += `* ${event}\n`

@@ -92,13 +92,13 @@ const useData = (): {
 		}
 	})
 
-	// EVENTS: only allow events during event time (10 mins before — 10 mins after)
+	// EVENTS: only allow events during event time (10 mins before — 30 mins after)
 	filterEvents('event').forEach((event: any) => {
 		const eventTime = new Date(event.date).getTime()
 		const eventEndTime = eventTime + event.durationMins * 60_000
 		if (
 			currDateTime > eventTime - 600000
-			&& currDateTime < eventEndTime + 600000
+			&& currDateTime < eventEndTime + 1800_000
 		) {
 			currEvents.push(event.title)
 		}
@@ -161,7 +161,7 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 		setMessage(msg)
 		setMessageIsError(isError)
 		setTimeout(() => {
-			setMessage(undefined)
+			setMessage((prev) => prev === msg ? undefined : prev)
 		}, 4_000)
 	}
 
