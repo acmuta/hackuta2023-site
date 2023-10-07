@@ -16,7 +16,23 @@ export async function GET() {
 		const numCheckedIn = await client
 			.db()
 			.collection<User>('users')
-			.countDocuments({ checkedIn: { $exists: true } })
+			.countDocuments({
+				checkedIn: { $exists: true },
+				roles: {
+					$nin: [
+						'admin',
+						'info_admin',
+						'mentor',
+						'organizer',
+						'role_admin',
+						'scanner_checkin',
+						'scanner_event',
+						'scanner_meal',
+						'scanner_shop',
+						'shop_admin',
+					],
+				},
+			})
 		return NextResponse.json(
 			{
 				numAccepted,
