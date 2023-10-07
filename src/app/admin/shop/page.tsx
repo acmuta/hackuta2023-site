@@ -7,6 +7,7 @@ export default async function Shop() {
 	const swags = await client.db()
 		.collection<ShopSwag>(ShopSwagCollection)
 		.find()
+		.sort({ price: 'ascending' })
 		.toArray()
 	return (
 		<>
