@@ -199,7 +199,9 @@ export const HackTicket = ({
 								</div>
 							</div>
 							<p className="text-sm font-semibold text-gray-600 uppercase">
-								{user?.applicationStatus ?? 'waitlisted'}
+								{(user?.applicationStatus === 'waitlisted'
+									? 'walk in'
+									: user?.applicationStatus) ?? 'walk in'}
 							</p>
 						</div>
 					</div>
