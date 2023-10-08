@@ -45,6 +45,7 @@ export default async function Applications() {
 							else: 'undecided',
 						},
 					},
+					'application.checkedIn': '$checkedIn',
 				},
 			},
 			{
@@ -62,7 +63,10 @@ export default async function Applications() {
 
 	return (
 		<ApplicantDataTable
-			applications={applications}
+			applications={applications.map((a) => ({
+				...a,
+				checkedIn: a.checkedIn?.toString(),
+			}))}
 			blockedHackers={blockedHackers}
 			perms={perms}
 		/>

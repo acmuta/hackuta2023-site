@@ -25,6 +25,7 @@ export type Row = Omit<Application, 'resume'> & {
 	email: string
 	resume: boolean
 	status: 'accepted' | 'rejected' | 'waitlisted' | 'undecided'
+	checkedIn: string
 }
 
 export interface ApplicantDataTableProps {
@@ -117,9 +118,7 @@ export default function ApplicantDataTable({
 			r.phoneNumber,
 			r.countryOfResidence,
 			r.levelOfStudy,
-			r.agreedMlhCoC === 'Yes' ? 'TRUE' : 'FALSE',
-			r.agreedMlhMarketing === 'Yes' ? 'TRUE' : 'FALSE',
-			r.agreedMlhSharing === 'Yes' ? 'TRUE' : 'FALSE',
+			r.checkedIn ?? 'N/A',
 		]
 		const row = (r: Row) => fields(r).map(cell).join(',')
 		const headers = () => [
@@ -131,9 +130,7 @@ export default function ApplicantDataTable({
 			'Phone Number',
 			'Country',
 			'Current Level of Study',
-			'Code of Conduct Checkbox',
-			'MLH Marketing Opt In Checkbox',
-			'Privacy Policy Checkbox',
+			'Checked In',
 		]
 		const csv = [headers(), ...apps.map(row)].join('\n')
 		anchor.setAttribute(
