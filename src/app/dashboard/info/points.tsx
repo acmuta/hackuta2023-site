@@ -27,6 +27,7 @@ export default function UserDataTable({
 				<Column
 					header="Name"
 					field="name"
+					filter
 				/>
 				<Column
 					header="Points"
