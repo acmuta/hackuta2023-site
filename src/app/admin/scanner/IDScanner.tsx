@@ -559,7 +559,8 @@ const IDScanner: React.FC<IDScannerProps> = ({ perms }) => {
 									>
 										{swags.map((s) => (
 											<option key={s.name} value={s.name}>
-												{s.name} - {s.price}
+												{s.name}{' '}
+												{-s.price > 0 ? `+${-s.price}` : -s.price}
 											</option>
 										))}
 									</select>

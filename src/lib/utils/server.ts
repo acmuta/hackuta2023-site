@@ -19,7 +19,7 @@ import logger from '@/lib/logger'
 import { BuiltInRoles, EnhancedSession, hasPermission } from '../auth/shared'
 import clientPromise from '../db'
 import Event from '../db/models/Event'
-import { getGroupName, RenderContext, sumPointAdjustments } from './shared'
+import { getGroupName, RenderContext } from './shared'
 
 export * from './shared'
 
@@ -219,10 +219,19 @@ export async function computePoints(
 		: []
 	const eventPoints = events.reduce((p, c) => p + c.pointValue, 0)
 	const checkedInBonus = user?.checkedIn ? 50 : 0
-	const adjusterPoints = sumPointAdjustments(user?.pointAdjustments)
+	const posAdjusters =
+		user?.pointAdjustments?.filter((a) => a.delta >= 0).reduce(
+			(p, c) => p + c.delta,
+			0,
+		) ?? 0
+	const negAdjusters =
+		user?.pointAdjustments?.filter((a) => a.delta < 0).reduce(
+			(p, c) => p + c.delta,
+			0,
+		) ?? 0
 	return [
-		eventPoints + checkedInBonus,
-		eventPoints + checkedInBonus + adjusterPoints,
+		eventPoints + checkedInBonus + posAdjusters,
+		eventPoints + checkedInBonus + posAdjusters + negAdjusters,
 	]
 }
 
