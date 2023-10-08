@@ -7,6 +7,7 @@ import { getEnhancedSession } from '@/lib/utils/server'
 
 import { canAccessDashboard } from '@/lib/auth/shared'
 import Cards from './Cards'
+import Users from './score'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#dynamic
 // We read from the database on this route, so this has to be dynamic.
@@ -35,6 +36,8 @@ export default async function Dashboard() {
 				className={classNames('flex-1 gap-8')}
 			>
 			</Box>
+
+			<Users />
 		</Box>
 	)
 }
