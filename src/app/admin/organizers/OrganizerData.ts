@@ -83,16 +83,6 @@ export const XPorganizers: OrganizerData[] = [
 			linkedIn: 'hussain-alkatheri',
 		},
 	},
-	{
-		avatar: '/images/Organizers/DonDang.png',
-		name: 'Don Dang',
-		role: 'Experience',
-		socials: {
-			github: '',
-			instagram: '',
-			linkedIn: 'https://www.linkedin.com/in/don-dang/',
-		},
-	},
 ]
 
 export const Executives: OrganizerData[] = [
@@ -157,6 +147,16 @@ export const Logsorganizers: OrganizerData[] = [
 			github: 'DhrutikS257',
 			instagram: 'dhrutik0612',
 			linkedIn: 'dhrutik0602',
+		},
+	},
+	{
+		avatar: '/images/Organizers/DonDang.png',
+		name: 'Don Dang',
+		role: 'Logistics',
+		socials: {
+			github: '',
+			instagram: '',
+			linkedIn: 'https://www.linkedin.com/in/don-dang/',
 		},
 	},
 	{
