@@ -24,15 +24,18 @@ jobs:
 
       - run: npm run lint
 
+      - name: Install Deploy SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.JANEIRL_SSH_DEPLOY_KEY }}
+          name: janeirl
+          config: ${{ secrets.JANEIRL_SSH_DEPLOY_CONFIG }}
+          if_key_exists: fail
+
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.JANEIRL_SSH_DEPLOY_KEY }}
-        with:
-          source-directory: '.'
-          destination-github-username: JaneIRL
-          destination-repository-username: JaneIRL
-          destination-repository-name: 'hackuta2023-site'
-          user-email: 103539883+JaneIRL@users.noreply.github.com
-          target-branch: main
+        run: |
+          git remote add janeirl git@janeirl.github.com:JaneIRL/hackuta2023-site.git
+          git push janeirl
