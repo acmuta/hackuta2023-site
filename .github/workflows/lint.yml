@@ -31,11 +31,11 @@ jobs:
           name: janeirl
           config: ${{ secrets.JANEIRL_SSH_DEPLOY_CONFIG }}
           if_key_exists: fail
+          # we are SSH'ing to github.com, silly goof.
+          known_hosts: unnecessary
 
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.JANEIRL_SSH_DEPLOY_KEY }}
         run: |
           git remote add janeirl git@janeirl.github.com:JaneIRL/hackuta2023-site.git
           git push janeirl
