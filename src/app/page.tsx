@@ -138,6 +138,12 @@ export default async function Landing() {
 			imageUrl: '/images/Sponsors/utaiso.png',
 			kind: 'Sponsor',
 		},
+		{
+			companyName: 'ACM UTA',
+			companyUrl: 'https://acm.uta.edu',
+			imageUrl: '/images/Sponsors/acmuta.png',
+			kind: 'Sponsor',
+		},
 	]
 
 	const partners = [
@@ -181,21 +187,27 @@ export default async function Landing() {
 
 	const specialThanks = [
 		{
-			companyName: 'ACM at UTD',
-			companyUrl: 'https://acmutd.co',
-			imageUrl: '/images/SpecialThanks/acm-logo-black.png',
+			companyName: 'HackUTD',
+			companyUrl: 'https://hackutd.co/',
+			imageUrl: '/images/SpecialThanks/hackutd.png',
+			kind: 'SpecialThanks',
+		},
+		{
+			companyName: 'HackTX',
+			companyUrl: 'https://hacktx.com/',
+			imageUrl: '/images/SpecialThanks/hacktx23.svg',
 			kind: 'SpecialThanks',
 		},
 		{
 			companyName: 'MOBI at UTA',
 			companyUrl: 'https://mobi.uta.edu',
-			imageUrl: '/images/SpecialThanks/MOBILOGO.png',
+			imageUrl: '/images/SpecialThanks/mobi.png',
 			kind: 'SpecialThanks',
 		},
 		{
 			companyName: 'CSEC at UTA',
 			companyUrl: 'https://utacsec.org',
-			imageUrl: '/images/SpecialThanks/CSECLOGO.png',
+			imageUrl: '/images/SpecialThanks/csec.png',
 			kind: 'SpecialThanks',
 		},
 	]
@@ -354,11 +366,8 @@ export default async function Landing() {
 							/>
 						))}
 					</div>
-					<h2 className="flex flex-col items-center gap-2 font-heading drop-shadow-hackuta text-white text-4xl">
-						Special Thanks
-						<WavyPattern className="w-32" strokeColor="rgb(0,0,0,.3)" />
-					</h2>
-					<div className="flex flex-col md:flex-row justify-centeritems-center flex-wrap flex-auto">
+
+					<div className="flex flex-col md:flex-row justify-center items-center flex-wrap flex-auto">
 						{specialThanks.map((company, index) => (
 							<LogoTicket
 								key={`${company.companyName}-${index}`}

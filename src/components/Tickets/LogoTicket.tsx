@@ -36,7 +36,7 @@ export const LogoTicket = ({
 					: kind === 'Sponsor'
 					? 'bg-hackuta-ticket-red'
 					: 'bg-hackuta-ticket-blue'
-			} bg-center bg-clip-border bg-no-repeat no-underline`}
+			} bg-center bg-clip-border bg-no-repeat no-underline hover:drop-shadow-none hover:mx-1 transition-all`}
 		>
 			<div className="w-15 h-28 flex justify-center items-center">
 				<div className="rotate-90 text-center font-semibold text-sm font-mono uppercase text-hackuta-black-60">
