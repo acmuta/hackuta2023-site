@@ -150,16 +150,6 @@ export const Logsorganizers: OrganizerData[] = [
 		},
 	},
 	{
-		avatar: '/images/Organizers/DonDang.png',
-		name: 'Don Dang',
-		role: 'Logistics',
-		socials: {
-			github: '',
-			instagram: '',
-			linkedIn: 'https://www.linkedin.com/in/don-dang/',
-		},
-	},
-	{
 		avatar: '/images/Organizers/fawaz.png',
 		name: 'Fawaz Asif',
 		role: 'Logistics',
