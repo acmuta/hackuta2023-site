@@ -36,7 +36,7 @@ export default function SiteFooter() {
 						// </Link>,
 					]}
 				/>
-				<FooterNav
+				{/* <FooterNav
 					title={'ACM'}
 					linkClassName={'flex flex-row gap-1'}
 					links={[
@@ -71,7 +71,7 @@ export default function SiteFooter() {
 							/>
 						</Link>,
 					]}
-				/>
+				/> */}
 				<FooterNav
 					title={'Policy'}
 					links={[

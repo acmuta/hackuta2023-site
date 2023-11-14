@@ -40,16 +40,6 @@ export const Techorganizers: OrganizerData[] = [
 			linkedIn: 'sneh-acharya-48219a1b1',
 		},
 	},
-	{
-		avatar: '/images/Organizers/tuan.png',
-		name: 'Tuan Trinh',
-		role: 'Tech',
-		socials: {
-			github: 'tuan882612',
-			instagram: '',
-			linkedIn: 'tuan882612',
-		},
-	},
 ]
 
 export const XPorganizers: OrganizerData[] = [
